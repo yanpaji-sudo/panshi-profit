@@ -4,114 +4,71 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>磐石收益账本</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-  body{background:#0a0a0a;font-family:"PingFang SC","Microsoft YaHei","Helvetica Neue",Arial,sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
-
-  .card{
-    width:100%;max-width:440px;
-    background:#111111;
-    border:1.5px solid #c9a84c;
-    border-radius:20px;
-    padding:20px 16px 18px;
-    color:#f5e6c8;
-    box-shadow:0 0 40px rgba(201,168,76,.2),inset 0 0 20px rgba(201,168,76,.03);
-    position:relative;
-  }
+  body{background:#0a0a0a;font-family:"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
+  .wrap{width:100%;max-width:440px}
+  .card{background:#111;border:1.5px solid #c9a84c;border-radius:20px;padding:18px 14px;color:#f5e6c8;box-shadow:0 0 40px rgba(201,168,76,.18);position:relative}
   .corner{position:absolute;width:16px;height:16px;border:2px solid #c9a84c}
   .corner.tl{top:6px;left:6px;border-right:0;border-bottom:0}
   .corner.tr{top:6px;right:6px;border-left:0;border-bottom:0}
   .corner.bl{bottom:6px;left:6px;border-right:0;border-top:0}
   .corner.br{bottom:6px;right:6px;border-left:0;border-top:0}
-
-  .title{
-    text-align:center;font-size:22px;font-weight:900;
-    color:#f9e7a0;letter-spacing:3px;margin-bottom:4px;
-    cursor:default;user-select:none;
-  }
-  .sub{text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:14px;letter-spacing:1px}
-
-  .stat{display:flex;gap:8px;margin-bottom:14px}
-  .stat-box{
-    flex:1;background:rgba(201,168,76,.06);
-    border:1px solid rgba(201,168,76,.2);
-    border-radius:10px;padding:10px 4px;text-align:center;
-  }
-  .stat-box .label{font-size:10px;color:#8a7a4a;margin-bottom:3px}
-  .stat-box .val{font-size:16px;font-weight:800;color:#f9e7a0}
-
-  .bar{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px}
-  .bar button{
-    background:transparent;border:1px solid rgba(201,168,76,.35);
-    color:#c9a84c;border-radius:6px;padding:3px 12px;
-    font-size:14px;cursor:pointer;line-height:1.6;
-  }
+  .title{text-align:center;font-size:22px;font-weight:900;color:#f9e7a0;letter-spacing:3px;cursor:default;user-select:none}
+  .sub{text-align:center;font-size:11px;color:#7a6a3a;margin:4px 0 12px;letter-spacing:1px}
+  .stat{display:flex;gap:8px;margin-bottom:12px}
+  .stat-box{flex:1;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:8px 4px;text-align:center}
+  .stat-box .label{font-size:10px;color:#8a7a4a;margin-bottom:2px}
+  .stat-box .val{font-size:15px;font-weight:800;color:#f9e7a0}
+  .bar{display:flex;justify-content:space-between;align-items:center;margin:0 2px 8px}
+  .bar button{background:transparent;border:1px solid rgba(201,168,76,.35);color:#c9a84c;border-radius:6px;padding:3px 12px;font-size:14px;cursor:pointer;line-height:1.6}
   .bar .ym{font-size:14px;font-weight:700;color:#c9a84c;letter-spacing:1px}
-
-  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:6px;font-weight:600}
-
-  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-  .cell{
-    background:rgba(255,255,255,.025);
-    border:1px solid rgba(201,168,76,.15);
-    border-radius:8px;padding:3px 1px 4px;
-    text-align:center;min-height:48px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-  }
-  .cell.empty{background:transparent;border:0;min-height:auto;height:0;padding:0}
-  .dnum{font-size:12px;font-weight:700;color:#b89840;line-height:1.3}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:4px;font-weight:600}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .cell{background:rgba(255,255,255,.025);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:2px 1px 3px;text-align:center;min-height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .cell.empty{background:transparent;border:0;min-height:0;height:0;padding:0}
+  .dnum{font-size:11px;font-weight:700;color:#b89840;line-height:1.3}
   .cell.today .dnum{color:#f9e7a0;text-shadow:0 0 4px rgba(249,231,160,.5)}
   .cell.has{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.55)}
   .cell.has .dnum{color:#f9e7a0}
-
-  .amt{
-    width:90%;border:0;background:rgba(0,0,0,.4);
-    color:#f9e7a0;font-size:11px;font-weight:600;
-    border-radius:4px;margin-top:2px;padding:2px 0;
-    text-align:center;outline:none;font-family:inherit;
-    -moz-appearance:textfield;
-  }
-  .amt::-webkit-outer-spin-button,.amt::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .cell.has .amt{background:rgba(0,0,0,.55)}
+  .amt{width:90%;border:0;background:rgba(0,0,0,.45);color:#f9e7a0;font-size:11px;font-weight:600;border-radius:4px;margin-top:2px;padding:2px 0;text-align:center;outline:none;font-family:"Courier New",monospace}
   .amt::placeholder{color:rgba(201,168,76,.3);font-weight:400}
-
-  .tool{display:flex;gap:10px;margin-top:16px}
+  .tool{display:flex;gap:10px;margin-top:14px}
   .tool button{flex:1;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:1px}
   .export{background:linear-gradient(135deg,#c9a84c,#f9e7a0);color:#1a1a1a}
-  .clear{background:transparent;color:#c9a84c;border:1px solid rgba(201,168,76,.35) !important}
-  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:10px;letter-spacing:.5px}
+  .clear{background:transparent;color:#c9a84c;border:1px solid rgba(201,168,76,.35)}
+  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:8px;letter-spacing:.5px}
+  #cv{display:none}
 </style>
 </head>
 <body>
-<div class="card" id="card">
-  <div class="corner tl"></div><div class="corner tr"></div>
-  <div class="corner bl"></div><div class="corner br"></div>
-
-  <div class="title">磐石收益账本</div>
-  <div class="sub">本地记录 · 关闭后自动累计</div>
-
-  <div class="stat">
-    <div class="stat-box"><div class="label">累计收益</div><div class="val" id="sum">¥0</div></div>
-    <div class="stat-box"><div class="label">收益天数</div><div class="val" id="days">0</div></div>
-    <div class="stat-box"><div class="label">日均金额</div><div class="val" id="avg">¥0</div></div>
+<div class="wrap">
+  <div class="card" id="card">
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+    <div class="title">磐石收益账本</div>
+    <div class="sub">本地记录 · 关闭后自动累计</div>
+    <div class="stat">
+      <div class="stat-box"><div class="label">累计收益</div><div class="val" id="sum">¥0</div></div>
+      <div class="stat-box"><div class="label">收益天数</div><div class="val" id="days">0</div></div>
+      <div class="stat-box"><div class="label">日均金额</div><div class="val" id="avg">¥0</div></div>
+    </div>
+    <div class="bar">
+      <button id="prev">◀</button>
+      <div class="ym" id="ym"></div>
+      <button id="next">▶</button>
+    </div>
+    <div class="week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+    <div class="grid" id="grid"></div>
+    <div class="tool">
+      <button class="export" id="export">📸 导出图片</button>
+      <button class="clear" id="clear">清空本月</button>
+    </div>
+    <div class="hint">导出图片自动带"加入磐石开启财富人生"水印</div>
   </div>
-
-  <div class="bar">
-    <button id="prev">◀</button>
-    <div class="ym" id="ym"></div>
-    <button id="next">▶</button>
-  </div>
-
-  <div class="week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
-  <div class="grid" id="grid"></div>
-
-  <div class="tool">
-    <button class="export" id="export">📸 导出图片</button>
-    <button class="clear" id="clear">清空本月</button>
-  </div>
-  <div class="hint">导出图片自动带"加入磐石开启财富人生"水印</div>
 </div>
+
+<canvas id="cv" width="920" height="1440"></canvas>
 
 <script>
 var ym=new Date();
@@ -121,44 +78,32 @@ function key(y,m){return y+'-'+m;}
 function render(){
   var y=ym.getFullYear(),m=ym.getMonth();
   document.getElementById('ym').textContent=y+'年'+(m+1)+'月';
-  var grid=document.getElementById('grid');
-  grid.innerHTML='';
-
+  var grid=document.getElementById('grid');grid.innerHTML='';
   var first=new Date(y,m,1).getDay();
   var offset=(first+6)%7;
   var dim=new Date(y,m+1,0).getDate();
-
-  for(var i=0;i<offset;i++){
-    var empty=document.createElement('div');
-    empty.className='cell empty';grid.appendChild(empty);
-  }
-
+  for(var i=0;i<offset;i++){var e=document.createElement('div');e.className='cell empty';grid.appendChild(e);}
   var k=key(y,m);if(!data[k])data[k]={};
-
   for(var d=1;d<=dim;d++){
     var c=document.createElement('div');
     var val=data[k][d]||'';
     var isToday=(new Date().getFullYear()===y&&new Date().getMonth()===m&&new Date().getDate()===d);
     c.className='cell'+(val?' has':'')+(isToday?' today':'');
-
-    var dn=document.createElement('div');
-    dn.className='dnum';dn.textContent=d;c.appendChild(dn);
-
+    var dn=document.createElement('div');dn.className='dnum';dn.textContent=d;c.appendChild(dn);
     var inp=document.createElement('input');
-    inp.type='text';inp.className='amt';
-    inp.maxLength=6;inp.placeholder='0';inp.value=val;
-    inp.oninput=function(){
-      this.value=this.value.replace(/[^\d]/g,'').slice(0,6);
-      var dayNum=parseInt(this.parentNode.querySelector('.dnum').textContent);
-      var kv=key(ym.getFullYear(),ym.getMonth());
-      if(!data[kv])data[kv]={};
-      data[kv][dayNum]=this.value?Number(this.value):'';
-      localStorage.setItem('panshi_book',JSON.stringify(data));
-      calc();
-      this.parentNode.classList.toggle('has',!!this.value);
-    };
-    c.appendChild(inp);
-    grid.appendChild(c);
+    inp.type='text';inp.className='amt';inp.maxLength=6;inp.placeholder='0';inp.value=val;
+    inp.oninput=(function(dayNum){
+      return function(){
+        this.value=this.value.replace(/[^\d]/g,'').slice(0,6);
+        var kv=key(ym.getFullYear(),ym.getMonth());
+        if(!data[kv])data[kv]={};
+        data[kv][dayNum]=this.value?Number(this.value):'';
+        localStorage.setItem('panshi_book',JSON.stringify(data));
+        calc();
+        this.parentNode.classList.toggle('has',!!this.value);
+      };
+    })(d);
+    c.appendChild(inp);grid.appendChild(c);
   }
   calc();
 }
@@ -181,40 +126,114 @@ document.getElementById('clear').onclick=function(){
   }
 };
 
+// ========== 导出：纯 Canvas 亲手画，不靠任何第三方库 ==========
 document.getElementById('export').onclick=function(){
-  var card=document.getElementById('card');
-  html2canvas(card,{
-    scale:3,backgroundColor:'#111111',useCORS:true,logging:false,
-    windowWidth:card.scrollWidth,windowHeight:card.scrollHeight
-  }).then(function(cv){
-    var ctx=cv.getContext('2d');
-    var text='加入磐石开启财富人生';
+  var y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
+  var cv=document.getElementById('cv');
+  var ctx=cv.getContext('2d');
+  var W=cv.width,H=cv.height;
+  ctx.clearRect(0,0,W,H);
 
-    // 关键修复：用 measureText 精确算宽度，保证真正居中
-    ctx.font="bold 44px 'PingFang SC','Microsoft YaHei',sans-serif";
-    var tw=ctx.measureText(text).width;
-    var cx=cv.width/2;
-    var cy=Math.round(cv.height/2)+12; // 垂直居中略偏下
+  // 背景
+  ctx.fillStyle='#111111';ctx.fillRect(0,0,W,H);
 
-    // 黑边描边（防黑底吞字）
-    ctx.lineWidth=8;ctx.lineJoin='round';
-    ctx.strokeStyle='rgba(0,0,0,0.75)';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.strokeText(text,cx,cy);
+  // 金色圆角边框
+  ctx.strokeStyle='#c9a84c';ctx.lineWidth=4;
+  var m0=20,r=44;
+  ctx.beginPath();ctx.moveTo(m0+r,m0);ctx.lineTo(W-m0-r,m0);
+  ctx.quadraticCurveTo(W-m0,m0,W-m0,m0+r);
+  ctx.lineTo(W-m0,H-m0-r);
+  ctx.quadraticCurveTo(W-m0,H-m0,W-m0-r,H-m0);
+  ctx.lineTo(m0+r,H-m0);
+  ctx.quadraticCurveTo(m0,H-m0,m0,H-m0-r);
+  ctx.lineTo(m0,m0+r);
+  ctx.quadraticCurveTo(m0,m0,m0+r,m0);ctx.closePath();ctx.stroke();
 
-    // 金色半透明填充
-    ctx.fillStyle='rgba(201,168,76,0.55)';
-    ctx.fillText(text,cx,cy);
+  // 四角L
+  function corner(x,y,dx,dy){ctx.beginPath();ctx.moveTo(x,y+dy*24);ctx.lineTo(x,y);ctx.lineTo(x+dx*24,y);ctx.stroke();}
+  ctx.lineWidth=5;corner(34,34,1,1);corner(W-34,34,-1,1);corner(34,H-34,1,-1);corner(W-34,H-34,-1,-1);
 
-    cv.toBlob(function(blob){
-      var url=URL.createObjectURL(blob);
-      var a=document.createElement('a');
-      a.href=url;
-      a.download='磐石收益账本_'+ym.getFullYear()+'年'+(ym.getMonth()+1)+'月.png';
-      document.body.appendChild(a);a.click();
-      document.body.removeChild(a);URL.revokeObjectURL(url);
-    },'image/png');
-  });
+  // 标题
+  ctx.fillStyle='#f9e7a0';ctx.font='bold 52px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.textAlign='center';ctx.textBaseline='top';
+  ctx.fillText('磐石收益账本',W/2,50);
+  ctx.fillStyle='#7a6a3a';ctx.font='24px sans-serif';
+  ctx.fillText('本地记录 · 关闭后自动累计',W/2,110);
+
+  // 统计
+  var s=0,dc=0;for(var x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);dc++;}}
+  var stats=[['累计收益','¥'+s.toLocaleString()],['收益天数',String(dc)],['日均金额','¥'+(dc?Math.round(s/dc).toLocaleString():0)]];
+  var sx=40,sy=150,sw=(W-80-20)/3,sh=100;
+  ctx.lineWidth=2;
+  for(var i=0;i<3;i++){
+    var x=sx+i*(sw+10);
+    ctx.fillStyle='rgba(201,168,76,0.06)';ctx.fillRect(x,sy,sw,sh);
+    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.strokeRect(x+1,sy+1,sw-2,sh-2);
+    ctx.fillStyle='#8a7a4a';ctx.font='20px sans-serif';ctx.textAlign='center';
+    ctx.fillText(stats[i][0],x+sw/2,sy+16);
+    ctx.fillStyle='#f9e7a0';ctx.font='bold 32px sans-serif';
+    ctx.fillText(stats[i][1],x+sw/2,sy+50);
+  }
+
+  // 月份
+  ctx.fillStyle='#c9a84c';ctx.font='bold 28px sans-serif';
+  ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,278);
+
+  // 星期
+  var weeks=['一','二','三','四','五','六','日'];
+  ctx.fillStyle='#7a6a3a';ctx.font='22px sans-serif';
+  var gx0=36,gy0=322,cw=(W-72)/7;
+  for(var i=0;i<7;i++)ctx.fillText(weeks[i],gx0+i*cw+cw/2,gy0);
+
+  // 日期格子
+  var first=new Date(y,m,1).getDay();var offset=(first+6)%7;var dim=new Date(y,m+1,0).getDate();
+  var cellH=100,gap=8,gyStart=360;
+  function cellRect(d){var idx=offset+d-1;return{gx:gx0+(idx%7)*cw+2,gy:gyStart+Math.floor(idx/7)*(cellH+gap)+2,w:cw-4,h:cellH-4};}
+  for(var d=1;d<=dim;d++){
+    var r=cellRect(d);var val=data[k]&&data[k][d];
+    ctx.fillStyle=val?'rgba(201,168,76,0.12)':'rgba(255,255,255,0.025)';ctx.fillRect(r.gx,r.gy,r.w,r.h);
+    ctx.strokeStyle=val?'rgba(201,168,76,0.55)':'rgba(201,168,76,0.15)';ctx.lineWidth=2;ctx.strokeRect(r.gx+1,r.gy+1,r.w-2,r.h-2);
+    ctx.fillStyle=val?'#f9e7a0':'#b89840';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.fillText(String(d),r.gx+r.w/2,r.gy+8);
+    if(val){
+      ctx.fillStyle='#f9e7a0';ctx.font='bold 26px "Courier New",monospace';
+      ctx.fillText(String(val),r.gx+r.w/2,r.gy+50);
+    }
+  }
+
+  // ===== 水印：精确居中 =====
+  var totalRows=Math.ceil((offset+dim)/7);
+  var contentBottom=gyStart+totalRows*(cellH+gap)+10;
+  var wm='加入磐石开启财富人生';
+  ctx.font='bold 60px "PingFang SC","Microsoft YaHei",sans-serif';
+  var tw=ctx.measureText(wm).width;
+  var wx=W/2,wy=Math.round((gyStart+contentBottom)/2)+12;
+  // 黑边
+  ctx.lineWidth=12;ctx.lineJoin='round';ctx.strokeStyle='rgba(0,0,0,0.8)';
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.strokeText(wm,wx,wy);
+  // 金色填充
+  ctx.fillStyle='rgba(201,168,76,0.55)';ctx.fillText(wm,wx,wy);
+
+  // 底部按钮
+  var by=H-150,bw=(W-80-20)/2,bh=72;
+  var grd=ctx.createLinearGradient(40,by,40+bw,by);grd.addColorStop(0,'#c9a84c');grd.addColorStop(1,'#f9e7a0');
+  ctx.fillStyle=grd;ctx.fillRect(40,by,bw,bh);
+  ctx.fillStyle='#1a1a1a';ctx.font='bold 28px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('📸 导出图片',40+bw/2,by+bh/2);
+  ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=2;ctx.strokeRect(40+bw+20+1,by+1,bw-2,bh-2);
+  ctx.fillStyle='#c9a84c';ctx.fillText('清空本月',40+bw+20+bw/2,by+bh/2);
+
+  ctx.fillStyle='#5a4a1a';ctx.font='18px sans-serif';ctx.textBaseline='top';
+  ctx.fillText('导出图片自动带「加入磐石开启财富人生」水印',W/2,H-52);
+
+  // 下载
+  cv.toBlob(function(blob){
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='磐石收益账本_'+y+'年'+(m+1)+'月.png';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  },'image/png');
 };
 
 render();
