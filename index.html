@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>磐石流量 · 收益记录表</title>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:#0f172a;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px}
+  .card{width:100%;max-width:420px;background:linear-gradient(160deg,#1e3a8a,#0ea5e9);border-radius:22px;padding:18px;color:#fff;box-shadow:0 20px 50px rgba(0,0,0,.45);position:relative}
+  .title{font-size:22px;font-weight:800;letter-spacing:1px}
+  .plat{font-size:15px;margin-top:4px;opacity:.95;cursor:pointer;border-bottom:1px dashed rgba(255,255,255,.5)}
+  .date{font-size:12px;opacity:.8;margin-top:2px}
+  .stat{display:flex;gap:8px;margin:14px 0}
+  .stat div{flex:1;background:rgba(255,255,255,.12);border-radius:12px;padding:8px 6px;text-align:center}
+  .stat b{display:block;font-size:16px;margin-top:2px}
+  .stat span{font-size:11px;opacity:.8}
+  .bar{display:flex;justify-content:space-between;align-items:center;margin:6px 2px 10px}
+  .bar button{background:rgba(255,255,255,.18);border:0;color:#fff;border-radius:8px;padding:4px 10px;font-size:14px}
+  .bar .ym{font-size:14px;font-weight:700}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12px;opacity:.85;margin-bottom:6px}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cell{background:rgba(255,255,255,.08);border-radius:10px;padding:4px 2px 5px;text-align:center;min-height:54px;position:relative}
+  .cell.empty{background:transparent}
+  .dnum{font-size:13px;font-weight:700}
+  .cell.today .dnum{color:#fde047}
+  .cell.has{background:linear-gradient(180deg,#fb923c,#f97316)}
+  .cell.has .dnum{color:#fff}
+  .amt{width:100%;border:0;background:rgba(0,0,0,.25);color:#fff;font-size:11px;border-radius:6px;margin-top:3px;padding:2px 1px;text-align:center;outline:none}
+  .cell.has .amt{background:rgba(255,255,255,.25)}
+  .amt::placeholder{color:rgba(255,255,255,.55)}
+  .tool{display:flex;gap:8px;margin-top:14px}
+  .tool button{flex:1;background:#fff;color:#0e7490;border:0;border-radius:10px;padding:9px;font-weight:700;font-size:13px}
+  .hint{font-size:11px;opacity:.75;margin-top:8px;text-align:center}
+  .wm{position:absolute;right:10px;bottom:6px;font-size:11px;opacity:.5}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="head">
+    <div>
+      <div class="title">收益表</div>
+      <div class="plat" id="plat">磐石流量</div>
+      <div class="date" id="today"></div>
+    </div>
+  </div>
+  <div class="stat">
+    <div><span>累计收益</span><b id="sum">¥0</b></div>
+    <div><span>有收益天数</span><b id="days">0</b></div>
+    <div><span>日均金额</span><b id="avg">¥0</b></div>
+  </div>
+  <div class="bar">
+    <button id="prev">◀</button>
+    <div class="ym" id="ym"></div>
+    <button id="next">▶</button>
+  </div>
+  <div class="week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+  <div class="grid" id="grid"></div>
+  <div class="tool">
+    <button id="export">📸 导出图片</button>
+    <button id="clear">清空本月</button>
+  </div>
+  <div class="hint">点击平台名可修改 · 日期下填金额（最多5位）· 数据存本地浏览器</div>
+  <div class="wm">磐石流量 · 财富人生</div>
+</div>
+<script>
+let ym=new Date();
+let data=JSON.parse(localStorage.getItem('panshi_profit')||'{}');
+document.getElementById('today').textContent=new Date().toLocaleDateString('zh-CN');
+document.getElementById('plat').onclick=function(){const v=prompt('修改平台名',this.textContent);if(v)this.textContent=v;};
+function key(y,m){return y+'-'+m;}
+function render(){
+  const y=ym.getFullYear(),m=ym.getMonth();
+  document.getElementById('ym').textContent=y+'年'+(m+1)+'月';
+  const grid=document.getElementById('grid');grid.innerHTML='';
+  const first=new Date(y,m,1).getDay();
+  const offset=(first+6)%7;
+  const dim=new Date(y,m+1,0).getDate();
+  for(let i=0;i<offset;i++){const e=document.createElement('div');e.className='cell empty';grid.appendChild(e);}
+  const k=key(y,m);if(!data[k])data[k]={};
+  for(let d=1;d<=dim;d++){
+    const c=document.createElement('div');
+    const val=data[k][d]||'';
+    const isToday=(new Date().getFullYear()===y&&new Date().getMonth()===m&&new Date().getDate()===d);
+    c.className='cell'+(val?' has':'')+(isToday?' today':'');
+    c.innerHTML='<div class="dnum">'+d+'</div><input class="amt" inputmode="numeric" maxlength="5" placeholder="0" value="'+val+'">';
+    const inp=c.querySelector('input');
+    inp.oninput=()=>{inp.value=inp.value.replace(/\D/g,'').slice(0,5);data[k][d]=inp.value?Number(inp.value):'';localStorage.setItem('panshi_profit',JSON.stringify(data));refreshStat();c.classList.toggle('has',!!inp.value);};
+    grid.appendChild(c);
+  }
+  refreshStat();
+}
+function refreshStat(){
+  const y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
+  let s=0,d=0;for(const x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);d++;}}
+  document.getElementById('sum').textContent='¥'+s.toLocaleString();
+  document.getElementById('days').textContent=d;
+  document.getElementById('avg').textContent='¥'+(d?Math.round(s/d).toLocaleString():0);
+}
+document.getElementById('prev').onclick=()=>{ym.setMonth(ym.getMonth()-1);render();};
+document.getElementById('next').onclick=()=>{ym.setMonth(ym.getMonth()+1);render();};
+document.getElementById('clear').onclick=()=>{if(confirm('清空当月？')){delete data[key(ym.getFullYear(),ym.getMonth())];localStorage.setItem('panshi_profit',JSON.stringify(data));render();}};
+document.getElementById('export').onclick=()=>{html2canvas(document.getElementById('card'),{scale:2,backgroundColor:null}).then(cv=>{const a=document.createElement('a');a.download='磐石流量收益表.png';a.href=cv.toDataURL('image/png');a.click();});};
+render();
+</script>
+</body>
+</html>
