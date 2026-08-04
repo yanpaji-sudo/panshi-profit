@@ -6,44 +6,60 @@
 <title>磐石收益账本</title>
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-  body{background:#0a0a0a;font-family:"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
+  body{background:#080808;font-family:"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
   .wrap{width:100%;max-width:440px}
-  .card{background:#111;border:1.5px solid #c9a84c;border-radius:20px;padding:18px 14px;color:#f5e6c8;box-shadow:0 0 40px rgba(201,168,76,.18);position:relative}
-  .corner{position:absolute;width:16px;height:16px;border:2px solid #c9a84c}
-  .corner.tl{top:6px;left:6px;border-right:0;border-bottom:0}
-  .corner.tr{top:6px;right:6px;border-left:0;border-bottom:0}
-  .corner.bl{bottom:6px;left:6px;border-right:0;border-top:0}
-  .corner.br{bottom:6px;right:6px;border-left:0;border-top:0}
-  .title{text-align:center;font-size:22px;font-weight:900;color:#f9e7a0;letter-spacing:3px;cursor:default;user-select:none}
-  .sub{text-align:center;font-size:11px;color:#7a6a3a;margin:4px 0 12px;letter-spacing:1px}
-  .stat{display:flex;gap:8px;margin-bottom:12px}
-  .stat-box{flex:1;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:8px 4px;text-align:center}
-  .stat-box .label{font-size:10px;color:#8a7a4a;margin-bottom:2px}
-  .stat-box .val{font-size:15px;font-weight:800;color:#f9e7a0}
-  .bar{display:flex;justify-content:space-between;align-items:center;margin:0 2px 8px}
-  .bar button{background:transparent;border:1px solid rgba(201,168,76,.35);color:#c9a84c;border-radius:6px;padding:3px 12px;font-size:14px;cursor:pointer;line-height:1.6}
-  .bar .ym{font-size:14px;font-weight:700;color:#c9a84c;letter-spacing:1px}
-  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:4px;font-weight:600}
-  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
-  .cell{background:rgba(255,255,255,.025);border:1px solid rgba(201,168,76,.15);border-radius:8px;padding:2px 1px 3px;text-align:center;min-height:46px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .card{background:linear-gradient(175deg,#1a1a1a 0%,#0d0d0d 50%,#050505 100%);border:1.5px solid #c9a84c;border-radius:24px;padding:20px 16px;color:#f5e6c8;box-shadow:0 0 60px rgba(201,168,76,.2),0 0 120px rgba(0,0,0,.5),inset 0 0 30px rgba(201,168,76,.05);position:relative;overflow:hidden}
+  .card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none}
+  .card::after{content:'';position:absolute;bottom:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(ellipse at center,rgba(201,168,76,.04) 0%,transparent 70%);pointer-events:none}
+  .border-inner{position:absolute;inset:3px;border:0.5px solid rgba(201,168,76,.15);border-radius:21px;pointer-events:none}
+  .corner{position:absolute;width:18px;height:18px;border-color:#c9a84c;border-style:solid;z-index:1}
+  .corner.tl{top:10px;left:10px;border-width:2px 0 0 2px}
+  .corner.tr{top:10px;right:10px;border-width:2px 2px 0 0}
+  .corner.bl{bottom:10px;left:10px;border-width:0 0 2px 2px}
+  .corner.br{bottom:10px;right:10px;border-width:0 2px 2px 0}
+  .title{text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:6px;cursor:default;user-select:none;position:relative;z-index:1;
+    background:linear-gradient(180deg,#fff8e1 0%,#f9e7a0 30%,#c9a84c 60%,#a08830 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
+    filter:drop-shadow(0 0 2px rgba(201,168,76,.3));text-shadow:0 2px 4px rgba(0,0,0,.5)}
+  .title::after{content:'';position:absolute;bottom:-4px;left:25%;width:50%;height:2px;background:linear-gradient(90deg,transparent,#c9a84c,#f9e7a0,#c9a84c,transparent);border-radius:1px}
+  .sub{text-align:center;font-size:11px;color:#8a7a4a;margin-bottom:14px;letter-spacing:2px;position:relative;z-index:1}
+  .stat{display:flex;gap:8px;margin-bottom:14px;position:relative;z-index:1}
+  .stat-box{flex:1;background:linear-gradient(180deg,rgba(201,168,76,.1) 0%,rgba(201,168,76,.03) 100%);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:10px 4px;text-align:center;position:relative;overflow:hidden}
+  .stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
+  .stat-box .label{font-size:10px;color:#9a8a5a;margin-bottom:4px;font-weight:500}
+  .stat-box .val{font-size:16px;font-weight:800;color:#f9e7a0;font-family:"Courier New",monospace;letter-spacing:0.5px}
+  .bar{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px;position:relative;z-index:1}
+  .bar button{background:transparent;border:1px solid rgba(201,168,76,.35);color:#c9a84c;border-radius:8px;padding:4px 14px;font-size:14px;cursor:pointer;transition:all .2s;line-height:1.6}
+  .bar button:active{transform:scale(0.95);background:rgba(201,168,76,.1)}
+  .bar .ym{font-size:15px;font-weight:700;color:#f9e7a0;letter-spacing:2px;text-shadow:0 0 10px rgba(201,168,76,.3)}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:5px;font-weight:600;position:relative;z-index:1}
+  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;position:relative;z-index:1}
+  .cell{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:3px 1px 4px;text-align:center;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .2s}
   .cell.empty{background:transparent;border:0;min-height:0;height:0;padding:0}
-  .dnum{font-size:11px;font-weight:700;color:#b89840;line-height:1.3}
-  .cell.today .dnum{color:#f9e7a0;text-shadow:0 0 4px rgba(249,231,160,.5)}
-  .cell.has{background:rgba(201,168,76,.12);border-color:rgba(201,168,76,.55)}
+  .dnum{font-size:11px;font-weight:700;color:#a09060;line-height:1.3}
+  .cell.today{border-color:#f9e7a0;box-shadow:0 0 8px rgba(249,231,160,.3);background:rgba(249,231,160,.05)}
+  .cell.today .dnum{color:#f9e7a0;text-shadow:0 0 6px rgba(249,231,160,.5)}
+  .cell.has{background:linear-gradient(180deg,rgba(201,168,76,.2) 0%,rgba(201,168,76,.08) 100%);border-color:#c9a84c;box-shadow:inset 0 0 10px rgba(201,168,76,.1)}
   .cell.has .dnum{color:#f9e7a0}
-  .amt{width:90%;border:0;background:rgba(0,0,0,.45);color:#f9e7a0;font-size:11px;font-weight:600;border-radius:4px;margin-top:2px;padding:2px 0;text-align:center;outline:none;font-family:"Courier New",monospace}
+  .amt{width:90%;border:0;background:rgba(0,0,0,.5);color:#f9e7a0;font-size:11px;font-weight:600;border-radius:4px;margin-top:2px;padding:2px 0;text-align:center;outline:none;font-family:"Courier New",monospace;letter-spacing:0.5px}
   .amt::placeholder{color:rgba(201,168,76,.3);font-weight:400}
-  .tool{display:flex;gap:10px;margin-top:14px}
-  .tool button{flex:1;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:1px}
-  .export{background:linear-gradient(135deg,#c9a84c,#f9e7a0);color:#1a1a1a}
-  .clear{background:transparent;color:#c9a84c;border:1px solid rgba(201,168,76,.35)}
-  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:8px;letter-spacing:.5px}
+  .tool{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1}
+  .tool button{flex:1;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:1px;transition:all .2s}
+  .export{background:linear-gradient(135deg,#c9a84c 0%,#f9e7a0 50%,#c9a84c 100%);background-size:200% 100%;color:#1a1a1a;animation:shimmer 3s infinite linear;position:relative;overflow:hidden}
+  .export::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shine 3s infinite}
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+  @keyframes shine{0%{left:-100%}20%{left:100%}100%{left:100%}}
+  .export:active{transform:scale(0.97)}
+  .clear{background:transparent;color:#c9a84c;border:1.5px solid rgba(201,168,76,.35);backdrop-filter:blur(5px)}
+  .clear:active{transform:scale(0.97);background:rgba(201,168,76,.1)}
+  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:10px;letter-spacing:1px;position:relative;z-index1}
+  .brand{text-align:center;font-size:9px;color:rgba(201,168,76,.3);letter-spacing:6px;margin-top:8px;font-weight:300;position:relative;z-index:1}
   #cv{display:none}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="card" id="card">
+    <div class="border-inner"></div>
     <div class="corner tl"></div><div class="corner tr"></div>
     <div class="corner bl"></div><div class="corner br"></div>
     <div class="title">磐石收益账本</div>
@@ -65,11 +81,10 @@
       <button class="clear" id="clear">清空本月</button>
     </div>
     <div class="hint">导出图片自动带"加入磐石开启财富人生"水印</div>
+    <div class="brand">P A N S H I · W E A L T H</div>
   </div>
 </div>
-
-<canvas id="cv" width="920" height="1440"></canvas>
-
+<canvas id="cv" width="880" height="1500"></canvas>
 <script>
 var ym=new Date();
 var data=JSON.parse(localStorage.getItem('panshi_book')||'{}');
@@ -126,7 +141,6 @@ document.getElementById('clear').onclick=function(){
   }
 };
 
-// ========== 导出：纯 Canvas 亲手画，不靠任何第三方库 ==========
 document.getElementById('export').onclick=function(){
   var y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
   var cv=document.getElementById('cv');
@@ -135,99 +149,140 @@ document.getElementById('export').onclick=function(){
   ctx.clearRect(0,0,W,H);
 
   // 背景
-  ctx.fillStyle='#111111';ctx.fillRect(0,0,W,H);
+  var bgGrd=ctx.createLinearGradient(0,0,0,H);
+  bgGrd.addColorStop(0,'#1a1a1a');bgGrd.addColorStop(0.5,'#0d0d0d');bgGrd.addColorStop(1,'#050505');
+  ctx.fillStyle=bgGrd;ctx.fillRect(0,0,W,H);
 
-  // 金色圆角边框
-  ctx.strokeStyle='#c9a84c';ctx.lineWidth=4;
-  var m0=20,r=44;
-  ctx.beginPath();ctx.moveTo(m0+r,m0);ctx.lineTo(W-m0-r,m0);
-  ctx.quadraticCurveTo(W-m0,m0,W-m0,m0+r);
-  ctx.lineTo(W-m0,H-m0-r);
-  ctx.quadraticCurveTo(W-m0,H-m0,W-m0-r,H-m0);
-  ctx.lineTo(m0+r,H-m0);
-  ctx.quadraticCurveTo(m0,H-m0,m0,H-m0-r);
-  ctx.lineTo(m0,m0+r);
-  ctx.quadraticCurveTo(m0,m0,m0+r,m0);ctx.closePath();ctx.stroke();
+  // 光晕
+  var glow1=ctx.createRadialGradient(W*0.3,H*0.2,0,W*0.3,H*0.2,W*0.5);
+  glow1.addColorStop(0,'rgba(201,168,76,0.08)');glow1.addColorStop(1,'transparent');
+  ctx.fillStyle=glow1;ctx.fillRect(0,0,W,H);
+  var glow2=ctx.createRadialGradient(W*0.8,H*0.8,0,W*0.8,H*0.8,W*0.6);
+  glow2.addColorStop(0,'rgba(201,168,76,0.04)');glow2.addColorStop(1,'transparent');
+  ctx.fillStyle=glow2;ctx.fillRect(0,0,W,H);
 
-  // 四角L
-  function corner(x,y,dx,dy){ctx.beginPath();ctx.moveTo(x,y+dy*24);ctx.lineTo(x,y);ctx.lineTo(x+dx*24,y);ctx.stroke();}
-  ctx.lineWidth=5;corner(34,34,1,1);corner(W-34,34,-1,1);corner(34,H-34,1,-1);corner(W-34,H-34,-1,-1);
+  // 卡片
+  var cr=24,mx=20,my=20,mw=W-40,mh=H-40;
+  ctx.beginPath();ctx.moveTo(mx+cr,my);ctx.lineTo(mx+mw-cr,my);
+  ctx.quadraticCurveTo(mx+mw,my,mx+mw,my+cr);
+  ctx.lineTo(mx+mw,my+mh-cr);
+  ctx.quadraticCurveTo(mx+mw,my+mh,mx+mw-cr,my+mh);
+  ctx.lineTo(mx+cr,my+mh);
+  ctx.quadraticCurveTo(mx,my+mh,mx,my+mh-cr);
+  ctx.lineTo(mx,my+cr);
+  ctx.quadraticCurveTo(mx,my,mx+cr,my);ctx.closePath();
+  ctx.fillStyle='rgba(10,10,10,0.9)';ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.strokeStyle='rgba(201,168,76,0.15)';ctx.lineWidth=0.5;ctx.strokeRect(mx+3,my+3,mw-6,mh-6);
+
+  // 四角
+  function corner(x,y,dx,dy){ctx.beginPath();ctx.moveTo(x,y+dy*18);ctx.lineTo(x,y);ctx.lineTo(x+dx*18,y);ctx.stroke();}
+  ctx.strokeStyle='#c9a84c';ctx.lineWidth=2;
+  corner(mx+10,my+10,1,1);corner(mx+mw-10,my+10,-1,1);
+  corner(mx+10,my+mh-10,1,-1);corner(mx+mw-10,my+mh-10,-1,-1);
 
   // 标题
-  ctx.fillStyle='#f9e7a0';ctx.font='bold 52px "PingFang SC","Microsoft YaHei",sans-serif';
+  var titleGrd=ctx.createLinearGradient(0,my+52,0,my+82);
+  titleGrd.addColorStop(0,'#fff8e1');titleGrd.addColorStop(0.3,'#f9e7a0');
+  titleGrd.addColorStop(0.6,'#c9a84c');titleGrd.addColorStop(1,'#a08830');
+  ctx.fillStyle=titleGrd;ctx.font='bold 52px "PingFang SC","Microsoft YaHei",sans-serif';
   ctx.textAlign='center';ctx.textBaseline='top';
-  ctx.fillText('磐石收益账本',W/2,50);
-  ctx.fillStyle='#7a6a3a';ctx.font='24px sans-serif';
-  ctx.fillText('本地记录 · 关闭后自动累计',W/2,110);
+  ctx.fillText('磐石收益账本',W/2,my+52);
+  ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=2;ctx.strokeText('磐石收益账本',W/2,my+52);
+  ctx.fillStyle='#c9a84c';ctx.fillRect(W/2-W*0.2,my+92,W*0.4,2);
+
+  ctx.fillStyle='#8a7a4a';ctx.font='22px sans-serif';
+  ctx.fillText('本地记录 · 关闭后自动累计',W/2,my+110);
 
   // 统计
   var s=0,dc=0;for(var x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);dc++;}}
   var stats=[['累计收益','¥'+s.toLocaleString()],['收益天数',String(dc)],['日均金额','¥'+(dc?Math.round(s/dc).toLocaleString():0)]];
-  var sx=40,sy=150,sw=(W-80-20)/3,sh=100;
-  ctx.lineWidth=2;
+  var sx=mx+20,sy=my+150,sw=(mw-60)/3,sh=100;
   for(var i=0;i<3;i++){
-    var x=sx+i*(sw+10);
-    ctx.fillStyle='rgba(201,168,76,0.06)';ctx.fillRect(x,sy,sw,sh);
-    ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.strokeRect(x+1,sy+1,sw-2,sh-2);
-    ctx.fillStyle='#8a7a4a';ctx.font='20px sans-serif';ctx.textAlign='center';
-    ctx.fillText(stats[i][0],x+sw/2,sy+16);
-    ctx.fillStyle='#f9e7a0';ctx.font='bold 32px sans-serif';
-    ctx.fillText(stats[i][1],x+sw/2,sy+50);
+    var x=sx+i*(sw+20);
+    var statGrd=ctx.createLinearGradient(x,sy,x,sy+sh);
+    statGrd.addColorStop(0,'rgba(201,168,76,0.1)');statGrd.addColorStop(1,'rgba(201,168,76,0.03)');
+    ctx.fillStyle=statGrd;ctx.fillRect(x,sy,sw,sh);
+    ctx.strokeStyle='rgba(201,168,76,0.25)';ctx.lineWidth=1;ctx.strokeRect(x,sy,sw,sh);
+    ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=0.5;ctx.strokeRect(x,sy,x+sw,sy+1);
+    ctx.fillStyle='#9a8a5a';ctx.font='20px sans-serif';ctx.textAlign='center';
+    ctx.fillText(stats[i][0],x+sw/2,sy+22);
+    ctx.fillStyle='#f9e7a0';ctx.font='bold 32px "Courier New",monospace';
+    ctx.fillText(stats[i][1],x+sw/2,sy+58);
   }
 
   // 月份
-  ctx.fillStyle='#c9a84c';ctx.font='bold 28px sans-serif';
-  ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,278);
+  ctx.fillStyle='#f9e7a0';ctx.font='bold 32px sans-serif';
+  ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,sy+130);
+  ctx.shadowColor='rgba(201,168,76,0.3)';ctx.shadowBlur=10;
+  ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,sy+130);ctx.shadowBlur=0;
 
   // 星期
   var weeks=['一','二','三','四','五','六','日'];
-  ctx.fillStyle='#7a6a3a';ctx.font='22px sans-serif';
-  var gx0=36,gy0=322,cw=(W-72)/7;
+  ctx.fillStyle='#7a6a3a';ctx.font='24px sans-serif';
+  var gx0=mx+20,gy0=sy+180,cw=(mw-40)/7;
   for(var i=0;i<7;i++)ctx.fillText(weeks[i],gx0+i*cw+cw/2,gy0);
 
   // 日期格子
   var first=new Date(y,m,1).getDay();var offset=(first+6)%7;var dim=new Date(y,m+1,0).getDate();
-  var cellH=100,gap=8,gyStart=360;
-  function cellRect(d){var idx=offset+d-1;return{gx:gx0+(idx%7)*cw+2,gy:gyStart+Math.floor(idx/7)*(cellH+gap)+2,w:cw-4,h:cellH-4};}
+  var cellH=100,gap=8,gyStart=sy+220;
+  function cellRect(d){var idx=offset+d-1;return{gx:gx0+idx%7*cw+2,gy:gyStart+Math.floor(idx/7)*(cellH+gap)+2,w:cw-4,h:cellH-4};}
   for(var d=1;d<=dim;d++){
     var r=cellRect(d);var val=data[k]&&data[k][d];
-    ctx.fillStyle=val?'rgba(201,168,76,0.12)':'rgba(255,255,255,0.025)';ctx.fillRect(r.gx,r.gy,r.w,r.h);
-    ctx.strokeStyle=val?'rgba(201,168,76,0.55)':'rgba(201,168,76,0.15)';ctx.lineWidth=2;ctx.strokeRect(r.gx+1,r.gy+1,r.w-2,r.h-2);
-    ctx.fillStyle=val?'#f9e7a0':'#b89840';ctx.font='bold 24px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
+    if(val){
+      var cellGrd=ctx.createLinearGradient(r.gx,r.gy,r.gx,r.gy+r.h);
+      cellGrd.addColorStop(0,'rgba(201,168,76,0.25)');cellGrd.addColorStop(1,'rgba(201,168,76,0.08)');
+      ctx.fillStyle=cellGrd;ctx.fillRect(r.gx,r.gy,r.w,r.h);
+      ctx.strokeStyle='#c9a84c';ctx.lineWidth=1.5;ctx.strokeRect(r.gx,r.gy,r.w,r.h);
+      ctx.shadowColor='rgba(201,168,76,0.3)';ctx.shadowBlur=8;
+      ctx.strokeRect(r.gx,r.gy,r.w,r.h);ctx.shadowBlur=0;
+    }else{
+      ctx.fillStyle='rgba(255,255,255,0.02)';ctx.fillRect(r.gx,r.gy,r.w,r.h);
+      ctx.strokeStyle='rgba(201,168,76,0.12)';ctx.lineWidth=1;ctx.strokeRect(r.gx,r.gy,r.w,r.h);
+    }
+    var isToday=(new Date().getFullYear()===y&&new Date().getMonth()===m&&new Date().getDate()===d);
+    if(isToday){
+      ctx.strokeStyle='#f9e7a0';ctx.lineWidth=2;ctx.strokeRect(r.gx-1,r.gy-1,r.w+2,r.h+2);
+      ctx.shadowColor='rgba(249,231,160,0.4)';ctx.shadowBlur=10;
+      ctx.strokeRect(r.gx-1,r.gy-1,r.w+2,r.h+2);ctx.shadowBlur=0;
+    }
+    ctx.fillStyle=val?'#f9e7a0':(isToday?'#f9e7a0':'#a09060');
+    ctx.font='bold 26px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
     ctx.fillText(String(d),r.gx+r.w/2,r.gy+8);
     if(val){
-      ctx.fillStyle='#f9e7a0';ctx.font='bold 26px "Courier New",monospace';
-      ctx.fillText(String(val),r.gx+r.w/2,r.gy+50);
+      ctx.fillStyle='#f9e7a0';ctx.font='bold 28px "Courier New",monospace';
+      ctx.fillText(String(val),r.gx+r.w/2,r.gy+52);
     }
   }
 
-  // ===== 水印：精确居中 =====
+  // 水印 - 紧贴格子下方72px
   var totalRows=Math.ceil((offset+dim)/7);
-  var contentBottom=gyStart+totalRows*(cellH+gap)+10;
+  var contentBottom=gyStart+totalRows*(cellH+gap);
+  var wmY=contentBottom+72;
   var wm='加入磐石开启财富人生';
-  ctx.font='bold 60px "PingFang SC","Microsoft YaHei",sans-serif';
+  ctx.font='bold 56px "PingFang SC","Microsoft YaHei",sans-serif';
   var tw=ctx.measureText(wm).width;
-  var wx=W/2,wy=Math.round((gyStart+contentBottom)/2)+12;
-  // 黑边
-  ctx.lineWidth=12;ctx.lineJoin='round';ctx.strokeStyle='rgba(0,0,0,0.8)';
+  ctx.lineWidth=12;ctx.lineJoin='round';ctx.strokeStyle='rgba(0,0,0,0.85)';
   ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.strokeText(wm,wx,wy);
-  // 金色填充
-  ctx.fillStyle='rgba(201,168,76,0.55)';ctx.fillText(wm,wx,wy);
+  ctx.strokeText(wm,W/2,wmY);
+  ctx.fillStyle='rgba(201,168,76,0.55)';ctx.fillText(wm,W/2,wmY);
 
-  // 底部按钮
-  var by=H-150,bw=(W-80-20)/2,bh=72;
-  var grd=ctx.createLinearGradient(40,by,40+bw,by);grd.addColorStop(0,'#c9a84c');grd.addColorStop(1,'#f9e7a0');
-  ctx.fillStyle=grd;ctx.fillRect(40,by,bw,bh);
-  ctx.fillStyle='#1a1a1a';ctx.font='bold 28px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('📸 导出图片',40+bw/2,by+bh/2);
-  ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=2;ctx.strokeRect(40+bw+20+1,by+1,bw-2,bh-2);
-  ctx.fillStyle='#c9a84c';ctx.fillText('清空本月',40+bw+20+bw/2,by+bh/2);
+  // 按钮
+  var by=wmY+80,bw=(mw-40)/2,bh=76;
+  var btnGrd=ctx.createLinearGradient(bx,by,bx,by+bh);
+  btnGrd.addColorStop(0,'#c9a84c');btnGrd.addColorStop(0.5,'#f9e7a0');btnGrd.addColorStop(1,'#c9a84c');
+  ctx.fillStyle=btnGrd;ctx.fillRect(bx,by,bw,bh);
+  ctx.fillStyle='#1a1a1a';ctx.font='bold 30px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('📸 导出图片',bx+bw/2,by+bh/2);
+  ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=1.5;ctx.strokeRect(bx+bw+20,by,bw,bh);
+  ctx.fillStyle='#c9a84c';ctx.fillText('清空本月',bx+bw+20+bw/2,by+bh/2);
 
-  ctx.fillStyle='#5a4a1a';ctx.font='18px sans-serif';ctx.textBaseline='top';
-  ctx.fillText('导出图片自动带「加入磐石开启财富人生」水印',W/2,H-52);
+  // 品牌
+  ctx.fillStyle='rgba(201,168,76,0.3)';ctx.font='18px sans-serif';ctx.textBaseline='top';
+  ctx.fillText('导出图片自动带「加入磐石开启财富人生」水印',W/2,by+bh+24);
+  ctx.fillStyle='rgba(201,168,76,0.2)';ctx.font='16px sans-serif';ctx.letterSpacing=6;
+  ctx.fillText('P A N S H I · W E A L T H',W/2,by+bh+52);
 
-  // 下载
   cv.toBlob(function(blob){
     var url=URL.createObjectURL(blob);
     var a=document.createElement('a');
