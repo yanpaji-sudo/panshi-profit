@@ -9,30 +9,37 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   body{margin:0;background:#0a0a0a;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px}
   .card{width:100%;max-width:430px;background:linear-gradient(160deg,#141414,#0a0a0a);border:1px solid #c9a84c;border-radius:22px;padding:18px;color:#f5e6c8;box-shadow:0 20px 60px rgba(201,168,76,.25);position:relative}
+  /* 四角装饰 */
   .card::before,.card::after{content:"";position:absolute;width:18px;height:18px;border:2px solid #c9a84c}
   .card::before{top:8px;left:8px;border-right:0;border-bottom:0}
   .card::after{bottom:8px;right:8px;border-left:0;border-top:0}
-  .title{text-align:center;font-size:23px;font-weight:800;letter-spacing:2px;
-    background:linear-gradient(90deg,#f9e7a0,#c9a84c,#f9e7a0);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:2px}
+  
+  /* 修复点：标题改为实色金色，不渐变，确保显示 */
+  .title{text-align:center;font-size:24px;font-weight:800;letter-spacing:2px;color:#f9e7a0;margin-bottom:2px;cursor:default;}
   .sub{text-align:center;font-size:12px;color:#8a7a4a;margin-bottom:12px}
+  
   .stat{display:flex;gap:8px;margin:10px 0 14px}
   .stat div{flex:1;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:8px 4px;text-align:center}
   .stat b{display:block;font-size:15px;color:#f9e7a0;margin-top:2px}
   .stat span{font-size:10px;color:#8a7a4a}
+  
   .bar{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 10px}
   .bar button{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:#f5e6c8;border-radius:8px;padding:4px 10px;font-size:14px}
   .bar .ym{font-size:14px;font-weight:700;color:#c9a84c}
+  
   .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#8a7a4a;margin-bottom:6px}
-  .grid{display:grid;grid-template-columns:{repeat(7,1fr)};gap:6px}
   .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  
   .cell{background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:4px 2px 5px;text-align:center;min-height:52px}
   .cell.empty{background:transparent;border:0}
   .dnum{font-size:12px;font-weight:700;color:#c9a84c}
   .cell.today .dnum{color:#f9e7a0;text-shadow:0 0 6px rgba(249,231,160,.6)}
-  .cell.has{background:linear-gradient(180deg,rgba(201,168,76,.25),rgba(201,168,76,.1));border-color:#c9a84c}
+  .cell.has{background:linear-gradient(180deg,rgba(201,168,76,.25),rgba(201,168,76,.10));border-color:#c9a84c}
+  
   .amt{width:100%;border:0;background:rgba(0,0,0,.35);color:#f9e7a0;font-size:11px;border-radius:6px;margin-top:3px;padding:2px 1px;text-align:center;outline:none}
   .cell.has .amt{background:rgba(0,0,0,.5)}
   .amt::placeholder{color:rgba(201,168,76,.4)}
+  
   .tool{display:flex;gap:8px;margin-top:14px}
   .tool button{flex:1;border:0;border-radius:10px;padding:11px;font-weight:800;font-size:13px}
   .export{background:linear-gradient(90deg,#c9a84c,#f9e7a0);color:#1a1a1a}
@@ -60,7 +67,7 @@
   <div class="week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
   <div class="grid" id="grid"></div>
 
-  ｜<div class="tool">
+  <div class="tool">
     <button class="export" id="export">📸 导出图片</button>
     <button class="clear" id="clear">清空本月</button>
   </div>
@@ -96,7 +103,6 @@ function calc(){
   const y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
   let s=0,d=0;for(const x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);d++;}}
   document.getElementById('sum').textContent='¥'+s.toLocaleString();
-  document.getElementById('days').textTextContent=d;
   document.getElementById('days').textContent=d;
   document.getElementById('avg').textContent='¥'+(d?Math.round(s/d).toLocaleString():0);
 }
@@ -104,12 +110,24 @@ document.getElementById('prev').onclick=()=>{ym.setMonth(ym.getMonth()-1);render
 document.getElementById('next').onclick=()=>{ym.setMonth(ym.getMonth()+1);render();};
 document.getElementById('clear').onclick=()=>{if(confirm('清空当月记录？')){delete data[key(ym.getFullYear(),ym.getMonth())];localStorage.setItem('panshi_book',JSON.stringify(data));render();}};
 document.getElementById('export').onclick=()=>{
-  html2canvas(document.getElementById('card'),{scale:2,backgroundColor:'#0a0a0a'}).then(cv=>{
+  html2canvas(document.getElementById('card'),{scale:2,backgroundColor:'#0a0a0a',useCORS:true}).then(cv=>{
     const ctx=cv.getContext('2d');
-    ctx.font='bold 34px sans-serif';
-    ctx.fillStyle='rgba(201,168,76,0.18)';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('加入磐石开启财富人生',cv.width/2,cv.height/2+30);
+    
+    // 修复点：强制居中水印，加大字号，增加描边
+    const watermark = "加入磐石开启财富人生";
+    ctx.font = "bold 42px 'PingFang SC', 'Microsoft YaHei', sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    
+    // 1. 画黑色描边（防背景融合）
+    ctx.lineWidth = 6;
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.strokeText(watermark, cv.width / 2, cv.height / 2 + 30);
+    
+    // 2. 画金色文字
+    ctx.fillStyle = "rgba(201, 168, 76, 0.45)"; // 半透明金色
+    ctx.fillText(watermark, cv.width / 2, cv.height / 2 + 30);
+    
     cv.toBlob(b=>{
       const url=URL.createObjectURL(b);const a=document.createElement('a');
       a.href=url;a.download='磐石收益账本.png';a.click();URL.revokeObjectURL(url);
