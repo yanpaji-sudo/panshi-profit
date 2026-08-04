@@ -8,9 +8,7 @@
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
   body{background:#080808;font-family:"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
   .wrap{width:100%;max-width:440px}
-  .card{background:linear-gradient(175deg,#1a1a1a 0%,#0d0d0d 50%,#050505 100%);border:1.5px solid #c9a84c;border-radius:24px;padding:20px 16px;color:#f5e6c8;box-shadow:0 0 60px rgba(201,168,76,.2),0 0 120px rgba(0,0,0,.5),inset 0 0 30px rgba(201,168,76,.05);position:relative;overflow:hidden}
-  .card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none}
-  .card::after{content:'';position:absolute;bottom:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(ellipse at center,rgba(201,168,76,.04) 0%,transparent 70%);pointer-events:none}
+  .card{background:linear-gradient(175deg,#1a1a1a 0%,#0d0d0d 50%,#050505 100%);border:1.5px solid #c9a84c;border-radius:24px;padding:20px 16px;color:#f5e6c8;box-shadow:0 0 60px rgba(201,168,76,.2),inset 0 0 30px rgba(201,168,76,.05);position:relative;overflow:hidden}
   .border-inner{position:absolute;inset:3px;border:0.5px solid rgba(201,168,76,.15);border-radius:21px;pointer-events:none}
   .corner{position:absolute;width:18px;height:18px;border-color:#c9a84c;border-style:solid;z-index:1}
   .corner.tl{top:10px;left:10px;border-width:2px 0 0 2px}
@@ -51,7 +49,7 @@
   .export:active{transform:scale(0.97)}
   .clear{background:transparent;color:#c9a84c;border:1.5px solid rgba(201,168,76,.35);backdrop-filter:blur(5px)}
   .clear:active{transform:scale(0.97);background:rgba(201,168,76,.1)}
-  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:10px;letter-spacing:1px;position:relative;z-index1}
+  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:10px;letter-spacing:1px;position:relative;z-index:1}
   .brand{text-align:center;font-size:9px;color:rgba(201,168,76,.3);letter-spacing:6px;margin-top:8px;font-weight:300;position:relative;z-index:1}
   #cv{display:none}
 </style>
@@ -277,11 +275,9 @@ document.getElementById('export').onclick=function(){
   ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=1.5;ctx.strokeRect(bx+bw+20,by,bw,bh);
   ctx.fillStyle='#c9a84c';ctx.fillText('清空本月',bx+bw+20+bw/2,by+bh/2);
 
-  // 品牌
-  ctx.fillStyle='rgba(201,168,76,0.3)';ctx.font='18px sans-serif';ctx.textBaseline='top';
-  ctx.fillText('导出图片自动带「加入磐石开启财富人生」水印',W/2,by+bh+24);
-  ctx.fillStyle='rgba(201,168,76,0.2)';ctx.font='16px sans-serif';ctx.letterSpacing=6;
-  ctx.fillText('P A N S H I · W E A L T H',W/2,by+bh+52);
+  // 品牌行（已修复：不用 letterSpacing）
+  ctx.fillStyle='rgba(201,168,76,0.2)';ctx.font='16px sans-serif';ctx.textBaseline='top';
+  ctx.fillText('P  A  N  S  H  I    ·    W  E  A  L  T  H', W/2, by+bh+52);
 
   cv.toBlob(function(blob){
     var url=URL.createObjectURL(blob);
