@@ -3,150 +3,209 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>磐石收益账本 V3.2</title>
+<title>磐石收益账本 V4.0</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{min-height:100vh;padding:15px;display:flex;justify-content:center;font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif;}
 
-/* 8种主题 - 每个都写死完整颜色 */
-body.gold{background:#080808;}
-body.gold .card{background:linear-gradient(160deg,rgba(201,168,76,.15),transparent 35%),#111;border-color:#c9a84c;box-shadow:0 20px 80px rgba(201,168,76,.3);}
-body.gold .title{background:linear-gradient(180deg,#fff,#ffeeb0);-webkit-background-clip:text;color:transparent;}
-body.gold .sub,body.gold .label,body.gold .note-item,body.gold .calc-result div{color:#9c8750;}
-body.gold .value,body.gold .calc-result span,body.gold .note-title,body.gold .calc-title,body.gold .panel h3{color:#ffeeb0;}
-body.gold .theme button,body.gold .month button,body.gold .clear{border-color:#c9a84c;color:#ffeeb0;}
-body.gold .stat,body.gold .day,body.gold .note-box,body.gold .panel{background:rgba(201,168,76,.05);border-color:rgba(201,168,76,.2);}
-body.gold .day.active{border-color:#c9a84c;background:rgba(201,168,76,.1);}
-body.gold .day input,body.gold .calculator input,body.gold .calculator select,body.gold .panel textarea{color:#ffeeb0;border-color:#c9a84c;}
-body.gold .calculator{border-color:#c9a84c;}
-body.gold .export,body.gold #calcBtn,body.gold .panel button{background:linear-gradient(135deg,#c9a84c,#ffeeb0);color:#000;}
+/* ========== 鎏金 ========== */
+body.gold{background:#0a0a0a;}
+body.gold .card{background:linear-gradient(145deg,#1a1505 0%,#0d0d0d 50%,#1a1505 100%);border:1px solid #c9a84c;box-shadow:0 0 60px rgba(201,168,76,.15),inset 0 1px 0 rgba(201,168,76,.1);}
+body.gold .title{background:linear-gradient(180deg,#fff8e1,#c9a84c);-webkit-background-clip:text;color:transparent;}
+body.gold .sub,body.gold .label{color:#8a7040;}
+body.gold .value,body.gold .note-title,body.gold .calc-title{color:#f5e6a3;}
+body.gold .theme button,body.gold .month button,body.gold .clear{border:1px solid #c9a84c;color:#c9a84c;background:rgba(201,168,76,.05);}
+body.gold .theme button:hover,body.gold .month button:hover{background:rgba(201,168,76,.2);}
+body.gold .stat,.gold .day,.gold .note-box,.gold .panel{background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);}
+body.gold .day.active{border-color:#c9a84c;background:rgba(201,168,76,.12);box-shadow:0 0 12px rgba(201,168,76,.2);}
+body.gold .day input{color:#f5e6a3;}
+body.gold .calculator{border:1px solid #c9a84c;background:rgba(201,168,76,.03);}
+body.gold .calculator input,.gold .calculator select,.gold .panel textarea{background:#0d0d0d;color:#f5e6a3;border:1px solid #c9a84c;}
+body.gold .export,.gold #calcBtn,.gold .panel button{background:linear-gradient(135deg,#c9a84c,#f5e6a3);color:#1a1205;}
+body.gold .note-item{color:#a08850;}
+body.gold .calc-result{background:#0d0d0d;border:1px solid rgba(201,168,76,.2);}
+body.gold .calc-result div{color:#8a7040;}
+body.gold .calc-result span{color:#f5e6a3;}
 
-body.jade{background:#031710;}
-body.jade .card{background:linear-gradient(160deg,rgba(35,201,151,.15),transparent 35%),#08271d;border-color:#23c997;box-shadow:0 20px 80px rgba(35,201,151,.3);}
-body.jade .title{background:linear-gradient(180deg,#fff,#d0fff2);-webkit-background-clip:text;color:transparent;}
-body.jade .sub,body.jade .label,body.jade .note-item,body.jade .calc-result div{color:#65a890;}
-body.jade .value,body.jade .calc-result span,body.jade .note-title,body.jade .calc-title,body.jade .panel h3{color:#d0fff2;}
-body.jade .theme button,body.jade .month button,body.jade .clear{border-color:#23c997;color:#d0fff2;}
-body.jade .stat,body.jade .day,body.jade .note-box,body.jade .panel{background:rgba(35,201,151,.05);border-color:rgba(35,201,151,.2);}
-body.jade .day.active{border-color:#23c997;background:rgba(35,201,151,.1);}
-body.jade .day input,body.jade .calculator input,body.jade .calculator select,body.jade .panel textarea{color:#d0fff2;border-color:#23c997;}
-body.jade .calculator{border-color:#23c997;}
-body.jade .export,body.jade #calcBtn,body.jade .panel button{background:linear-gradient(135deg,#23c997,#d0fff2);color:#000;}
+/* ========== 翡翠 ========== */
+body.jade{background:#030f0a;}
+body.jade .card{background:linear-gradient(145deg,#051a13 0%,#08120e 50%,#051a13 100%);border:1px solid #23c997;box-shadow:0 0 60px rgba(35,201,151,.15),inset 0 1px 0 rgba(35,201,151,.1);}
+body.jade .title{background:linear-gradient(180deg,#e0fff5,#23c997);-webkit-background-clip:text;color:transparent;}
+body.jade .sub,body.jade .label{color:#1a8a6a;}
+body.jade .value,body.jade .note-title,body.jade .calc-title{color:#a0f5d0;}
+body.jade .theme button,body.jade .month button,body.jade .clear{border:1px solid #23c997;color:#23c997;background:rgba(35,201,151,.05);}
+body.jade .theme button:hover,body.jade .month button:hover{background:rgba(35,201,151,.2);}
+body.jade .stat,.jade .day,.jade .note-box,.jade .panel{background:rgba(35,201,151,.04);border:1px solid rgba(35,201,151,.15);}
+body.jade .day.active{border-color:#23c997;background:rgba(35,201,151,.12);box-shadow:0 0 12px rgba(35,201,151,.2);}
+body.jade .day input{color:#a0f5d0;}
+body.jade .calculator{border:1px solid #23c997;background:rgba(35,201,151,.03);}
+body.jade .calculator input,.jade .calculator select,.jade .panel textarea{background:#08120e;color:#a0f5d0;border:1px solid #23c997;}
+body.jade .export,.jade #calcBtn,.jade .panel button{background:linear-gradient(135deg,#23c997,#a0f5d0);color:#051a13;}
+body.jade .note-item{color:#50b890;}
+body.jade .calc-result{background:#08120e;border:1px solid rgba(35,201,151,.2);}
+body.jade .calc-result div{color:#1a8a6a;}
+body.jade .calc-result span{color:#a0f5d0;}
 
-body.blue{background:#061326;}
-body.blue .card{background:linear-gradient(160deg,rgba(77,163,255,.15),transparent 35%),#0b203d;border-color:#4da3ff;box-shadow:0 20px 80px rgba(77,163,255,.3);}
-body.blue .title{background:linear-gradient(180deg,#fff,#d8ecff);-webkit-background-clip:text;color:transparent;}
-body.blue .sub,body.blue .label,body.blue .note-item,body.blue .calc-result div{color:#7698c0;}
-body.blue .value,body.blue .calc-result span,body.blue .note-title,body.blue .calc-title,body.blue .panel h3{color:#d8ecff;}
-body.blue .theme button,body.blue .month button,body.blue .clear{border-color:#4da3ff;color:#d8ecff;}
-body.blue .stat,body.blue .day,body.blue .note-box,body.blue .panel{background:rgba(77,163,255,.05);border-color:rgba(77,163,255,.2);}
-body.blue .day.active{border-color:#4da3ff;background:rgba(77,163,255,.1);}
-body.blue .day input,body.blue .calculator input,body.blue .calculator select,body.blue .panel textarea{color:#d8ecff;border-color:#4da3ff;}
-body.blue .calculator{border-color:#4da3ff;}
-body.blue .export,body.blue #calcBtn,body.blue .panel button{background:linear-gradient(135deg,#4da3ff,#d8ecff);color:#000;}
+/* ========== 星耀 ========== */
+body.blue{background:#050d1a;}
+body.blue .card{background:linear-gradient(145deg,#0a1a30 0%,#080f1e 50%,#0a1a30 100%);border:1px solid #4da3ff;box-shadow:0 0 60px rgba(77,163,255,.15),inset 0 1px 0 rgba(77,163,255,.1);}
+body.blue .title{background:linear-gradient(180deg,#e8f4ff,#4da3ff);-webkit-background-clip:text;color:transparent;}
+body.blue .sub,body.blue .label{color:#3a78b0;}
+body.blue .value,body.blue .note-title,body.blue .calc-title{color:#b8d8ff;}
+body.blue .theme button,body.blue .month button,body.blue .clear{border:1px solid #4da3ff;color:#4da3ff;background:rgba(77,163,255,.05);}
+body.blue .theme button:hover,body.blue .month button:hover{background:rgba(77,163,255,.2);}
+body.blue .stat,.blue .day,.blue .note-box,.blue .panel{background:rgba(77,163,255,.04);border:1px solid rgba(77,163,255,.15);}
+body.blue .day.active{border-color:#4da3ff;background:rgba(77,163,255,.12);box-shadow:0 0 12px rgba(77,163,255,.2);}
+body.blue .day input{color:#b8d8ff;}
+body.blue .calculator{border:1px solid #4da3ff;background:rgba(77,163,255,.03);}
+body.blue .calculator input,.blue .calculator select,.blue .panel textarea{background:#080f1e;color:#b8d8ff;border:1px solid #4da3ff;}
+body.blue .export,.blue #calcBtn,.blue .panel button{background:linear-gradient(135deg,#4da3ff,#b8d8ff);color:#0a1a30;}
+body.blue .note-item{color:#5a98c0;}
+body.blue .calc-result{background:#080f1e;border:1px solid rgba(77,163,255,.2);}
+body.blue .calc-result div{color:#3a78b0;}
+body.blue .calc-result span{color:#b8d8ff;}
 
-body.purple{background:#12051d;}
-body.purple .card{background:linear-gradient(160deg,rgba(180,108,255,.15),transparent 35%),#221035;border-color:#b46cff;box-shadow:0 20px 80px rgba(180,108,255,.3);}
-body.purple .title{background:linear-gradient(180deg,#fff,#efd7ff);-webkit-background-clip:text;color:transparent;}
-body.purple .sub,body.purple .label,body.purple .note-item,body.purple .calc-result div{color:#a58ac0;}
-body.purple .value,body.purple .calc-result span,body.purple .note-title,body.purple .calc-title,body.purple .panel h3{color:#efd7ff;}
-body.purple .theme button,body.purple .month button,body.purple .clear{border-color:#b46cff;color:#efd7ff;}
-body.purple .stat,body.purple .day,body.purple .note-box,body.purple .panel{background:rgba(180,108,255,.05);border-color:rgba(180,108,255,.2);}
-body.purple .day.active{border-color:#b46cff;background:rgba(180,108,255,.1);}
-body.purple .day input,body.purple .calculator input,body.purple .calculator select,body.purple .panel textarea{color:#efd7ff;border-color:#b46cff;}
-body.purple .calculator{border-color:#b46cff;}
-body.purple .export,body.purple #calcBtn,body.purple .panel button{background:linear-gradient(135deg,#b46cff,#efd7ff);color:#000;}
+/* ========== 紫晶 ========== */
+body.purple{background:#0d0517;}
+body.purple .card{background:linear-gradient(145deg,#1a0a2e 0%,#120820 50%,#1a0a2e 100%);border:1px solid #b46cff;box-shadow:0 0 60px rgba(180,108,255,.15),inset 0 1px 0 rgba(180,108,255,.1);}
+body.purple .title{background:linear-gradient(180deg,#f0e0ff,#b46cff);-webkit-background-clip:text;color:transparent;}
+body.purple .sub,body.purple .label{color:#7a50a0;}
+body.purple .value,body.purple .note-title,body.purple .calc-title{color:#e0c8ff;}
+body.purple .theme button,body.purple .month button,body.purple .clear{border:1px solid #b46cff;color:#b46cff;background:rgba(180,108,255,.05);}
+body.purple .theme button:hover,body.purple .month button:hover{background:rgba(180,108,255,.2);}
+body.purple .stat,.purple .day,.purple .note-box,.purple .panel{background:rgba(180,108,255,.04);border:1px solid rgba(180,108,255,.15);}
+body.purple .day.active{border-color:#b46cff;background:rgba(180,108,255,.12);box-shadow:0 0 12px rgba(180,108,255,.2);}
+body.purple .day input{color:#e0c8ff;}
+body.purple .calculator{border:1px solid #b46cff;background:rgba(180,108,255,.03);}
+body.purple .calculator input,.purple .calculator select,.purple .panel textarea{background:#120820;color:#e0c8ff;border:1px solid #b46cff;}
+body.purple .export,.purple #calcBtn,.purple .panel button{background:linear-gradient(135deg,#b46cff,#e0c8ff);color:#1a0a2e;}
+body.purple .note-item{color:#9a78c0;}
+body.purple .calc-result{background:#120820;border:1px solid rgba(180,108,255,.2);}
+body.purple .calc-result div{color:#7a50a0;}
+body.purple .calc-result span{color:#e0c8ff;}
 
+/* ========== 黑钻 ========== */
 body.black{background:#000;}
-body.black .card{background:linear-gradient(160deg,rgba(238,238,238,.1),transparent 35%),#080808;border-color:#eeeeee;box-shadow:0 20px 80px rgba(255,255,255,.15);}
-body.black .title{background:linear-gradient(180deg,#fff,#ffffff);-webkit-background-clip:text;color:transparent;}
-body.black .sub,body.black .label,body.black .note-item,body.black .calc-result div{color:#777;}
-body.black .value,body.black .calc-result span,body.black .note-title,body.black .calc-title,body.black .panel h3{color:#ffffff;}
-body.black .theme button,body.black .month button,body.black .clear{border-color:#eeeeee;color:#ffffff;}
-body.black .stat,body.black .day,body.black .note-box,body.black .panel{background:rgba(238,238,238,.05);border-color:rgba(238,238,238,.15);}
-body.black .day.active{border-color:#eeeeee;background:rgba(238,238,238,.08);}
-body.black .day input,body.black .calculator input,body.black .calculator select,body.black .panel textarea{color:#ffffff;border-color:#eeeeee;}
-body.black .calculator{border-color:#eeeeee;}
-body.black .export,body.black #calcBtn,body.black .panel button{background:linear-gradient(135deg,#eeeeee,#ffffff);color:#000;}
+body.black .card{background:linear-gradient(145deg,#111 0%,#080808 50%,#111 100%);border:1px solid #ddd;box-shadow:0 0 60px rgba(255,255,255,.08),inset 0 1px 0 rgba(255,255,255,.05);}
+body.black .title{background:linear-gradient(180deg,#fff,#ccc);-webkit-background-clip:text;color:transparent;}
+body.black .sub,body.black .label{color:#666;}
+body.black .value,body.black .note-title,body.black .calc-title{color:#fff;}
+body.black .theme button,body.black .month button,body.black .clear{border:1px solid #888;color:#ccc;background:rgba(255,255,255,.03);}
+body.black .theme button:hover,body.black .month button:hover{background:rgba(255,255,255,.1);}
+body.black .stat,.black .day,.black .note-box,.black .panel{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);}
+body.black .day.active{border-color:#fff;background:rgba(255,255,255,.08);box-shadow:0 0 12px rgba(255,255,255,.15);}
+body.black .day input{color:#fff;}
+body.black .calculator{border:1px solid #888;background:rgba(255,255,255,.02);}
+body.black .calculator input,.black .calculator select,.black .panel textarea{background:#0a0a0a;color:#fff;border:1px solid #666;}
+body.black .export,.black #calcBtn,.black .panel button{background:linear-gradient(135deg,#eee,#fff);color:#000;}
+body.black .note-item{color:#999;}
+body.black .calc-result{background:#0a0a0a;border:1px solid rgba(255,255,255,.15);}
+body.black .calc-result div{color:#666;}
+body.black .calc-result span{color:#fff;}
 
-body.rose{background:#1b080d;}
-body.rose .card{background:linear-gradient(160deg,rgba(255,143,163,.15),transparent 35%),#2a1018;border-color:#ff8fa3;box-shadow:0 20px 80px rgba(255,143,163,.3);}
-body.rose .title{background:linear-gradient(180deg,#fff,#ffe0e7);-webkit-background-clip:text;color:transparent;}
-body.rose .sub,body.rose .label,body.rose .note-item,body.rose .calc-result div{color:#c98c99;}
-body.rose .value,body.rose .calc-result span,body.rose .note-title,body.rose .calc-title,body.rose .panel h3{color:#ffe0e7;}
-body.rose .theme button,body.rose .month button,body.rose .clear{border-color:#ff8fa3;color:#ffe0e7;}
-body.rose .stat,body.rose .day,body.rose .note-box,body.rose .panel{background:rgba(255,143,163,.05);border-color:rgba(255,143,163,.2);}
-body.rose .day.active{border-color:#ff8fa3;background:rgba(255,143,163,.1);}
-body.rose .day input,body.rose .calculator input,body.rose .calculator select,body.rose .panel textarea{color:#ffe0e7;border-color:#ff8fa3;}
-body.rose .calculator{border-color:#ff8fa3;}
-body.rose .export,body.rose #calcBtn,body.rose .panel button{background:linear-gradient(135deg,#ff8fa3,#ffe0e7);color:#000;}
+/* ========== 玫瑰 ========== */
+body.rose{background:#150508;}
+body.rose .card{background:linear-gradient(145deg,#1f0a10 0%,#15080d 50%,#1f0a10 100%);border:1px solid #ff8fa3;box-shadow:0 0 60px rgba(255,143,163,.15),inset 0 1px 0 rgba(255,143,163,.1);}
+body.rose .title{background:linear-gradient(180deg,#ffe0e7,#ff8fa3);-webkit-background-clip:text;color:transparent;}
+body.rose .sub,body.rose .label{color:#a06070;}
+body.rose .value,body.rose .note-title,body.rose .calc-title{color:#ffd0db;}
+body.rose .theme button,body.rose .month button,body.rose .clear{border:1px solid #ff8fa3;color:#ff8fa3;background:rgba(255,143,163,.05);}
+body.rose .theme button:hover,body.rose .month button:hover{background:rgba(255,143,163,.2);}
+body.rose .stat,.rose .day,.rose .note-box,.rose .panel{background:rgba(255,143,163,.04);border:1px solid rgba(255,143,163,.15);}
+body.rose .day.active{border-color:#ff8fa3;background:rgba(255,143,163,.12);box-shadow:0 0 12px rgba(255,143,163,.2);}
+body.rose .day input{color:#ffd0db;}
+body.rose .calculator{border:1px solid #ff8fa3;background:rgba(255,143,163,.03);}
+body.rose .calculator input,.rose .calculator select,.rose .panel textarea{background:#15080d;color:#ffd0db;border:1px solid #ff8fa3;}
+body.rose .export,.rose #calcBtn,.rose .panel button{background:linear-gradient(135deg,#ff8fa3,#ffd0db);color:#1f0a10;}
+body.rose .note-item{color:#c08090;}
+body.rose .calc-result{background:#15080d;border:1px solid rgba(255,143,163,.2);}
+body.rose .calc-result div{color:#a06070;}
+body.rose .calc-result span{color:#ffd0db;}
 
-body.ocean{background:#03151f;}
-body.ocean .card{background:linear-gradient(160deg,rgba(32,213,255,.15),transparent 35%),#082938;border-color:#20d5ff;box-shadow:0 20px 80px rgba(32,213,255,.3);}
-body.ocean .title{background:linear-gradient(180deg,#fff,#d9f8ff);-webkit-background-clip:text;color:transparent;}
-body.ocean .sub,body.ocean .label,body.ocean .note-item,body.ocean .calc-result div{color:#6aaabd;}
-body.ocean .value,body.ocean .calc-result span,body.ocean .note-title,body.ocean .calc-title,body.ocean .panel h3{color:#d9f8ff;}
-body.ocean .theme button,body.ocean .month button,body.ocean .clear{border-color:#20d5ff;color:#d9f8ff;}
-body.ocean .stat,body.ocean .day,body.ocean .note-box,body.ocean .panel{background:rgba(32,213,255,.05);border-color:rgba(32,213,255,.2);}
-body.ocean .day.active{border-color:#20d5ff;background:rgba(32,213,255,.1);}
-body.ocean .day input,body.ocean .calculator input,body.ocean .calculator select,body.ocean .panel textarea{color:#d9f8ff;border-color:#20d5ff;}
-body.ocean .calculator{border-color:#20d5ff;}
-body.ocean .export,body.ocean #calcBtn,body.ocean .panel button{background:linear-gradient(135deg,#20d5ff,#d9f8ff);color:#000;}
+/* ========== 深海 ========== */
+body.ocean{background:#030d14;}
+body.ocean .card{background:linear-gradient(145deg,#0a1f2a 0%,#06121a 50%,#0a1f2a 100%);border:1px solid #20d5ff;box-shadow:0 0 60px rgba(32,213,255,.15),inset 0 1px 0 rgba(32,213,255,.1);}
+body.ocean .title{background:linear-gradient(180deg,#e0faff,#20d5ff);-webkit-background-clip:text;color:transparent;}
+body.ocean .sub,body.ocean .label{color:#1088a8;}
+body.ocean .value,body.ocean .note-title,body.ocean .calc-title{color:#a0eeff;}
+body.ocean .theme button,body.ocean .month button,body.ocean .clear{border:1px solid #20d5ff;color:#20d5ff;background:rgba(32,213,255,.05);}
+body.ocean .theme button:hover,body.ocean .month button:hover{background:rgba(32,213,255,.2);}
+body.ocean .stat,.ocean .day,.ocean .note-box,.ocean .panel{background:rgba(32,213,255,.04);border:1px solid rgba(32,213,255,.15);}
+body.ocean .day.active{border-color:#20d5ff;background:rgba(32,213,255,.12);box-shadow:0 0 12px rgba(32,213,255,.2);}
+body.ocean .day input{color:#a0eeff;}
+body.ocean .calculator{border:1px solid #20d5ff;background:rgba(32,213,255,.03);}
+body.ocean .calculator input,.ocean .calculator select,.ocean .panel textarea{background:#06121a;color:#a0eeff;border:1px solid #20d5ff;}
+body.ocean .export,.ocean #calcBtn,.ocean .panel button{background:linear-gradient(135deg,#20d5ff,#a0eeff);color:#0a1f2a;}
+body.ocean .note-item{color:#40a8c0;}
+body.ocean .calc-result{background:#06121a;border:1px solid rgba(32,213,255,.2);}
+body.ocean .calc-result div{color:#1088a8;}
+body.ocean .calc-result span{color:#a0eeff;}
 
-body.silver{background:#111;}
-body.silver .card{background:linear-gradient(160deg,rgba(221,221,221,.12),transparent 35%),#222;border-color:#ddd;box-shadow:0 20px 80px rgba(221,221,221,.25);}
-body.silver .title{background:linear-gradient(180deg,#fff,#ffffff);-webkit-background-clip:text;color:transparent;}
-body.silver .sub,body.silver .label,body.silver .note-item,body.silver .calc-result div{color:#999;}
-body.silver .value,body.silver .calc-result span,body.silver .note-title,body.silver .calc-title,body.silver .panel h3{color:#fff;}
-body.silver .theme button,body.silver .month button,body.silver .clear{border-color:#ddd;color:#fff;}
-body.silver .stat,body.silver .day,body.silver .note-box,body.silver .panel{background:rgba(221,221,221,.05);border-color:rgba(221,221,221,.15);}
-body.silver .day.active{border-color:#ddd;background:rgba(221,221,221,.08);}
-body.silver .day input,body.silver .calculator input,body.silver .calculator select,body.silver .panel textarea{color:#fff;border-color:#ddd;}
-body.silver .calculator{border-color:#ddd;}
-body.silver .export,body.silver #calcBtn,body.silver .panel button{background:linear-gradient(135deg,#ddd,#fff);color:#000;}
+/* ========== 银灰 ========== */
+body.silver{background:#0d0d0d;}
+body.silver .card{background:linear-gradient(145deg,#1a1a1a 0%,#111 50%,#1a1a1a 100%);border:1px solid #bbb;box-shadow:0 0 60px rgba(200,200,200,.1),inset 0 1px 0 rgba(200,200,200,.08);}
+body.silver .title{background:linear-gradient(180deg,#fff,#bbb);-webkit-background-clip:text;color:transparent;}
+body.silver .sub,body.silver .label{color:#888;}
+body.silver .value,body.silver .note-title,body.silver .calc-title{color:#eee;}
+body.silver .theme button,body.silver .month button,body.silver .clear{border:1px solid #bbb;color:#bbb;background:rgba(200,200,200,.04);}
+body.silver .theme button:hover,body.silver .month button:hover{background:rgba(200,200,200,.12);}
+body.silver .stat,.silver .day,.silver .note-box,.silver .panel{background:rgba(200,200,200,.03);border:1px solid rgba(200,200,200,.12);}
+body.silver .day.active{border-color:#ddd;background:rgba(200,200,200,.08);box-shadow:0 0 12px rgba(200,200,200,.12);}
+body.silver .day input{color:#eee;}
+body.silver .calculator{border:1px solid #bbb;background:rgba(200,200,200,.02);}
+body.silver .calculator input,.silver .calculator select,.silver .panel textarea{background:#0e0e0e;color:#eee;border:1px solid #999;}
+body.silver .export,.silver #calcBtn,.silver .panel button{background:linear-gradient(135deg,#ccc,#eee);color:#111;}
+body.silver .note-item{color:#999;}
+body.silver .calc-result{background:#0e0e0e;border:1px solid rgba(200,200,200,.15);}
+body.silver .calc-result div{color:#888;}
+body.silver .calc-result span{color:#eee;}
 
-/* 通用结构样式 */
+/* ========== 通用结构 ========== */
 .wrap{width:100%;max-width:440px;}
-.card{position:relative;overflow:hidden;width:100%;padding:24px 18px;border-radius:30px;border-width:1px;border-style:solid;}
-.card:before{content:"";position:absolute;width:420px;height:420px;left:-160px;top:-160px;background:radial-gradient(circle,rgba(255,255,255,.12),transparent 65%);pointer-events:none;}
-.inner{position:absolute;inset:6px;border-radius:25px;border:1px solid rgba(255,255,255,.1);pointer-events:none;}
+.card{position:relative;overflow:hidden;width:100%;padding:24px 18px;border-radius:30px;}
+.card::before{content:"";position:absolute;width:500px;height:500px;left:-200px;top:-200px;background:radial-gradient(circle,rgba(255,255,255,.06),transparent 60%);pointer-events:none;}
+.card::after{content:"";position:absolute;width:300px;height:300px;right:-100px;bottom:-100px;background:radial-gradient(circle,rgba(255,255,255,.03),transparent 60%);pointer-events:none;}
+.inner{position:absolute;inset:6px;border-radius:25px;border:1px solid rgba(255,255,255,.06);pointer-events:none;}
 .title{position:relative;text-align:center;font-size:30px;font-weight:900;letter-spacing:5px;}
 .sub{text-align:center;margin-top:8px;font-size:12px;letter-spacing:3px;}
-.theme{display:flex;gap:5px;margin:20px 0;flex-wrap:wrap;}
-.theme button{flex:1;min-width:60px;height:34px;border-radius:18px;background:rgba(255,255,255,.05);font-size:11px;cursor:pointer;border-width:1px;border-style:solid;}
-.theme button:hover{filter:brightness(1.2);}
-.stats{display:flex;gap:10px;}
-.stat{flex:1;padding:15px 5px;border-radius:16px;text-align:center;border-width:1px;border-style:solid;}
+.theme{display:flex;gap:5px;margin:20px 0;flex-wrap:wrap;position:relative;}
+.theme button{flex:1;min-width:52px;height:34px;border-radius:18px;font-size:11px;cursor:pointer;transition:all .2s;}
+.stats{display:flex;gap:10px;position:relative;}
+.stat{flex:1;padding:15px 5px;border-radius:16px;text-align:center;}
 .label{font-size:11px;}
 .value{margin-top:8px;font-size:20px;font-weight:900;}
-.month{margin:22px 0;display:flex;align-items:center;justify-content:space-between;}
-.month button{width:42px;height:36px;border-radius:18px;background:none;font-size:25px;cursor:pointer;border-width:1px;border-style:solid;}
+.month{margin:22px 0;display:flex;align-items:center;justify-content:space-between;position:relative;}
+.month button{width:42px;height:36px;border-radius:18px;background:none;font-size:22px;cursor:pointer;transition:all .2s;}
 .month span{font-size:20px;font-weight:900;}
-.week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12px;margin-bottom:8px;opacity:.6;}
-.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
-.day{height:58px;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;cursor:pointer;border-width:1px;border-style:solid;}
-.day input{width:90%;height:22px;border:0;outline:0;background:none;text-align:center!important;font-size:13px;font-weight:bold;}
-.note-icon{position:absolute;right:3px;top:2px;font-size:11px;}
-.note-box{margin-top:18px;padding:14px;border-radius:18px;border-width:1px;border-style:solid;}
-.note-title{font-weight:bold;margin-bottom:10px;}
+.week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;margin-bottom:6px;opacity:.5;font-weight:bold;}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;position:relative;}
+.day{height:54px;border-radius:12px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;cursor:pointer;transition:all .15s;}
+.day:hover{filter:brightness(1.15);}
+.day input{width:90%;height:20px;border:0;outline:0;background:none;text-align:center!important;font-size:12px;font-weight:bold;}
+.note-icon{position:absolute;right:3px;top:2px;font-size:10px;}
+.note-box{margin-top:16px;padding:14px;border-radius:18px;position:relative;}
+.note-title{font-weight:bold;margin-bottom:10px;font-size:13px;}
 .note-item{font-size:12px;line-height:22px;}
-.calculator{margin-top:18px;padding:15px;border-radius:20px;border-width:1px;border-style:solid;}
-.calc-title{text-align:center;font-size:18px;font-weight:900;margin-bottom:15px;}
-.calculator input,.calculator select{width:100%;height:45px;margin-bottom:12px;border-radius:12px;background:#000;outline:none;font-size:14px;text-align:center;border-width:1px;border-style:solid;}
-#calcBtn{width:100%;height:45px;border-radius:15px;border:0;font-size:15px;font-weight:bold;cursor:pointer;}
-.calc-result{margin-top:12px;background:#000;border-radius:15px;padding:10px;}
-.calc-result div{display:flex;justify-content:space-between;padding:8px;font-size:13px;}
-.calc-result span{font-size:20px;font-weight:900;}
-.buttons{display:flex;gap:12px;margin-top:20px;}
-.buttons button{flex:1;height:52px;border-radius:18px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
-.export{border-width:0;}
+.calculator{margin-top:16px;padding:15px;border-radius:20px;position:relative;}
+.calc-title{text-align:center;font-size:17px;font-weight:900;margin-bottom:14px;}
+.calculator input,.calculator select{width:100%;height:44px;margin-bottom:12px;border-radius:12px;outline:none;font-size:14px;text-align:center;}
+.calculator select{appearance:none;cursor:pointer;}
+#calcBtn{width:100%;height:46px;border-radius:15px;border:0;font-size:15px;font-weight:bold;cursor:pointer;transition:all .2s;}
+#calcBtn:hover{filter:brightness(1.1);}
+.calc-result{margin-top:12px;border-radius:15px;padding:12px;}
+.calc-result div{display:flex;justify-content:space-between;padding:7px 4px;font-size:13px;}
+.calc-result span{font-size:19px;font-weight:900;}
+.buttons{display:flex;gap:12px;margin-top:20px;position:relative;}
+.buttons button{flex:1;height:52px;border-radius:18px;font-size:15px;font-weight:bold;cursor:pointer;transition:all .2s;}
+.buttons button:hover{filter:brightness(1.1);}
+.export{border:0;}
 .clear{background:transparent;}
-.brand{margin-top:20px;text-align:center;font-size:11px;letter-spacing:5px;color:rgba(255,255,255,.25);}
-.mask{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75);z-index:999;}
-.panel{width:85%;padding:20px;border-radius:22px;border-width:1px;border-style:solid;}
-.panel h3{text-align:center;margin-bottom:15px;font-size:16px;}
-.panel textarea{width:100%;height:130px;border-radius:15px;padding:10px;font-size:14px;resize:none;outline:none;}
-.panel button{width:100%;height:45px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
+.brand{margin-top:18px;text-align:center;font-size:10px;letter-spacing:6px;color:rgba(255,255,255,.2);}
+.mask{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.8);z-index:999;backdrop-filter:blur(4px);}
+.panel{width:85%;padding:24px;border-radius:22px;}
+.panel h3{text-align:center;margin-bottom:16px;font-size:16px;}
+.panel textarea{width:100%;height:130px;border-radius:15px;padding:12px;font-size:14px;resize:none;outline:none;}
+.panel button{width:100%;height:46px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border:0;}
 </style>
 </head>
 
@@ -185,7 +244,7 @@ body.silver .export,body.silver #calcBtn,body.silver .panel button{background:li
 
 <div class="note-box">
 <div class="note-title">📝 日期备注</div>
-<div id="noteList" style="font-size:12px;line-height:22px;">暂无备注</div>
+<div id="noteList" style="font-size:12px;line-height:22px;"></div>
 </div>
 
 <div class="calculator">
@@ -228,8 +287,10 @@ document.body.className=t;
 try{localStorage.setItem("ps_theme",t);}catch(e){}
 }
 (function(){
+try{
 var t=localStorage.getItem("ps_theme");
-document.body.className=t?t:"gold";
+document.body.className=t||"gold";
+}catch(e){document.body.className="gold";}
 })();
 
 /* ========= 数据 ========= */
@@ -238,7 +299,6 @@ var income={},notes={};
 try{income=JSON.parse(localStorage.getItem("ps_income")||"{}");}catch(e){}
 try{notes=JSON.parse(localStorage.getItem("ps_notes")||"{}");}catch(e){}
 var currentDay=null;
-
 function getKey(){return now.getFullYear()+"-"+now.getMonth();}
 
 /* ========= 日历 ========= */
@@ -271,7 +331,7 @@ box.appendChild(ic);
 }
 
 var num=document.createElement("div");
-num.innerHTML=d;
+num.innerHTML=d;num.style.fontSize="14px";num.style.fontWeight="bold";
 box.appendChild(num);
 
 var inp=document.createElement("input");
@@ -326,7 +386,7 @@ document.getElementById("mask").onclick=function(e){if(e.target===this)this.styl
 function showNotes(){
 var key=getKey(),box=document.getElementById("noteList"),html="";
 for(var d in notes[key]||[])html+="<div>📝 "+d+"日："+notes[key][d]+"</div>";
-box.innerHTML=html||"<span style='color:inherit;opacity:.5'>暂无备注</span>";
+box.innerHTML=html||"<span style='opacity:.4'>暂无备注</span>";
 }
 
 /* ========= 月份 ========= */
@@ -351,61 +411,79 @@ document.getElementById("total").innerHTML="¥"+Math.round(total).toLocaleString
 document.getElementById("rateShow").innerHTML=(rate*100).toFixed(1)+"%/天";
 };
 
-/* ========= 导出（纯Canvas手动绘制，零外部依赖）========= */
+/* ========= 高清导出（高端渲染）========= */
 document.getElementById("export").onclick=function(){
 var btn=this;
-btn.innerHTML="生成中...";
+btn.innerHTML="渲染中...";
 
-// 隐藏不需要导出的部分
-var hide=[];
-var t=document.querySelector(".theme");if(t)hide.push(t);
-var c=document.querySelector(".calculator");if(c)hide.push(c);
-var b=document.querySelector(".buttons");if(b)hide.push(b);
-hide.forEach(function(e){e.style.display="none";});
+// 隐藏UI控件
+var hideEls=[];
+[".theme",".calculator",".buttons"].forEach(function(sel){
+var el=document.querySelector(sel);if(el)hideEls.push(el);
+});
+hideEls.forEach(function(e){e.style.display="none";});
 
-// 等一帧让DOM更新
 requestAnimationFrame(function(){
 setTimeout(function(){
 var card=document.getElementById("capture");
 var rect=card.getBoundingClientRect();
-var dpr=window.devicePixelRatio||2;
-var cw=Math.round(rect.width*dpr);
-var ch=Math.round(rect.height*dpr);
+var dpr=Math.min(window.devicePixelRatio||2,3);
+var W=Math.round(rect.width*dpr),H=Math.round(rect.height*dpr);
 
-var canvas=document.createElement("canvas");
-canvas.width=cw;canvas.height=ch;
-var ctx=canvas.getContext("2d");
+var c=document.createElement("canvas");
+c.width=W;c.height=H;
+var ctx=c.getContext("2d");
 ctx.scale(dpr,dpr);
 
-// 读取当前主题的主色
-var cs=getComputedStyle(card);
-var borderColor=cs.borderColor||"#c9a84c";
+// 读取当前主题色
+var bodyCS=getComputedStyle(document.body);
+var cardCS=getComputedStyle(card);
+var borderColor=cardCS.borderColor||"#c9a84c";
+var bgColor=cardCS.backgroundColor||"#111";
 
-// 绘制卡片背景（圆角矩形）
+// 绘制卡片背景
 var r=30;
-ctx.fillStyle=cs.backgroundColor||"#111";
 roundRect(ctx,0,0,rect.width,rect.height,r);
+ctx.fillStyle=bgColor;
 ctx.fill();
 
-// 绘制边框
+// 绘制渐变叠加
+var grad=ctx.createLinearGradient(0,0,rect.width,rect.height);
+grad.addColorStop(0,"rgba(255,255,255,0.03)");
+grad.addColorStop(0.5,"transparent");
+grad.addColorStop(1,"rgba(255,255,255,0.02)");
+ctx.fillStyle=grad;
+ctx.fill();
+
+// 边框
 ctx.strokeStyle=borderColor;
 ctx.lineWidth=1;
 roundRect(ctx,0.5,0.5,rect.width-1,rect.height-1,r);
 ctx.stroke();
 
-// 绘制标题
-ctx.fillStyle="#fff";
-ctx.font="900 30px 'PingFang SC','Microsoft YaHei',sans-serif";
+// 顶部光晕
+var glow=ctx.createRadialGradient(rect.width/2,-50,0,rect.width/2,0,300);
+glow.addColorStop(0,rgbaFromColor(borderColor,0.08));
+glow.addColorStop(1,"transparent");
+ctx.fillStyle=glow;
+ctx.fillRect(0,0,rect.width,200);
+
+// 标题
 ctx.textAlign="center";
+var titleGrad=ctx.createLinearGradient(rect.width/2-80,35,rect.width/2+80,55);
+titleGrad.addColorStop(0,"#ffffff");
+titleGrad.addColorStop(1,lightenColor(borderColor,40));
+ctx.fillStyle=titleGrad;
+ctx.font="900 30px 'PingFang SC','Microsoft YaHei',sans-serif";
 ctx.fillText("磐石收益账本",rect.width/2,50);
 
-// 绘制副标题
-ctx.fillStyle="rgba(255,255,255,.5)";
+// 副标题
+ctx.fillStyle=rgbaFromColor(borderColor,0.5);
 ctx.font="12px 'PingFang SC',sans-serif";
 ctx.fillText("财富记录 · 智能累计",rect.width/2,72);
 
-// 绘制统计区
-var statY=95;
+// 统计卡片
+var statY=88;
 var statW=(rect.width-40)/3;
 var stats=[
 ["累计收益","¥"+(function(){var k=getKey(),s=0;for(var i in income[k]||{})s+=income[k][i]||0;return s.toLocaleString();})()],
@@ -414,80 +492,141 @@ var stats=[
 ];
 stats.forEach(function(st,i){
 var sx=10+i*(statW+10);
-ctx.fillStyle="rgba(255,255,255,.05)";
-roundRect(ctx,sx,statY,statW,70,16);ctx.fill();
-ctx.fillStyle="rgba(255,255,255,.4)";ctx.font="11px sans-serif";
-ctx.textAlign="center";ctx.fillText(st[0],sx+statW/2,statY+22);
-ctx.fillStyle="#fff";ctx.font="900 18px sans-serif";
-ctx.fillText(st[1],sx+statW/2,statY+48);
+// 背景
+roundRect(ctx,sx,statY,statW,68,14);
+ctx.fillStyle=rgbaFromColor(borderColor,0.04);
+ctx.fill();
+ctx.strokeStyle=rgbaFromColor(borderColor,0.12);
+ctx.lineWidth=0.5;
+ctx.stroke();
+
+ctx.fillStyle=rgbaFromColor(borderColor,0.6);
+ctx.font="11px sans-serif";
+ctx.textAlign="center";
+ctx.fillText(st[0],sx+statW/2,statY+22);
+
+ctx.fillStyle=lightenColor(borderColor,30);
+ctx.font="900 19px sans-serif";
+ctx.fillText(st[1],sx+statW/2,statY+46);
 });
 
-// 绘制年月
-ctx.fillStyle="#fff";ctx.font="900 20px sans-serif";
-ctx.fillText((function(){return now.getFullYear()+"年"+(now.getMonth()+1)+"月";})(),rect.width/2,statY+100);
+// 年月
+var monY=statY+88;
+ctx.fillStyle=lightenColor(borderColor,30);
+ctx.font="900 20px 'PingFang SC',sans-serif";
+ctx.textAlign="center";
+ctx.fillText(now.getFullYear()+"年"+(now.getMonth()+1)+"月",rect.width/2,monY);
 
-// 绘制日期网格
-var gridY=statY+125;
-var cellW=(rect.width-28)/7;
-var cellH=50;
+// 左右箭头
+ctx.fillStyle=rgbaFromColor(borderColor,0.5);
+ctx.font="22px sans-serif";
+ctx.fillText("‹",30,monY);
+ctx.fillText("›",rect.width-30,monY);
+
+// 星期标题
+var wkY=monY+22;
+ctx.font="bold 11px sans-serif";
+ctx.fillStyle=rgbaFromColor(borderColor,0.35);
+var ww=(rect.width-20)/7;
+["一","二","三","四","五","六","日"].forEach(function(w,i){
+ctx.fillText(w,10+i*ww+ww/2,wkY);
+});
+
+// 日期网格
+var cellW=(rect.width-20)/7;
+var cellH=48;
+var gridStartY=wkY+8;
 var k=getKey();
 var first=(new Date(now.getFullYear(),now.getMonth(),1).getDay()+6)%7;
 var totalDays=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
 
-ctx.font="12px sans-serif";ctx.fillStyle="rgba(255,255,255,.4)";
-["一","二","三","四","五","六","日"].forEach(function(w,i){
-ctx.fillText(w,14+i*cellW+cellW/2,gridY-8);
-});
-
 for(var d=1;d<=totalDays;d++){
 var idx=first+d-1;
 var col=idx%7;var row=Math.floor(idx/7);
-var x=10+col*cellW;var y=gridY+row*cellH;
+var cx=10+col*cellW;var cy=gridStartY+row*cellH;
+
+// 日期框
 if(income[k]&&income[k][d]){
-ctx.strokeStyle=borderColor;ctx.lineWidth=1;
-roundRect(ctx,x,y,cellW-4,cellH-4,12);ctx.stroke();
-}
-ctx.fillStyle="#fff";ctx.font="13px sans-serif";ctx.textAlign="center";
-ctx.fillText(d,x+(cellW-4)/2,y+18);
-if(income[k]&&income[k][d]){
-ctx.fillStyle="#fff";ctx.font="bold 11px sans-serif";
-var val=String(income[k][d]);if(val.length>5)val=val.substring(0,5);
-ctx.fillText(val,x+(cellW-4)/2,y+36);
-}
+roundRect(ctx,cx+1,cy+1,cellW-2,cellH-2,10);
+ctx.fillStyle=rgbaFromColor(borderColor,0.08);
+ctx.fill();
+ctx.strokeStyle=borderColor;
+ctx.lineWidth=1;
+roundRect(ctx,cx+1.5,cy+1.5,cellW-3,cellH-3,10);
+ctx.stroke();
+// 发光
+ctx.shadowColor=rgbaFromColor(borderColor,0.3);
+ctx.shadowBlur=8;
+ctx.stroke();
+ctx.shadowBlur=0;
 }
 
-// 绘制备注
-var noteY=gridY+Math.ceil((first+totalDays)/7)*cellH+15;
+ctx.fillStyle="#fff";
+ctx.font="bold 14px sans-serif";
+ctx.textAlign="center";
+ctx.fillText(d,cx+cellW/2,cy+20);
+
+if(income[k]&&income[k][d]){
+ctx.fillStyle=lightenColor(borderColor,20);
+ctx.font="11px sans-serif";
+var val=String(income[k][d]);
+if(val.length>6)val=val.substring(0,6);
+ctx.fillText(val,cx+cellW/2,cy+38);
+}
+if(notes[k]&&notes[k][d]){
+ctx.font="10px sans-serif";
+ctx.fillText("📝",cx+cellW-12,cy+8);
+}
+
+// 备注区域
+var noteY=gridStartY+Math.ceil((first+totalDays)/7)*cellH+12;
 ctx.textAlign="left";
-ctx.fillStyle="rgba(255,255,255,.8)";ctx.font="bold 13px sans-serif";
+ctx.fillStyle=rgbaFromColor(borderColor,0.5);
+ctx.font="bold 13px sans-serif";
 ctx.fillText("📝 日期备注",14,noteY);
+
 var niY=noteY+20;
-if(notes[k]){
-ctx.fillStyle="rgba(255,255,255,.4)";ctx.font="12px sans-serif";
+ctx.font="12px sans-serif";
 var n=0;
+if(notes[k]){
 for(var dk in notes[k]){
-if(n<5){ctx.fillText("📝 "+dk+"日："+notes[k][dk],14,niY+n*20);n++;}
+if(n<6){ctx.fillStyle=rgbaFromColor(borderColor,0.4);ctx.fillText("📝 "+dk+"日："+notes[k][dk],14,niY+n*20);n++;}
 }
 }else{
-ctx.fillStyle="rgba(255,255,255,.25)";ctx.font="12px sans-serif";
+ctx.fillStyle=rgbaFromColor(borderColor,0.2);
 ctx.fillText("暂无备注",14,niY);
 }
 
+// 底部品牌
+var brandY=niY+(n||1)*20+20;
+ctx.fillStyle=rgbaFromColor(borderColor,0.15);
+ctx.font="10px sans-serif";
+ctx.textAlign="center";
+ctx.fillText("P A N S H I · WEALTH",rect.width/2,brandY);
+
+// 右下角水印
+ctx.fillStyle=rgbaFromColor(borderColor,0.1);
+ctx.font="9px sans-serif";
+ctx.textAlign="right";
+var now2=new Date();
+ctx.fillText("生成于 "+now2.getFullYear()+"-"+(now2.getMonth()+1)+"-"+now2.getDate(),rect.width-14,brandY);
+
 // 导出
-canvas.toBlob(function(blob){
+c.toBlob(function(blob){
 var url=URL.createObjectURL(blob);
 var a=document.createElement("a");
 a.href=url;
 a.download="磐石收益账本_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
 document.body.appendChild(a);a.click();document.body.removeChild(a);
 setTimeout(function(){URL.revokeObjectURL(url);},1000);
-hide.forEach(function(e){e.style.display="";});
+hideEls.forEach(function(e){e.style.display="";});
 btn.innerHTML="📸 高清导出";
-},"image/png");
-},100);
+},"image/png",0.95);
+},150);
 });
 };
 
+/* ========= 工具函数 ========= */
 function roundRect(ctx,x,y,w,h,r){
 ctx.beginPath();
 ctx.moveTo(x+r,y);
@@ -500,6 +639,28 @@ ctx.quadraticCurveTo(x,y+h,x,y+h-r);
 ctx.lineTo(x,y+r);
 ctx.quadraticCurveTo(x,y,x+r,y);
 ctx.closePath();
+}
+
+function rgbaFromColor(hex,r){
+var result=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+if(result){
+return "rgba("+parseInt(result[1],16)+","+parseInt(result[2],16)+","+parseInt(result[3],16)+","+r+")";
+}
+// 处理rgb/rgba格式
+var m2=/rgba?\((\d+),\s*(\d+),\s*(\d+)/.exec(hex);
+if(m2)return "rgba("+m2[1]+","+m2[2]+","+m2[3]+","+r+")";
+return "rgba(200,200,200,"+r+")";
+}
+
+function lightenColor(hex,p){
+var result=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+if(result){
+var r=Math.min(255,parseInt(result[1],16)+p);
+var g=Math.min(255,parseInt(result[2],16)+p);
+var b=Math.min(255,parseInt(result[3],16)+p);
+return "rgb("+r+","+g+","+b+")";
+}
+return "#ffffff";
 }
 
 render();
