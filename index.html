@@ -364,28 +364,20 @@ function getStatSum(){var k=getKey(),s=0;for(var i in income[k]||{})s+=income[k]
 function getStatDays(){var k=getKey(),d=0;for(var i in income[k]||{})if(income[k][i])d++;return d;}
 function getStatAvg(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(income[k][i]){s+=income[k][i];d++;}}return d?Math.round(s/d).toLocaleString():0;}
 
-/* ========= 导出8套主题精美卡片 ========= */
+/* ========= 导出精美卡片图片 ========= */
 document.getElementById("export").onclick=function(){
 var btn=this;
-btn.innerHTML="生成中...";
+btn.innerHTML="⏳ 生成中...";
 btn.disabled=true;
 
-var hide=[];
-var t=document.querySelector(".theme");if(t)hide.push(t);
-var c=document.querySelector(".calculator");if(c)hide.push(c);
-var b=document.querySelector(".buttons");if(b)hide.push(b);
-hide.forEach(function(e){e.style.display="none";});
-
-requestAnimationFrame(function(){
+// 完全不操作DOM，直接用Canvas从零绘制精美卡片
 setTimeout(function(){
-var card=document.getElementById("capture");
-var rect=card.getBoundingClientRect();
 var dpr=3;
-var pad=50*dpr;
-var cw=Math.round(rect.width*dpr+pad*2);
-var ch=Math.round(rect.height*dpr+pad*2);
-var w=rect.width*dpr;
-var h=rect.height*dpr;
+var cardW=400*dpr;
+var cardH=580*dpr;
+var pad=40*dpr;
+var cw=cardW+pad*2;
+var ch=cardH+pad*2;
 
 var canvas=document.createElement("canvas");
 canvas.width=cw;canvas.height=ch;
@@ -397,204 +389,195 @@ var B1=tc.bg1,B2=tc.bg2,B3=tc.bg3;
 var C1=tc.cardBg1,C2=tc.cardBg2,C3=tc.cardBg3;
 var particles=tc.particles;
 
-// 深色渐变背景
+// 背景
 var bgG=ctx.createLinearGradient(0,0,0,ch);
 bgG.addColorStop(0,B1);bgG.addColorStop(0.5,B2);bgG.addColorStop(1,B3);
 ctx.fillStyle=bgG;ctx.fillRect(0,0,cw,ch);
 
-// 网格纹理
-ctx.strokeStyle="rgba(255,255,255,0.03)";ctx.lineWidth=1;
-for(var i=0;i<cw;i+=35){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,ch);ctx.stroke();}
-for(var j=0;j<ch;j+=35){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(cw,j);ctx.stroke();}
+// 网格
+ctx.strokeStyle="rgba(255,255,255,0.02)";ctx.lineWidth=1;
+for(var i=0;i<cw;i+=30){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,ch);ctx.stroke();}
+for(var j=0;j<ch;j+=30){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(cw,j);ctx.stroke();}
 
-// 径向光晕
-var glow=ctx.createRadialGradient(cw/2,ch*0.4,0,cw/2,ch*0.4,ch*0.75);
-glow.addColorStop(0,M.replace(")","")+",0.18)");glow.addColorStop(0.5,M.replace(")","")+",0.04)");glow.addColorStop(1,"transparent");
+// 光晕
+var glow=ctx.createRadialGradient(cw/2,ch*0.35,0,cw/2,ch*0.35,ch*0.7);
+glow.addColorStop(0,M.replace(")","")+",0.2)");glow.addColorStop(0.5,M.replace(")","")+",0.05)");glow.addColorStop(1,"transparent");
 ctx.fillStyle=glow;ctx.fillRect(0,0,cw,ch);
 
-// 装饰粒子
-ctx.fillStyle=M.replace(")","")+",0.12)";
-ctx.font=16*dpr+"px serif";
-for(var p=0;p<25;p++){var px=Math.random()*cw,py=Math.random()*ch;ctx.fillText(particles[p%particles.length],px,py);}
+// 粒子
+ctx.fillStyle=M.replace(")","")+",0.1)";
+ctx.font=18*dpr+"px serif";
+for(var p=0;p<30;p++){ctx.fillText(particles[p%particles.length],Math.random()*cw,Math.random()*ch);}
 
 // 卡片阴影
 ctx.save();
-ctx.shadowColor=M.replace(")","")+",0.6)";
-ctx.shadowBlur=55*dpr;ctx.shadowOffsetX=0;ctx.shadowOffsetY=18*dpr;
-roundRect(ctx,pad,pad,w,h,35*dpr);
+ctx.shadowColor=M.replace(")","")+",0.7)";
+ctx.shadowBlur=60*dpr;ctx.shadowOffsetX=0;ctx.shadowOffsetY=20*dpr;
+roundRect(ctx,pad,pad,cardW,cardH,35*dpr);
 ctx.fillStyle="#0a0a0a";ctx.fill();
 ctx.restore();
 
 // 卡片背景
-var cardG=ctx.createLinearGradient(pad,pad,pad,pad+h);
+var cardG=ctx.createLinearGradient(pad,pad,pad,pad+cardH);
 cardG.addColorStop(0,C1);cardG.addColorStop(0.3,C2);cardG.addColorStop(1,C3);
-roundRect(ctx,pad,pad,w,h,35*dpr);
+roundRect(ctx,pad,pad,cardW,cardH,35*dpr);
 ctx.fillStyle=cardG;ctx.fill();
 
-// 顶部高光
-var topG=ctx.createLinearGradient(0,pad,0,pad+h*0.2);
+// 高光
+var topG=ctx.createLinearGradient(0,pad,0,pad+cardH*0.2);
 topG.addColorStop(0,"rgba(255,255,255,0.06)");topG.addColorStop(1,"transparent");
-roundRect(ctx,pad,pad,w,h*0.2,35*dpr);
+roundRect(ctx,pad,pad,cardW,cardH*0.2,35*dpr);
 ctx.fillStyle=topG;ctx.fill();
 
-// 外边框渐变
+// 外边框
 ctx.save();
-roundRect(ctx,pad,pad,w,h,35*dpr);
-var borderG=ctx.createLinearGradient(pad,pad,pad+w,pad+h);
+roundRect(ctx,pad,pad,cardW,cardH,35*dpr);
+var borderG=ctx.createLinearGradient(pad,pad,pad+cardW,pad+cardH);
 borderG.addColorStop(0,M);borderG.addColorStop(0.3,L);borderG.addColorStop(0.7,M);borderG.addColorStop(1,D);
-ctx.strokeStyle=borderG;ctx.lineWidth=3*dpr;
+ctx.strokeStyle=borderG;ctx.lineWidth=3.5*dpr;
 ctx.stroke();
 ctx.restore();
 
 // 内边框
-roundRect(ctx,pad+5*dpr,pad+5*dpr,w-10*dpr,h-10*dpr,30*dpr);
+roundRect(ctx,pad+6*dpr,pad+6*dpr,cardW-12*dpr,cardH-12*dpr,29*dpr);
 ctx.strokeStyle=M.replace(")","")+",0.2)";ctx.lineWidth=1;ctx.stroke();
 
-// 顶部装饰线
-var dAlpha=M.replace(")","")+",0.4)";
-var dBright=M.replace(")","")+",0.85)";
-ctx.strokeStyle=dAlpha;ctx.lineWidth=1.5;
-ctx.beginPath();ctx.moveTo(pad+55*dpr,pad+75*dpr);ctx.lineTo(pad+w-55*dpr,pad+75*dpr);ctx.stroke();
-drawDiamond(ctx,pad+w/2,pad+75*dpr,12*dpr,dBright);
+// 装饰线
+ctx.strokeStyle=M.replace(")","")+",0.35)";ctx.lineWidth=1.5;
+ctx.beginPath();ctx.moveTo(pad+60*dpr,pad+85*dpr);ctx.lineTo(pad+cardW-60*dpr,pad+85*dpr);ctx.stroke();
+drawDiamond(ctx,pad+cardW/2,pad+85*dpr,14*dpr,M.replace(")","")+",0.9)");
 
-// 底部装饰线
-var btmY=pad+h-100*dpr;
-ctx.beginPath();ctx.moveTo(pad+55*dpr,btmY);ctx.lineTo(pad+w-55*dpr,btmY);ctx.stroke();
-drawDiamond(ctx,pad+w/2,btmY,12*dpr,dBright);
+var btmLineY=pad+cardH-110*dpr;
+ctx.beginPath();ctx.moveTo(pad+60*dpr,btmLineY);ctx.lineTo(pad+cardW-60*dpr,btmLineY);ctx.stroke();
+drawDiamond(ctx,pad+cardW/2,btmLineY,14*dpr,M.replace(")","")+",0.9)");
 
-// 四角装饰
-var corSize=22*dpr;
-var corAlpha=M.replace(")","")+",0.5)";
-var corFill=M.replace(")","")+",0.65)";
-var corX=[pad+10*dpr,pad+w-10*dpr-corSize];
-var corY=[pad+10*dpr,pad+h-10*dpr-corSize];
+// 四角
+var corS=24*dpr;
+var corA=M.replace(")","")+",0.5)";
+var corF=M.replace(")","")+",0.7)";
+var cxArr=[pad+12*dpr,pad+cardW-12*dpr-corS];
+var cyArr=[pad+12*dpr,pad+cardH-12*dpr-corS];
 for(var ci=0;ci<2;ci++){for(var cj=0;cj<2;cj++){
-var cx=corX[ci],cy=corY[cj];
-ctx.strokeStyle=corAlpha;ctx.lineWidth=2;
-ctx.beginPath();ctx.moveTo(cx,cy+corSize);ctx.lineTo(cx,cy);ctx.lineTo(cx+corSize,cy);ctx.stroke();
-ctx.beginPath();ctx.moveTo(cx+corSize,cy+corSize);ctx.arc(cx+corSize/2,cy+corSize/2,3.5*dpr,0,Math.PI*2);ctx.fillStyle=corFill;ctx.fill();
+var cx=cxArr[ci],cy=cyArr[cj];
+ctx.strokeStyle=corA;ctx.lineWidth=2;
+ctx.beginPath();ctx.moveTo(cx,cy+corS);ctx.lineTo(cx,cy);ctx.lineTo(cx+corS,cy);ctx.stroke();
+ctx.beginPath();ctx.arc(cx+corS/2,cy+corS/2,4*dpr,0,Math.PI*2);ctx.fillStyle=corF;ctx.fill();
 }}
 
-// 标题图标
-var titleY=pad+130*dpr;
-ctx.font=55*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(tc.icon,pad+w/2,titleY-40*dpr);
+// 图标
+var titleY=pad+145*dpr;
+ctx.font=60*dpr+"px serif";ctx.textAlign="center";
+ctx.fillText(tc.icon,pad+cardW/2,titleY-45*dpr);
 
 // 主标题
-ctx.font="bold "+44*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
-var titG=ctx.createLinearGradient(pad,titleY,pad+w,titleY);
+ctx.font="bold "+48*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
+var titG=ctx.createLinearGradient(pad,titleY,pad+cardW,titleY);
 titG.addColorStop(0,M);titG.addColorStop(0.3,L);titG.addColorStop(0.7,L);titG.addColorStop(1,M);
 ctx.fillStyle=titG;
-ctx.fillText("磐 石 收 益 账 本",pad+w/2,titleY);
+ctx.fillText("磐石收益账本",pad+cardW/2,titleY);
 
-// 主题名称
-ctx.font="bold "+14*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=M.replace(")","")+",0.65)";
-ctx.fillText(tc.name,pad+w/2,titleY+32*dpr);
+// 主题名
+ctx.font="bold "+15*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle=M.replace(")","")+",0.6)";
+ctx.fillText(tc.name,pad+cardW/2,titleY+35*dpr);
 
-// 日期副标题
+// 日期
 ctx.font=13*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=M.replace(")","")+",0.45)";
-ctx.fillText(tc.desc+" · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pad+w/2,titleY+54*dpr);
+ctx.fillStyle=M.replace(")","")+",0.4)";
+ctx.fillText(tc.desc+" · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pad+cardW/2,titleY+58*dpr);
 
 // 统计卡片
-var statY=titleY+100*dpr;
-var statW=(w-110*dpr)/3;
-var statH=115*dpr;
+var statY=titleY+105*dpr;
+var statW=(cardW-130*dpr)/3;
+var statH=125*dpr;
 var stats=[
 {label:"累计收益",value:"¥"+getStatSum(),icon:"💰"},
 {label:"收益天数",value:getStatDays()+"天",icon:"📅"},
 {label:"日均收益",value:"¥"+getStatAvg(),icon:"📊"}
 ];
-
 stats.forEach(function(st,i){
-var sx=pad+40*dpr+i*(statW+15*dpr);var sy=statY;
-roundRect(ctx,sx,sy,statW,statH,20*dpr);
+var sx=pad+50*dpr+i*(statW+15*dpr);var sy=statY;
+roundRect(ctx,sx,sy,statW,statH,22*dpr);
 var sbg=ctx.createLinearGradient(sx,sy,sx,sy+statH);
-sbg.addColorStop(0,M.replace(")","")+",0.1)");sbg.addColorStop(1,M.replace(")","")+",0.03)");
+sbg.addColorStop(0,M.replace(")","")+",0.12)");sbg.addColorStop(1,M.replace(")","")+",0.03)");
 ctx.fillStyle=sbg;ctx.fill();
-roundRect(ctx,sx,sy,statW,statH,20*dpr);
+roundRect(ctx,sx,sy,statW,statH,22*dpr);
 ctx.strokeStyle=M.replace(")","")+",0.25)";ctx.lineWidth=1;ctx.stroke();
-ctx.font=28*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(st.icon,sx+statW/2,sy+38*dpr);
+ctx.font=30*dpr+"px serif";ctx.textAlign="center";
+ctx.fillText(st.icon,sx+statW/2,sy+40*dpr);
 ctx.font=12*dpr+"px 'PingFang SC',sans-serif";
 ctx.fillStyle=M.replace(")","")+",0.45)";
-ctx.fillText(st.label,sx+statW/2,sy+68*dpr);
-ctx.font="bold "+24*dpr+"px 'PingFang SC',sans-serif";
-var vg=ctx.createLinearGradient(sx,sy+85*dpr,sx+statW,sy+85*dpr);
+ctx.fillText(st.label,sx+statW/2,sy+72*dpr);
+ctx.font="bold "+26*dpr+"px 'PingFang SC',sans-serif";
+var vg=ctx.createLinearGradient(sx,sy+90*dpr,sx+statW,sy+90*dpr);
 vg.addColorStop(0,L);vg.addColorStop(1,M);
 ctx.fillStyle=vg;
-ctx.fillText(st.value,sx+statW/2,sy+105*dpr);
+ctx.fillText(st.value,sx+statW/2,sy+112*dpr);
 });
 
 // 月份
-var monthY=statY+statH+65*dpr;
-ctx.fillStyle=L;ctx.font="bold "+26*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillText("📆 "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pad+w/2,monthY);
+var monthY=statY+statH+70*dpr;
+ctx.fillStyle=L;ctx.font="bold "+28*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillText("📆 "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pad+cardW/2,monthY);
 
 // 日历
-var gridY=monthY+55*dpr;
-var cellW=(w-90*dpr)/7;var cellH=54*dpr;
+var gridY=monthY+60*dpr;
+var cellW=(cardW-110*dpr)/7;var cellH=56*dpr;
 var k=getKey();
 var first=(new Date(now.getFullYear(),now.getMonth(),1).getDay()+6)%7;
 var totalDays=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
 var weekDays=["一","二","三","四","五","六","日"];
 ctx.font="bold "+12*dpr+"px 'PingFang SC',sans-serif";
 ctx.fillStyle=L.replace(")","")+",0.7)";
-weekDays.forEach(function(wd,i){ctx.fillText(wd,pad+35*dpr+i*cellW+cellW/2,gridY-12*dpr);});
+weekDays.forEach(function(wd,i){ctx.fillText(wd,pad+45*dpr+i*cellW+cellW/2,gridY-14*dpr);});
 
 for(var d=1;d<=totalDays;d++){
 var idx=first+d-1;var col=idx%7,row=Math.floor(idx/7);
-var x=pad+35*dpr+col*cellW,y=gridY+row*cellH;
+var x=pad+45*dpr+col*cellW,y=gridY+row*cellH;
 var cx=x+cellW/2,cy=y+cellH/2;
 if(income[k]&&income[k][d]){
-roundRect(ctx,x+2,y+2,cellW-4,cellH-4,10*dpr);
-ctx.fillStyle=M.replace(")","")+",0.15)";ctx.fill();
-roundRect(ctx,x+2,y+2,cellW-4,cellH-4,10*dpr);
-ctx.strokeStyle=M.replace(")","")+",0.6)";ctx.lineWidth=1;ctx.stroke();
+roundRect(ctx,x+3,y+3,cellW-6,cellH-6,10*dpr);
+ctx.fillStyle=M.replace(")","")+",0.18)";ctx.fill();
+roundRect(ctx,x+3,y+3,cellW-6,cellH-6,10*dpr);
+ctx.strokeStyle=M.replace(")","")+",0.65)";ctx.lineWidth=1;ctx.stroke();
 }
 ctx.font="bold "+12*dpr+"px 'PingFang SC',sans-serif";
-var active=income[k]&&income[k][d];
-ctx.fillStyle=active?L:tc.textLight;ctx.textAlign="center";
-ctx.fillText(d,cx,cy-5*dpr);
-if(active){ctx.font="bold "+9*dpr+"px 'PingFang SC',sans-serif";ctx.fillStyle=L;var v=String(income[k][d]);if(v.length>5)v=v.substring(0,5)+"..";ctx.fillText(v,cx,cy+14*dpr);}
+ctx.fillStyle=income[k]&&income[k][d]?L:tc.textLight;ctx.textAlign="center";
+ctx.fillText(d,cx,cy-6*dpr);
+if(income[k]&&income[k][d]){ctx.font="bold "+9*dpr+"px 'PingFang SC',sans-serif";ctx.fillStyle=L;var v=String(income[k][d]);if(v.length>5)v=v.substring(0,5)+"..";ctx.fillText(v,cx,cy+15*dpr);}
 }
 
 // 备注
-var noteY=gridY+Math.ceil((first+totalDays)/7)*cellH+50*dpr;
-ctx.font="bold "+16*dpr+"px 'PingFang SC',sans-serif";
+var noteY=gridY+Math.ceil((first+totalDays)/7)*cellH+55*dpr;
+ctx.font="bold "+17*dpr+"px 'PingFang SC',sans-serif";
 ctx.fillStyle=L;ctx.textAlign="left";
-ctx.fillText("📝 本月备注",pad+35*dpr,noteY);
-var niY=noteY+30*dpr;
+ctx.fillText("📝 本月备注",pad+45*dpr,noteY);
+var niY=noteY+32*dpr;
 if(notes[k]&&Object.keys(notes[k]).length>0){
 ctx.font=12*dpr+"px 'PingFang SC',sans-serif";ctx.fillStyle="rgba(255,255,255,0.5)";
 var n=0;
-for(var dk in notes[k]){if(n>=5)break;ctx.fillText("• "+dk+"日  "+notes[k][dk],pad+35*dpr,niY+n*25*dpr);n++;}
-if(Object.keys(notes[k]).length>5){ctx.fillText("... 还有"+(Object.keys(notes[k]).length-5)+"条备注",pad+35*dpr,niY+5*25*dpr);}
-}else{ctx.font=12*dpr+"px 'PingFang SC',sans-serif";ctx.fillStyle="rgba(255,255,255,0.2)";ctx.fillText("暂无备注记录",pad+35*dpr,niY+10*dpr);}
+for(var dk in notes[k]){if(n>=4)break;ctx.fillText("• "+dk+"日  "+notes[k][dk],pad+45*dpr,niY+n*26*dpr);n++;}
+if(Object.keys(notes[k]).length>4){ctx.fillText("... 还有"+(Object.keys(notes[k]).length-4)+"条备注",pad+45*dpr,niY+4*26*dpr);}
+}else{ctx.font=12*dpr+"px 'PingFang SC',sans-serif";ctx.fillStyle="rgba(255,255,255,0.2)";ctx.fillText("暂无备注记录",pad+45*dpr,niY+10*dpr);}
 
 // 水印
-var footerY=pad+h-50*dpr;
-ctx.font=12*dpr+"px 'PingFang SC',sans-serif";
+var footerY=pad+cardH-55*dpr;
+ctx.font=13*dpr+"px 'PingFang SC',sans-serif";
 ctx.fillStyle="rgba(255,255,255,0.1)";ctx.textAlign="center";
-ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear()+"  |  "+tc.name,pad+w/2,footerY);
+ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear()+"  |  "+tc.name,pad+cardW/2,footerY);
 
-// 导出为PNG并触发下载
+// 转图片并下载
 var dataUrl=canvas.toDataURL("image/png");
-hide.forEach(function(e){e.style.display="";});
+var a=document.createElement("a");
+a.href=dataUrl;
+a.download="磐石收益账本_"+tc.name.replace(/[· ]/g,"_")+"_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+
 btn.innerHTML="📸 高清导出";
 btn.disabled=false;
-
-// 直接触发下载
-var link=document.createElement("a");
-link.download="磐石收益账本_"+tc.name.replace(/[· ]/g,"_")+"_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
-link.href=dataUrl;
-link.style.display="none";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-},100);
-});
+},200);
 };
 
 function roundRect(ctx,x,y,w,h,r){
