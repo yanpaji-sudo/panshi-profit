@@ -206,10 +206,10 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 .panel textarea{width:100%;height:130px;border-radius:15px;padding:10px;font-size:14px;resize:none;outline:none;background:#000;}
 .panel button{width:100%;height:45px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
 
-.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:10px;}
-.preview-overlay img{max-width:96%;max-height:85vh;border-radius:18px;box-shadow:0 15px 50px rgba(0,0,0,0.6);}
-.preview-tip{color:#fff;font-size:15px;font-weight:bold;margin:8px 0;text-align:center;}
-.preview-close{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:8px 28px;border-radius:20px;font-size:13px;cursor:pointer;margin-top:6px;}
+.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:8px;}
+.preview-overlay img{max-width:100%;max-height:92vh;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.6);object-fit:contain;}
+.preview-tip{color:#fff;font-size:14px;font-weight:bold;margin:6px 0;text-align:center;}
+.preview-close{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);padding:7px 24px;border-radius:18px;font-size:12px;cursor:pointer;margin-top:4px;}
 </style>
 </head>
 
@@ -269,8 +269,8 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 </div>
 
 <div class="preview-overlay" id="previewOverlay">
-<div class="preview-tip">⬇️ 长按图片保存到相册 ⬇️</div>
 <img id="previewImage" src="" alt="磐石收益账本">
+<div class="preview-tip">⬇️ 长按图片保存到相册</div>
 <button class="preview-close" onclick="document.getElementById('previewOverlay').style.display='none'">关 闭</button>
 </div>
 
@@ -284,14 +284,14 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 
 <script>
 var posterThemes={
-gold:{main:"#c9a84c",mainR:"201,168,76",light:"#ffeeb0",lightR:"255,238,176",dark:"#8b6914",darkR:"139,105,20",bg:"#0a0800",bgR:"10,8,0",accent:"#f0d060",accentR:"240,208,96",icon:"👑",name:"鎏金GOLD",slogan:"财富如金·历久弥新",particles:["✦","✧","◆","⬥","◇"]},
-jade:{main:"#23c997",mainR:"35,201,151",light:"#d0fff2",lightR:"208,255,242",dark:"#0d7a55",darkR:"13,122,85",bg:"#010a06",bgR:"1,10,6",accent:"#5eeac0",accentR:"94,234,192",icon:"💚",name:"翡翠JADE",slogan:"生机盎然·财源广进",particles:["❦","❧","✿","❀","🍀"]},
-blue:{main:"#4da3ff",mainR:"77,163,255",light:"#d8ecff",lightR:"216,236,255",dark:"#1a5fbf",darkR:"26,95,191",bg:"#020a18",bgR:"2,10,24",accent:"#80c0ff",accentR:"128,192,255",icon:"💙",name:"星耀BLUE",slogan:"星辰大海·财富无限",particles:["✧","✶","✹","✦","✷"]},
-purple:{main:"#b46cff",mainR:"180,108,255",light:"#efd7ff",lightR:"239,215,255",dark:"#6b30bf",darkR:"107,48,191",bg:"#0a0218",bgR:"10,2,24",accent:"#d0a0ff",accentR:"208,160,255",icon:"💜",name:"紫晶PURPLE",slogan:"神秘高贵·财富密码",particles:["☪","✡","🔮","✶","💎"]},
-black:{main:"#eee",mainR:"238,238,238",light:"#fff",lightR:"255,255,255",dark:"#999",darkR:"153,153,153",bg:"#000",bgR:"0,0,0",accent:"#ccc",accentR:"204,204,204",icon:"🖤",name:"黑钻BLACK",slogan:"极致简约·非凡财富",particles:["◈","◇","⬖","⬗","○"]},
-rose:{main:"#ff8fa3",mainR:"255,143,163",light:"#ffe0e7",lightR:"255,224,231",dark:"#bf4a5e",darkR:"191,74,94",bg:"#0d0204",bgR:"13,2,4",accent:"#ffb0c0",accentR:"255,176,192",icon:"💗",name:"玫瑰ROSE",slogan:"浪漫温馨·财富之美",particles:["♡","♥","❦","✿","🌹"]},
-ocean:{main:"#20d5ff",mainR:"32,213,255",light:"#d9f8ff",lightR:"217,248,255",dark:"#0a8abf",darkR:"10,138,191",bg:"#010a14",bgR:"1,10,20",accent:"#60e0ff",accentR:"96,224,255",icon:"💎",name:"深海OCEAN",slogan:"波澜壮阔·财富之海",particles:["~","≈","≋","∿","🌊"]},
-silver:{main:"#ddd",mainR:"221,221,221",light:"#fff",lightR:"255,255,255",dark:"#999",darkR:"153,153,153",bg:"#0a0a0a",bgR:"10,10,10",accent:"#eee",accentR:"238,238,238",icon:"🤍",name:"银灰SILVER",slogan:"低调奢华·财富永恒",particles:["◈","◇","○","◎","●"]}
+gold:{main:"#c9a84c",mainR:"201,168,76",light:"#ffeeb0",lightR:"255,238,176",bg:"#0a0800",bgR:"10,8,0",icon:"👑",name:"鎏金GOLD",slogan:"财富如金·历久弥新",particles:["✦","✧","◆","⬥"]},
+jade:{main:"#23c997",mainR:"35,201,151",light:"#d0fff2",lightR:"208,255,242",bg:"#010a06",bgR:"1,10,6",icon:"💚",name:"翡翠JADE",slogan:"生机盎然·财源广进",particles:["❦","❧","✿","❀"]},
+blue:{main:"#4da3ff",mainR:"77,163,255",light:"#d8ecff",lightR:"216,236,255",bg:"#020a18",bgR:"2,10,24",icon:"💙",name:"星耀BLUE",slogan:"星辰大海·财富无限",particles:["✧","✶","✹","✦"]},
+purple:{main:"#b46cff",mainR:"180,108,255",light:"#efd7ff",lightR:"239,215,255",bg:"#0a0218",bgR:"10,2,24",icon:"💜",name:"紫晶PURPLE",slogan:"神秘高贵·财富密码",particles:["☪","✡","🔮","✶"]},
+black:{main:"#eee",mainR:"238,238,238",light:"#fff",lightR:"255,255,255",bg:"#000",bgR:"0,0,0",icon:"🖤",name:"黑钻BLACK",slogan:"极致简约·非凡财富",particles:["◈","◇","⬖","⬗"]},
+rose:{main:"#ff8fa3",mainR:"255,143,163",light:"#ffe0e7",lightR:"255,224,231",bg:"#0d0204",bgR:"13,2,4",icon:"💗",name:"玫瑰ROSE",slogan:"浪漫温馨·财富之美",particles:["♡","♥","❦","✿"]},
+ocean:{main:"#20d5ff",mainR:"32,213,255",light:"#d9f8ff",lightR:"217,248,255",bg:"#010a14",bgR:"1,10,20",icon:"💎",name:"深海OCEAN",slogan:"波澜壮阔·财富之海",particles:["~","≈","≋","∿"]},
+silver:{main:"#ddd",mainR:"221,221,221",light:"#fff",lightR:"255,255,255",bg:"#0a0a0a",bgR:"10,10,10",icon:"🤍",name:"银灰SILVER",slogan:"低调奢华·财富永恒",particles:["◈","◇","○","◎"]}
 };
 
 function rgba(rgbStr,alpha){return"rgba("+rgbStr+","+alpha+")";}
@@ -345,7 +345,7 @@ function getStatAvg(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(inco
 
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
-/* ============ 手机适配海报导出 ============ */
+/* ============ 导出 - 紧凑手机海报 ============ */
 document.getElementById("export").onclick=function(){
 var btn=this;
 btn.innerHTML="⏳ 生成中...";
@@ -364,102 +364,74 @@ themeEl.style.display=origD[0];calcEl.style.display=origD[1];btnEl.style.display
 
 var t=document.body.className;
 var pt=posterThemes[t]||posterThemes.gold;
-var M=pt.main,MR=pt.mainR,LR=pt.lightR;
+var M=pt.main,MR=pt.mainR;
 
 var dpr=2;
 var pW=750*dpr;
-var pMargin=30*dpr;
+var margin=20*dpr;
 
-// 卡片尺寸
-var cardW=pW-pMargin*2;
+// 标题区
+var titleY=30*dpr;
+var titleH=120*dpr;
+
+// 卡片尺寸 - 占满宽度
+var cardW=pW-margin*2;
 var cardH=canvas.height*(cardW/canvas.width);
-var cardX=pMargin;
-var cardY=260*dpr;
+var cardX=margin;
+var cardY=titleY+titleH+15*dpr;
 
-// 总高度=卡片底部+底部水印
-var pH=cardY+cardH+110*dpr;
+// 总高度紧凑计算
+var pH=cardY+cardH+55*dpr;
 
 var pCanvas=document.createElement("canvas");
 pCanvas.width=pW;
 pCanvas.height=pH;
 var ctx=pCanvas.getContext("2d");
 
-// 1.背景
+// 1.纯黑背景（无白条）
 var bgG=ctx.createLinearGradient(0,0,pW,pH);
-bgG.addColorStop(0,pt.bg);bgG.addColorStop(0.5,"#000");bgG.addColorStop(1,pt.bg);
+bgG.addColorStop(0,pt.bg);bgG.addColorStop(1,"#000");
 ctx.fillStyle=bgG;ctx.fillRect(0,0,pW,pH);
 
-// 2.网格
-ctx.strokeStyle="rgba(255,255,255,0.012)";ctx.lineWidth=1;
-for(var i=0;i<pW;i+=40*dpr){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,pH);ctx.stroke();}
-for(var j=0;j<pH;j+=40*dpr){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(pW,j);ctx.stroke();}
-
-// 3.光晕
-var g1=ctx.createRadialGradient(pW*0.5,pH*0.2,0,pW*0.5,pH*0.2,pW*0.6);
-g1.addColorStop(0,rgba(MR,0.12));g1.addColorStop(1,"transparent");
+// 2.光晕
+var g1=ctx.createRadialGradient(pW*0.5,titleY+40*dpr,0,pW*0.5,titleY+40*dpr,pW*0.5);
+g1.addColorStop(0,rgba(MR,0.1));g1.addColorStop(1,"transparent");
 ctx.fillStyle=g1;ctx.fillRect(0,0,pW,pH);
 
-// 4.粒子
-ctx.fillStyle=rgba(MR,0.05);
-for(var p=0;p<35;p++){ctx.font=(6+Math.random()*14)*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*pW,Math.random()*pH);}
+// 3.粒子
+ctx.fillStyle=rgba(MR,0.04);
+for(var p=0;p<25;p++){ctx.font=(5+Math.random()*12)*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*pW,Math.random()*pH);}
 
-// 5.顶部渐变带
-var bandH=50*dpr;
-var bandG=ctx.createLinearGradient(0,0,0,bandH);
-bandG.addColorStop(0,rgba(MR,0.2));bandG.addColorStop(1,"transparent");
-ctx.fillStyle=bandG;ctx.fillRect(0,0,pW,bandH);
-ctx.strokeStyle=rgba(MR,0.3);ctx.lineWidth=1*dpr;
-ctx.beginPath();ctx.moveTo(40*dpr,bandH-6*dpr);ctx.lineTo(pW-40*dpr,bandH-6*dpr);ctx.stroke();
-
-// 6.标题
-var ty=bandH+35*dpr;
-ctx.font=50*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(pt.icon,pW/2,ty);
-ctx.font="bold "+42*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
-var tg=ctx.createLinearGradient(0,ty+8*dpr,pW,ty+8*dpr);
+// 4.标题
+ctx.font=45*dpr+"px serif";ctx.textAlign="center";
+ctx.fillText(pt.icon,pW/2,titleY+30*dpr);
+ctx.font="bold "+38*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
+var tg=ctx.createLinearGradient(0,titleY+35*dpr,pW,titleY+35*dpr);
 tg.addColorStop(0,M);tg.addColorStop(0.3,pt.light);tg.addColorStop(0.7,pt.light);tg.addColorStop(1,M);
 ctx.fillStyle=tg;
-ctx.fillText("磐 石 收 益 账 本",pW/2,ty+48*dpr);
-ctx.font="bold "+15*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(MR,0.55);
-ctx.fillText(pt.name,pW/2,ty+72*dpr);
-ctx.font="italic "+12*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(MR,0.3);
-ctx.fillText(pt.slogan,pW/2,ty+92*dpr);
+ctx.fillText("磐 石 收 益 账 本",pW/2,titleY+72*dpr);
+ctx.font="bold "+13*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle=rgba(MR,0.5);
+ctx.fillText(pt.name+" · "+pt.slogan,pW/2,titleY+98*dpr);
 
-// 7.分隔线
-var sy=ty+120*dpr;
-ctx.strokeStyle=rgba(MR,0.2);ctx.lineWidth=1*dpr;
-ctx.beginPath();ctx.moveTo(pW*0.3,sy);ctx.lineTo(pW*0.7,sy);ctx.stroke();
-ctx.fillStyle=rgba(MR,0.6);
-ctx.beginPath();var ds=8*dpr;
-ctx.moveTo(pW/2,sy-ds);ctx.lineTo(pW/2+ds*0.6,sy);ctx.lineTo(pW/2,sy+ds);ctx.lineTo(pW/2-ds*0.6,sy);
-ctx.closePath();ctx.fill();
-
-// 8.卡片
-cardY=sy+30*dpr;
-cardW=pW-pMargin*2;
-cardH=canvas.height*(cardW/canvas.width);
-cardX=pMargin;
-
+// 5.卡片
 ctx.save();
-ctx.shadowColor=rgba(MR,0.45);ctx.shadowBlur=50*dpr;ctx.shadowOffsetY=20*dpr;
-roundRect(ctx,cardX,cardY,cardW,cardH,18*dpr);
+ctx.shadowColor=rgba(MR,0.4);ctx.shadowBlur=45*dpr;ctx.shadowOffsetY=18*dpr;
+roundRect(ctx,cardX,cardY,cardW,cardH,16*dpr);
 ctx.fillStyle="#0a0a0a";ctx.fill();
 ctx.restore();
 ctx.drawImage(canvas,cardX,cardY,cardW,cardH);
-roundRect(ctx,cardX,cardY,cardW,cardH,18*dpr);
-ctx.strokeStyle=M;ctx.lineWidth=2*dpr;ctx.stroke();
+roundRect(ctx,cardX,cardY,cardW,cardH,16*dpr);
+ctx.strokeStyle=M;ctx.lineWidth=1.5*dpr;ctx.stroke();
 
-// 9.底部水印
-var fy=cardY+cardH+55*dpr;
-ctx.font=10*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle="rgba(255,255,255,0.1)";ctx.textAlign="center";
-ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),pW/2,fy);
-ctx.fillText("磐石收益账本 · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月收益报告",pW/2,fy+18*dpr);
+// 6.底部水印
+var fy=cardY+cardH+30*dpr;
+ctx.font=9*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.08)";ctx.textAlign="center";
+ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear()+"  |  "+now.getFullYear()+"年"+(now.getMonth()+1)+"月收益报告",pW/2,fy);
 
-// 10.导出
-var dataUrl=pCanvas.toDataURL("image/png",0.85);
+// 7.导出
+var dataUrl=pCanvas.toDataURL("image/png",0.8);
 var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 if(isMobile){
 document.getElementById("previewImage").src=dataUrl;
