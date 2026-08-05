@@ -2,314 +2,2068 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <title>磐石收益账本</title>
+
 <style>
-  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-  body{background:#080808;font-family:"PingFang SC","Microsoft YaHei",sans-serif;display:flex;justify-content:center;padding:16px;min-height:100vh;align-items:flex-start}
-  .wrap{width:100%;max-width:440px}
-  .card{background:linear-gradient(175deg,#1a1a1a 0%,#0d0d0d 50%,#050505 100%);border:1.5px solid #c9a84c;border-radius:24px;padding:20px 16px;color:#f5e6c8;box-shadow:0 0 60px rgba(201,168,76,.2),0 0 120px rgba(0,0,0,.5),inset 0 0 30px rgba(201,168,76,.05);position:relative;overflow:hidden}
-  .card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 20%,rgba(201,168,76,.08) 0%,transparent 60%);pointer-events:none}
-  .card::after{content:'';position:absolute;bottom:-30%;right:-20%;width:80%;height:80%;background:radial-gradient(ellipse at center,rgba(201,168,76,.04) 0%,transparent 70%);pointer-events:none}
-  .border-inner{position:absolute;inset:3px;border:0.5px solid rgba(201,168,76,.15);border-radius:21px;pointer-events:none}
-  .corner{position:absolute;width:18px;height:18px;border-color:#c9a84c;border-style:solid;z-index:1}
-  .corner.tl{top:10px;left:10px;border-width:2px 0 0 2px}
-  .corner.tr{top:10px;right:10px;border-width:2px 2px 0 0}
-  .corner.bl{bottom:10px;left:10px;border-width:0 0 2px 2px}
-  .corner.br{bottom:10px;right:10px;border-width:0 2px 2px 0}
-  .title{text-align:center;font-size:24px;font-weight:900;letter-spacing:4px;margin-bottom:6px;cursor:default;user-select:none;position:relative;z-index:1;
-    background:linear-gradient(180deg,#fff8e1 0%,#f9e7a0 30%,#c9a84c 60%,#a08830 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
-    filter:drop-shadow(0 0 2px rgba(201,168,76,.3));text-shadow:0 2px 4px rgba(0,0,0,.5)}
-  .title::after{content:'';position:absolute;bottom:-4px;left:25%;width:50%;height:2px;background:linear-gradient(90deg,transparent,#c9a84c,#f9e7a0,#c9a84c,transparent);border-radius:1px}
-  .sub{text-align:center;font-size:11px;color:#8a7a4a;margin-bottom:14px;letter-spacing:2px;position:relative;z-index:1}
-  .stat{display:flex;gap:8px;margin-bottom:14px;position:relative;z-index:1}
-  .stat-box{flex:1;background:linear-gradient(180deg,rgba(201,168,76,.1) 0%,rgba(201,168,76,.03) 100%);border:1px solid rgba(201,168,76,.25);border-radius:12px;padding:10px 4px;text-align:center;position:relative;overflow:hidden}
-  .stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
-  .stat-box .label{font-size:10px;color:#9a8a5a;margin-bottom:4px;font-weight:500}
-  .stat-box .val{font-size:16px;font-weight:800;color:#f9e7a0;font-family:"Courier New",monospace;letter-spacing:0.5px}
-  .bar{display:flex;justify-content:space-between;align-items:center;margin:0 2px 10px;position:relative;z-index:1}
-  .bar button{background:transparent;border:1px solid rgba(201,168,76,.35);color:#c9a84c;border-radius:8px;padding:4px 14px;font-size:14px;cursor:pointer;transition:all .2s;line-height:1.6}
-  .bar button:active{transform:scale(0.95);background:rgba(201,168,76,.1)}
-  .bar .ym{font-size:15px;font-weight:700;color:#f9e7a0;letter-spacing:2px;text-shadow:0 0 10px rgba(201,168,76,.3)}
-  .week{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:11px;color:#7a6a3a;margin-bottom:5px;font-weight:600;position:relative;z-index:1}
-  .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;position:relative;z-index:1}
-  .cell{background:rgba(255,255,255,.02);border:1px solid rgba(201,168,76,.12);border-radius:8px;padding:3px 1px 4px;text-align:center;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .2s}
-  .cell.empty{background:transparent;border:0;min-height:0;height:0;padding:0}
-  .dnum{font-size:11px;font-weight:700;color:#a09060;line-height:1.3}
-  .cell.today{border-color:#f9e7a0;box-shadow:0 0 8px rgba(249,231,160,.3);background:rgba(249,231,160,.05)}
-  .cell.today .dnum{color:#f9e7a0;text-shadow:0 0 6px rgba(249,231,160,.5)}
-  .cell.has{background:linear-gradient(180deg,rgba(201,168,76,.2) 0%,rgba(201,168,76,.08) 100%);border-color:#c9a84c;box-shadow:inset 0 0 10px rgba(201,168,76,.1)}
-  .cell.has .dnum{color:#f9e7a0}
-  .amt{width:90%;border:0;background:rgba(0,0,0,.5);color:#f9e7a0;font-size:11px;font-weight:600;border-radius:4px;margin-top:2px;padding:2px 0;text-align:center;outline:none;font-family:"Courier New",monospace;letter-spacing:0.5px}
-  .amt::placeholder{color:rgba(201,168,76,.3);font-weight:400}
-  .tool{display:flex;gap:10px;margin-top:16px;position:relative;z-index:1}
-  .tool button{flex:1;border:0;border-radius:12px;padding:14px;font-weight:800;font-size:14px;cursor:pointer;letter-spacing:1px;transition:all .2s}
-  .export{background:linear-gradient(135deg,#c9a84c 0%,#f9e7a0 50%,#c9a84c 100%);background-size:200% 100%;color:#1a1a1a;animation:shimmer 3s infinite linear;position:relative;overflow:hidden}
-  .export::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shine 3s infinite}
-  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-  @keyframes shine{0%{left:-100%}20%{left:100%}100%{left:100%}}
-  .export:active{transform:scale(0.97)}
-  .clear{background:transparent;color:#c9a84c;border:1.5px solid rgba(201,168,76,.35);backdrop-filter:blur(5px)}
-  .clear:active{transform:scale(0.97);background:rgba(201,168,76,.1)}
-  .hint{font-size:10px;color:#5a4a1a;text-align:center;margin-top:10px;letter-spacing:1px;position:relative;z-index:1}
-  .brand{text-align:center;font-size:9px;color:rgba(201,168,76,.3);letter-spacing:6px;margin-top:8px;font-weight:300;position:relative;z-index:1}
-  #cv{display:none}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    min-height:100vh;
+    background:#050505;
+    display:flex;
+    justify-content:center;
+    padding:20px;
+    font-family:
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+}
+
+
+/* =========================
+   三套主题变量
+========================= */
+
+
+/* 黑金尊享 */
+body.gold{
+
+--bg:#070707;
+--card:#101010;
+--main:#d6b45c;
+--light:#fff0ad;
+--text:#f8e9b0;
+--sub:#95804c;
+
+}
+
+
+/* 东方玉石 */
+body.jade{
+
+--bg:#03130f;
+--card:#071d17;
+--main:#21c89b;
+--light:#b7ffe8;
+--text:#d8fff4;
+--sub:#579c86;
+
+}
+
+
+/* 星耀科技 */
+
+body.star{
+
+--bg:#050b18;
+--card:#0b162c;
+--main:#5da9ff;
+--light:#d7eaff;
+--text:#e5f2ff;
+--sub:#6685a8;
+
+}
+
+
+
+/* 默认 */
+
+body{
+background:var(--bg);
+}
+
+
+/* =====================
+主体
+===================== */
+
+
+.wrap{
+
+width:100%;
+max-width:520px;
+
+}
+
+
+.card{
+
+position:relative;
+
+background:
+linear-gradient(
+160deg,
+rgba(255,255,255,.08),
+transparent 30%
+),
+var(--card);
+
+
+border-radius:32px;
+
+padding:28px 22px 24px;
+
+color:var(--text);
+
+overflow:hidden;
+
+border:
+
+1.5px solid
+color-mix(
+in srgb,
+var(--main),
+transparent 35%
+);
+
+
+box-shadow:
+
+0 20px 80px
+rgba(0,0,0,.7),
+
+inset 0 0 50px
+rgba(255,255,255,.03);
+
+
+}
+
+
+
+/* 光效 */
+
+.card::before{
+
+content:"";
+
+position:absolute;
+
+width:400px;
+height:400px;
+
+top:-200px;
+left:-120px;
+
+
+background:
+
+radial-gradient(
+
+circle,
+
+color-mix(
+in srgb,
+var(--main),
+transparent 80%
+),
+
+transparent 70%
+
+);
+
+
+}
+
+
+
+.inner{
+
+position:absolute;
+
+inset:5px;
+
+border-radius:28px;
+
+border:
+
+1px solid
+color-mix(
+in srgb,
+var(--main),
+transparent 70%
+);
+
+}
+
+
+
+/* 四角 */
+
+
+.corner{
+
+position:absolute;
+
+width:25px;
+
+height:25px;
+
+border-color:var(--main);
+
+}
+
+
+
+.tl{
+
+top:15px;
+left:15px;
+
+border-left:3px solid;
+border-top:3px solid;
+
+}
+
+
+.tr{
+
+top:15px;
+right:15px;
+
+border-right:3px solid;
+border-top:3px solid;
+
+}
+
+
+.bl{
+
+bottom:15px;
+left:15px;
+
+border-left:3px solid;
+border-bottom:3px solid;
+
+}
+
+
+.br{
+
+bottom:15px;
+right:15px;
+
+border-right:3px solid;
+border-bottom:3px solid;
+
+}
+
+
+
+
+/* 标题 */
+
+
+.title{
+
+text-align:center;
+
+font-size:32px;
+
+font-weight:900;
+
+letter-spacing:6px;
+
+margin-top:12px;
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+#fff,
+
+var(--main)
+
+);
+
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+
+text-shadow:
+
+0 5px 20px
+rgba(0,0,0,.5);
+
+
+}
+
+
+.sub{
+
+text-align:center;
+
+font-size:13px;
+
+margin-top:8px;
+
+color:var(--sub);
+
+letter-spacing:3px;
+
+
+}
+
+
+
+/* 主题按钮 */
+
+
+.themes{
+
+display:flex;
+
+gap:10px;
+
+margin:20px 0;
+
+
+}
+
+
+.themes button{
+
+
+flex:1;
+
+height:36px;
+
+border-radius:20px;
+
+background:
+
+rgba(255,255,255,.05);
+
+
+border:
+
+1px solid
+color-mix(
+in srgb,
+var(--main),
+transparent 50%
+);
+
+
+color:var(--text);
+
+}
+
+
+
+/* 数据区域 */
+
+
+.stats{
+
+
+display:grid;
+
+grid-template-columns:
+
+repeat(3,1fr);
+
+gap:12px;
+
+margin-top:20px;
+
+
+}
+
+
+
+.stat{
+
+
+background:
+
+rgba(255,255,255,.05);
+
+
+border-radius:18px;
+
+padding:18px 5px;
+
+text-align:center;
+
+border:
+
+1px solid
+color-mix(
+in srgb,
+var(--main),
+transparent 75%
+);
+
+
+}
+
+
+
+.label{
+
+font-size:12px;
+
+color:var(--sub);
+
+}
+
+
+.value{
+
+font-size:22px;
+
+font-weight:900;
+
+margin-top:8px;
+
+color:var(--light);
+
+
+}
+
+
+
+/* 月份 */
+
+
+.month{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+margin:22px 0;
+
+}
+
+
+.month button{
+
+
+width:45px;
+
+height:35px;
+
+border-radius:15px;
+
+border:
+
+1px solid
+var(--main);
+
+
+background:none;
+
+color:var(--main);
+
+font-size:18px;
+
+
+}
+
+
+.month span{
+
+font-size:22px;
+
+font-weight:800;
+
+}
+
+
+
+/* 星期 */
+
+
+.week{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(7,1fr);
+
+text-align:center;
+
+color:var(--sub);
+
+font-size:13px;
+
+margin-bottom:8px;
+
+}
+
+
+
+/* 日期 */
+
+.calendar{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(7,1fr);
+
+gap:8px;
+
+
+}
+
+
+
+.day{
+
+height:65px;
+
+border-radius:14px;
+
+background:
+
+rgba(255,255,255,.04);
+
+
+border:
+
+1px solid
+rgba(255,255,255,.08);
+
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+
+}
+
+
+.day.active{
+
+
+background:
+
+linear-gradient(
+
+180deg,
+
+color-mix(
+in srgb,
+var(--main),
+transparent 70%
+),
+
+transparent
+
+);
+
+
+border-color:var(--main);
+
+
+}
+
+
+
+.day input{
+
+width:80%;
+
+background:none;
+
+border:0;
+
+outline:none;
+
+text-align:center;
+
+color:var(--light);
+
+font-size:13px;
+
+}
+
+
+
+/* 底部按钮 */
+
+.actions{
+
+display:flex;
+
+gap:15px;
+
+margin-top:25px;
+
+
+}
+
+
+.actions button{
+
+flex:1;
+
+height:55px;
+
+border-radius:18px;
+
+font-size:16px;
+
+font-weight:800;
+
+
+}
+
+
+
+.export{
+
+background:
+
+linear-gradient(
+
+135deg,
+
+var(--main),
+
+var(--light)
+
+);
+
+
+border:0;
+
+}
+
+
+
+.clear{
+
+background:none;
+
+border:
+
+1px solid var(--main);
+
+color:var(--main);
+
+}
+
+
+
+.brand{
+
+text-align:center;
+
+margin-top:20px;
+
+font-size:12px;
+
+letter-spacing:6px;
+
+opacity:.4;
+
+}
+
+
 </style>
 </head>
-<body>
+
+
+<body class="gold">
+
+
 <div class="wrap">
-  <div class="card" id="card">
-    <div class="border-inner"></div>
-    <div class="corner tl"></div><div class="corner tr"></div>
-    <div class="corner bl"></div><div class="corner br"></div>
-    <div class="title">磐石收益账本</div>
-    <div class="sub">本地记录 · 关闭后自动累计</div>
-    <div class="stat">
-      <div class="stat-box"><div class="label">累计收益</div><div class="val" id="sum">¥0</div></div>
-      <div class="stat-box"><div class="label">收益天数</div><div class="val" id="days">0</div></div>
-      <div class="stat-box"><div class="label">日均金额</div><div class="val" id="avg">¥0</div></div>
-    </div>
-    <div class="bar">
-      <button id="prev">◀</button>
-      <div class="ym" id="ym"></div>
-      <button id="next">▶</button>
-    </div>
-    <div class="week"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
-    <div class="grid" id="grid"></div>
-    <div class="tool">
-      <button class="export" id="export">📸 导出图片</button>
-      <button class="clear" id="clear">清空本月</button>
-    </div>
-    <div class="hint">导出图片自动带"加入磐石开启财富人生"水印</div>
-    <div class="brand">P A N S H I · W E A L T H</div>
-  </div>
+
+
+<div class="card">
+
+
+<div class="inner"></div>
+
+
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+
+
+<div class="title">
+磐石收益账本
 </div>
-<canvas id="cv" width="880" height="1500"></canvas>
+
+
+<div class="sub">
+财富记录 · 智能累计
+</div>
+
+
+
+<div class="themes">
+
+<button onclick="setTheme('gold')">
+鎏金
+</button>
+
+
+<button onclick="setTheme('jade')">
+玉石
+</button>
+
+
+<button onclick="setTheme('star')">
+星耀
+</button>
+
+
+</div>
+
+
+
+
+<div class="stats">
+
+
+<div class="stat">
+
+<div class="label">
+累计收益
+</div>
+
+<div class="value" id="sum">
+¥0
+</div>
+
+
+</div>
+
+
+
+<div class="stat">
+
+<div class="label">
+记录天数
+</div>
+
+<div class="value" id="days">
+0
+</div>
+
+</div>
+
+
+
+
+<div class="stat">
+
+<div class="label">
+平均每日
+</div>
+
+<div class="value" id="avg">
+¥0
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="month">
+
+<button id="prev">
+‹
+</button>
+
+
+<span id="ym">
+2026年8月
+</span>
+
+
+<button id="next">
+›
+</button>
+
+
+</div>
+
+
+
+<div class="week">
+
+<span>一</span>
+<span>二</span>
+<span>三</span>
+<span>四</span>
+<span>五</span>
+<span>六</span>
+<span>日</span>
+
+</div>
+
+
+
+<div class="calendar" id="grid">
+
+</div>
+
+
+
+
+<div class="actions">
+
+
+<button class="export" id="export">
+高清导出
+</button>
+
+
+<button class="clear" id="clear">
+清空
+</button>
+
+
+</div>
+
+
+
+<div class="brand">
+P A N S H I · WEALTH
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<canvas id="cv" width="1200" height="1800"></canvas>
+
+
 <script>
-var ym=new Date();
-var data=JSON.parse(localStorage.getItem('panshi_book')||'{}');
-function key(y,m){return y+'-'+m;}
 
-function render(){
-  var y=ym.getFullYear(),m=ym.getMonth();
-  document.getElementById('ym').textContent=y+'年'+(m+1)+'月';
-  var grid=document.getElementById('grid');grid.innerHTML='';
-  var first=new Date(y,m,1).getDay();
-  var offset=(first+6)%7;
-  var dim=new Date(y,m+1,0).getDate();
-  for(var i=0;i<offset;i++){var e=document.createElement('div');e.className='cell empty';grid.appendChild(e);}
-  var k=key(y,m);if(!data[k])data[k]={};
-  for(var d=1;d<=dim;d++){
-    var c=document.createElement('div');
-    var val=data[k][d]||'';
-    var isToday=(new Date().getFullYear()===y&&new Date().getMonth()===m&&new Date().getDate()===d);
-    c.className='cell'+(val?' has':'')+(isToday?' today':'');
-    var dn=document.createElement('div');dn.className='dnum';dn.textContent=d;c.appendChild(dn);
-    var inp=document.createElement('input');
-    inp.type='text';inp.className='amt';inp.maxLength=6;inp.placeholder='0';inp.value=val;
-    inp.oninput=(function(dayNum){
-      return function(){
-        this.value=this.value.replace(/[^\d]/g,'').slice(0,6);
-        var kv=key(ym.getFullYear(),ym.getMonth());
-        if(!data[kv])data[kv]={};
-        data[kv][dayNum]=this.value?Number(this.value):'';
-        localStorage.setItem('panshi_book',JSON.stringify(data));
-        calc();
-        this.parentNode.classList.toggle('has',!!this.value);
-      };
-    })(d);
-    c.appendChild(inp);grid.appendChild(c);
-  }
-  calc();
+function setTheme(t){
+
+document.body.className=t;
+
+localStorage.setItem(
+"theme",
+t
+);
+
 }
 
-function calc(){
-  var y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
-  var s=0,d=0;
-  for(var x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);d++;}}
-  document.getElementById('sum').textContent='¥'+s.toLocaleString();
-  document.getElementById('days').textContent=d;
-  document.getElementById('avg').textContent='¥'+(d?Math.round(s/d).toLocaleString():0);
+
+let oldTheme=
+localStorage.getItem("theme");
+
+if(oldTheme){
+document.body.className=oldTheme;
 }
 
-document.getElementById('prev').onclick=function(){ym.setMonth(ym.getMonth()-1);render();};
-document.getElementById('next').onclick=function(){ym.setMonth(ym.getMonth()+1);render();};
-document.getElementById('clear').onclick=function(){
-  if(confirm('确定清空本月所有记录？')){
-    delete data[key(ym.getFullYear(),ym.getMonth())];
-    localStorage.setItem('panshi_book',JSON.stringify(data));render();
-  }
-};
 
-document.getElementById('export').onclick=function(){
-  try{
-    var y=ym.getFullYear(),m=ym.getMonth(),k=key(y,m);
-    var cv=document.getElementById('cv');
-    var ctx=cv.getContext('2d');
-    var W=cv.width,H=cv.height;
-    ctx.clearRect(0,0,W,H);
 
-    // 背景
-    var bgGrd=ctx.createLinearGradient(0,0,0,H);
-    bgGrd.addColorStop(0,'#1a1a1a');bgGrd.addColorStop(0.5,'#0d0d0d');bgGrd.addColorStop(1,'#050505');
-    ctx.fillStyle=bgGrd;ctx.fillRect(0,0,W,H);
-
-    // 光晕
-    var glow1=ctx.createRadialGradient(W*0.3,H*0.2,0,W*0.3,H*0.2,W*0.5);
-    glow1.addColorStop(0,'rgba(201,168,76,0.08)');glow1.addColorStop(1,'transparent');
-    ctx.fillStyle=glow1;ctx.fillRect(0,0,W,H);
-    var glow2=ctx.createRadialGradient(W*0.8,H*0.8,0,W*0.8,H*0.8,W*0.6);
-    glow2.addColorStop(0,'rgba(201,168,76,0.04)');glow2.addColorStop(1,'transparent');
-    ctx.fillStyle=glow2;ctx.fillRect(0,0,W,H);
-
-    // 卡片
-    var cr=24,mx=20,my=20,mw=W-40,mh=H-40;
-    ctx.beginPath();ctx.moveTo(mx+cr,my);ctx.lineTo(mx+mw-cr,my);
-    ctx.quadraticCurveTo(mx+mw,my,mx+mw,my+cr);
-    ctx.lineTo(mx+mw,my+mh-cr);
-    ctx.quadraticCurveTo(mx+mw,my+mh,mx+mw-cr,my+mh);
-    ctx.lineTo(mx+cr,my+mh);
-    ctx.quadraticCurveTo(mx,my+mh,mx,my+mh-cr);
-    ctx.lineTo(mx,my+cr);
-    ctx.quadraticCurveTo(mx,my,mx+cr,my);ctx.closePath();
-    ctx.fillStyle='rgba(10,10,10,0.9)';ctx.fill();
-    ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=1.5;ctx.stroke();
-    ctx.strokeStyle='rgba(201,168,76,0.15)';ctx.lineWidth=0.5;ctx.strokeRect(mx+3,my+3,mw-6,mh-6);
-
-    // 四角
-    function corner(x,y,dx,dy){ctx.beginPath();ctx.moveTo(x,y+dy*18);ctx.lineTo(x,y);ctx.lineTo(x+dx*18,y);ctx.stroke();}
-    ctx.strokeStyle='#c9a84c';ctx.lineWidth=2;
-    corner(mx+10,my+10,1,1);corner(mx+mw-10,my+10,-1,1);
-    corner(mx+10,my+mh-10,1,-1);corner(mx+mw-10,my+mh-10,-1,-1);
-
-    // 标题
-    var titleGrd=ctx.createLinearGradient(0,my+52,0,my+82);
-    titleGrd.addColorStop(0,'#fff8e1');titleGrd.addColorStop(0.3,'#f9e7a0');
-    titleGrd.addColorStop(0.6,'#c9a84c');titleGrd.addColorStop(1,'#a08830');
-    ctx.fillStyle=titleGrd;ctx.font='bold 52px "PingFang SC","Microsoft YaHei",sans-serif';
-    ctx.textAlign='center';ctx.textBaseline='top';
-    ctx.fillText('磐石收益账本',W/2,my+52);
-    ctx.strokeStyle='rgba(0,0,0,0.5)';ctx.lineWidth=2;ctx.strokeText('磐石收益账本',W/2,my+52);
-    ctx.fillStyle='#c9a84c';ctx.fillRect(W/2-W*0.2,my+92,W*0.4,2);
-
-    ctx.fillStyle='#8a7a4a';ctx.font='22px sans-serif';
-    ctx.fillText('本地记录 · 关闭后自动累计',W/2,my+110);
-
-    // 统计
-    var s=0,dc=0;for(var x in (data[k]||{})){if(data[k][x]){s+=Number(data[k][x]);dc++;}}
-    var stats=[['累计收益','¥'+s.toLocaleString()],['收益天数',String(dc)],['日均金额','¥'+(dc?Math.round(s/dc).toLocaleString():0)]];
-    var sx=mx+20,sy=my+150,sw=(mw-60)/3,sh=100;
-    for(var i=0;i<3;i++){
-      var x=sx+i*(sw+20);
-      var statGrd=ctx.createLinearGradient(x,sy,x,sy+sh);
-      statGrd.addColorStop(0,'rgba(201,168,76,0.1)');statGrd.addColorStop(1,'rgba(201,168,76,0.03)');
-      ctx.fillStyle=statGrd;ctx.fillRect(x,sy,sw,sh);
-      ctx.strokeStyle='rgba(201,168,76,0.25)';ctx.lineWidth=1;ctx.strokeRect(x,sy,sw,sh);
-      ctx.strokeStyle='rgba(255,255,255,0.2)';ctx.lineWidth=0.5;ctx.strokeRect(x,sy,x+sw,sy+1);
-      ctx.fillStyle='#9a8a5a';ctx.font='20px sans-serif';ctx.textAlign='center';
-      ctx.fillText(stats[i][0],x+sw/2,sy+22);
-      ctx.fillStyle='#f9e7a0';ctx.font='bold 32px "Courier New",monospace';
-      ctx.fillText(stats[i][1],x+sw/2,sy+58);
-    }
-
-    // 月份
-    ctx.fillStyle='#f9e7a0';ctx.font='bold 32px sans-serif';
-    ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,sy+130);
-    ctx.shadowColor='rgba(201,168,76,0.3)';ctx.shadowBlur=10;
-    ctx.fillText('◀  '+y+'年'+(m+1)+'月  ▶',W/2,sy+130);ctx.shadowBlur=0;
-
-    // 星期
-    var weeks=['一','二','三','四','五','六','日'];
-    ctx.fillStyle='#7a6a3a';ctx.font='24px sans-serif';
-    var gx0=mx+20,gy0=sy+180,cw=(mw-40)/7;
-    for(var i=0;i<7;i++)ctx.fillText(weeks[i],gx0+i*cw+cw/2,gy0);
-
-    // 日期格子
-    var first=new Date(y,m,1).getDay();var offset=(first+6)%7;var dim=new Date(y,m+1,0).getDate();
-    var cellH=100,gap=8,gyStart=sy+220;
-    function cellRect(d){var idx=offset+d-1;return{gx:gx0+idx%7*cw+2,gy:gyStart+Math.floor(idx/7)*(cellH+gap)+2,w:cw-4,h:cellH-4};}
-    for(var d=1;d<=dim;d++){
-      var r=cellRect(d);var val=data[k]&&data[k][d];
-      if(val){
-        var cellGrd=ctx.createLinearGradient(r.gx,r.gy,r.gx,r.gy+r.h);
-        cellGrd.addColorStop(0,'rgba(201,168,76,0.25)');cellGrd.addColorStop(1,'rgba(201,168,76,0.08)');
-        ctx.fillStyle=cellGrd;ctx.fillRect(r.gx,r.gy,r.w,r.h);
-        ctx.strokeStyle='#c9a84c';ctx.lineWidth=1.5;ctx.strokeRect(r.gx,r.gy,r.w,r.h);
-        ctx.shadowColor='rgba(201,168,76,0.3)';ctx.shadowBlur=8;
-        ctx.strokeRect(r.gx,r.gy,r.w,r.h);ctx.shadowBlur=0;
-      }else{
-        ctx.fillStyle='rgba(255,255,255,0.02)';ctx.fillRect(r.gx,r.gy,r.w,r.h);
-        ctx.strokeStyle='rgba(201,168,76,0.12)';ctx.lineWidth=1;ctx.strokeRect(r.gx,r.gy,r.w,r.h);
-      }
-      var isToday=(new Date().getFullYear()===y&&new Date().getMonth()===m&&new Date().getDate()===d);
-      if(isToday){
-        ctx.strokeStyle='#f9e7a0';ctx.lineWidth=2;ctx.strokeRect(r.gx-1,r.gy-1,r.w+2,r.h+2);
-        ctx.shadowColor='rgba(249,231,160,0.4)';ctx.shadowBlur=10;
-        ctx.strokeRect(r.gx-1,r.gy-1,r.w+2,r.h+2);ctx.shadowBlur=0;
-      }
-      ctx.fillStyle=val?'#f9e7a0':(isToday?'#f9e7a0':'#a09060');
-      ctx.font='bold 26px sans-serif';ctx.textAlign='center';ctx.textBaseline='top';
-      ctx.fillText(String(d),r.gx+r.w/2,r.gy+8);
-      if(val){
-        ctx.fillStyle='#f9e7a0';ctx.font='bold 28px "Courier New",monospace';
-        ctx.fillText(String(val),r.gx+r.w/2,r.gy+52);
-      }
-    }
-
-    // 水印 - 紧贴格子下方72px
-    var totalRows=Math.ceil((offset+dim)/7);
-    var contentBottom=gyStart+totalRows*(cellH+gap);
-    var wmY=contentBottom+72;
-    var wm='加入磐石开启财富人生';
-    ctx.font='bold 56px "PingFang SC","Microsoft YaHei",sans-serif';
-    var tw=ctx.measureText(wm).width;
-    ctx.lineWidth=12;ctx.lineJoin='round';ctx.strokeStyle='rgba(0,0,0,0.85)';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.strokeText(wm,W/2,wmY);
-    ctx.fillStyle='rgba(201,168,76,0.55)';ctx.fillText(wm,W/2,wmY);
-
-    // 按钮 - 修复点：使用固定的 x 坐标 40，而不是未定义的 bx
-    var by=wmY+80,bw=(mw-40)/2,bh=76;
-    var btnGrd=ctx.createLinearGradient(40,by,40+bw,by+bh);
-    btnGrd.addColorStop(0,'#c9a84c');btnGrd.addColorStop(0.5,'#f9e7a0');btnGrd.addColorStop(1,'#c9a84c');
-    ctx.fillStyle=btnGrd;ctx.fillRect(40,by,bw,bh);
-    ctx.fillStyle='#1a1a1a';ctx.font='bold 30px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText('📸 导出图片',40+bw/2,by+bh/2);
-    ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=1.5;ctx.strokeRect(40+bw+20,by,bw,bh);
-    ctx.fillStyle='#c9a84c';ctx.fillText('清空本月',40+bw+20+bw/2,by+bh/2);
-
-    // 品牌
-    ctx.fillStyle='rgba(201,168,76,0.3)';ctx.font='18px sans-serif';ctx.textBaseline='top';
-    ctx.fillText('导出图片自动带「加入磐石开启财富人生」水印',W/2,by+bh+24);
-    ctx.fillStyle='rgba(201,168,76,0.2)';ctx.font='16px sans-serif';
-    ctx.fillText('P A N S H I · W E A L T H',W/2,by+bh+52);
-
-    // 下载 - 修复点：增加 try-catch 和 toDataURL 兜底
-    try {
-      cv.toBlob(function(blob){
-        if (!blob) {
-          throw new Error('Canvas toBlob failed');
-        }
-        var url=URL.createObjectURL(blob);
-        var a=document.createElement('a');
-        a.href=url;a.download='磐石收益账本_'+y+'年'+(m+1)+'月.png';
-        document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
-      },'image/png');
-    } catch(e) {
-      console.error('Export failed, trying toDataURL:', e);
-      var dataURL=cv.toDataURL('image/png');
-      var a=document.createElement('a');
-      a.href=dataURL;a.download='磐石收益账本_'+y+'年'+(m+1)+'月.png';
-      document.body.appendChild(a);a.click();document.body.removeChild(a);
-    }
-
-  } catch(err) {
-    alert('导出图片失败：' + err.message);
-    console.error(err);
-  }
-};
-
-render();
 </script>
+
+
 </body>
 </html>
+<script>
+
+
+//======================
+// 主题
+//======================
+
+
+function setTheme(t){
+
+    document.body.className=t;
+
+    localStorage.setItem(
+        "panshi_theme",
+        t
+    );
+
+}
+
+
+let saveTheme=
+localStorage.getItem(
+"panshi_theme"
+);
+
+
+if(saveTheme){
+
+document.body.className=saveTheme;
+
+}
+
+
+
+//======================
+// 数据系统
+//======================
+
+
+let current=new Date();
+
+
+let records=
+JSON.parse(
+localStorage.getItem(
+"panshi_income"
+)
+||
+"{}"
+);
+
+
+
+function monthKey(y,m){
+
+return y+"-"+m;
+
+}
+
+
+
+//======================
+// 渲染日历
+//======================
+
+
+function render(){
+
+
+let y=current.getFullYear();
+
+let m=current.getMonth();
+
+
+
+document.getElementById("ym")
+.innerHTML=
+y+"年"+(m+1)+"月";
+
+
+
+let grid=
+document.getElementById("grid");
+
+
+grid.innerHTML="";
+
+
+
+let first=
+new Date(
+y,
+m,
+1
+)
+.getDay();
+
+
+
+let offset=
+(first+6)%7;
+
+
+
+let days=
+new Date(
+y,
+m+1,
+0
+)
+.getDate();
+
+
+
+
+// 空格
+
+for(let i=0;i<offset;i++){
+
+let empty=
+document.createElement("div");
+
+empty.className="day";
+
+empty.style.opacity=0;
+
+grid.appendChild(empty);
+
+}
+
+
+
+
+let key=
+monthKey(y,m);
+
+
+
+if(!records[key]){
+
+records[key]={};
+
+}
+
+
+
+
+for(let d=1;d<=days;d++){
+
+
+
+let box=
+document.createElement("div");
+
+
+let value=
+records[key][d]
+||
+"";
+
+
+
+box.className=
+"day"+
+(value?" active":"");
+
+
+
+
+let num=
+document.createElement("div");
+
+num.innerHTML=d;
+
+
+box.appendChild(num);
+
+
+
+
+let input=
+document.createElement("input");
+
+
+input.type="text";
+
+input.placeholder="收益";
+
+
+input.value=value;
+
+
+
+input.oninput=function(){
+
+
+this.value=
+this.value
+.replace(/[^\d]/g,"")
+.slice(0,8);
+
+
+
+records[key][d]=
+this.value
+?
+Number(this.value)
+:
+"";
+
+
+localStorage.setItem(
+
+"panshi_income",
+
+JSON.stringify(records)
+
+);
+
+
+
+box.classList.toggle(
+"active",
+!!this.value
+);
+
+
+
+calc();
+
+
+};
+
+
+
+box.appendChild(input);
+
+
+
+grid.appendChild(box);
+
+
+
+}
+
+
+
+calc();
+
+
+}
+
+
+
+//======================
+// 数据统计
+//======================
+
+
+function calc(){
+
+
+let y=current.getFullYear();
+
+let m=current.getMonth();
+
+
+let key=
+monthKey(y,m);
+
+
+
+let total=0;
+
+let count=0;
+
+
+
+for(let d in records[key]||{}){
+
+
+if(records[key][d]){
+
+
+total+=
+Number(records[key][d]);
+
+
+count++;
+
+
+}
+
+
+}
+
+
+
+
+document.getElementById("sum")
+.innerHTML=
+"¥"+
+total.toLocaleString();
+
+
+
+document.getElementById("days")
+.innerHTML=
+count;
+
+
+
+document.getElementById("avg")
+.innerHTML=
+"¥"+
+(
+count
+?
+Math.round(total/count)
+:
+0
+)
+.toLocaleString();
+
+
+
+}
+
+
+
+//======================
+// 月份按钮
+//======================
+
+
+
+document
+.getElementById("prev")
+.onclick=function(){
+
+
+current.setMonth(
+current.getMonth()-1
+);
+
+
+render();
+
+
+};
+
+
+
+document
+.getElementById("next")
+.onclick=function(){
+
+
+current.setMonth(
+current.getMonth()+1
+);
+
+
+render();
+
+
+};
+
+
+
+
+//======================
+// 清空
+//======================
+
+
+
+document
+.getElementById("clear")
+.onclick=function(){
+
+
+if(
+confirm(
+"确定清空当前月份收益记录？"
+)
+){
+
+
+delete records[
+monthKey(
+current.getFullYear(),
+current.getMonth()
+)
+];
+
+
+localStorage.setItem(
+
+"panshi_income",
+
+JSON.stringify(records)
+
+);
+
+
+render();
+
+
+
+}
+
+
+};
+
+
+
+
+//启动
+
+
+render();
+
+
+
+</script><script>
+
+
+//======================
+// 高清导出
+//======================
+
+
+document
+.getElementById("export")
+.onclick=function(){
+
+
+
+let cv=
+document.getElementById("cv");
+
+
+let ctx=
+cv.getContext("2d");
+
+
+
+let W=1200;
+
+let H=1800;
+
+
+
+ctx.clearRect(
+0,
+0,
+W,
+H
+);
+
+
+
+
+// 当前主题
+
+
+let theme=
+document.body.className;
+
+
+
+let color="#d6b45c";
+
+let light="#fff0ad";
+
+let bg="#101010";
+
+
+
+if(theme=="jade"){
+
+color="#21c89b";
+light="#b7ffe8";
+bg="#071d17";
+
+}
+
+
+if(theme=="star"){
+
+color="#5da9ff";
+light="#d7eaff";
+bg="#0b162c";
+
+}
+
+
+
+//======================
+// 背景
+//======================
+
+
+let grd=
+ctx.createLinearGradient(
+0,
+0,
+0,
+H
+);
+
+
+grd.addColorStop(
+0,
+bg
+);
+
+
+grd.addColorStop(
+1,
+"#020202"
+);
+
+
+
+ctx.fillStyle=grd;
+
+ctx.fillRect(
+0,
+0,
+W,
+H
+);
+
+
+
+
+//======================
+// 卡片
+//======================
+
+
+let x=50;
+
+let y=50;
+
+let w=1100;
+
+let h=1700;
+
+
+ctx.beginPath();
+
+ctx.roundRect(
+x,
+y,
+w,
+h,
+45
+);
+
+
+ctx.fillStyle=
+"rgba(0,0,0,.65)";
+
+
+ctx.fill();
+
+
+
+ctx.lineWidth=3;
+
+ctx.strokeStyle=color;
+
+
+ctx.stroke();
+
+
+
+
+// 内框
+
+
+ctx.lineWidth=1;
+
+ctx.strokeStyle=
+"rgba(255,255,255,.15)";
+
+
+ctx.roundRect(
+x+10,
+y+10,
+w-20,
+h-20,
+40
+);
+
+
+ctx.stroke();
+
+
+
+
+//======================
+// 标题
+//======================
+
+
+
+ctx.textAlign="center";
+
+
+let titleY=150;
+
+
+let tg=
+ctx.createLinearGradient(
+0,
+100,
+0,
+200
+);
+
+
+tg.addColorStop(
+0,
+"#fff"
+);
+
+
+tg.addColorStop(
+1,
+color
+);
+
+
+
+ctx.fillStyle=tg;
+
+
+ctx.font=
+"900 70px Microsoft YaHei";
+
+
+ctx.fillText(
+"磐石收益账本",
+W/2,
+titleY
+);
+
+
+
+ctx.font=
+"26px Microsoft YaHei";
+
+
+ctx.fillStyle=
+light;
+
+
+ctx.fillText(
+"财富记录 · 智能累计",
+W/2,
+205
+);
+
+
+
+
+//======================
+// 统计
+//======================
+
+
+let y0=270;
+
+
+let total=0;
+
+let count=0;
+
+
+
+let key=
+monthKey(
+current.getFullYear(),
+current.getMonth()
+);
+
+
+
+for(let d in records[key]||{}){
+
+if(records[key][d]){
+
+total+=Number(records[key][d]);
+
+count++;
+
+}
+
+}
+
+
+
+let avg=
+count?
+Math.round(total/count):
+0;
+
+
+
+let arr=[
+
+["累计收益",
+"¥"+total.toLocaleString()
+],
+
+[
+"记录天数",
+count
+],
+
+[
+"平均每日",
+"¥"+avg.toLocaleString()
+]
+
+];
+
+
+
+for(let i=0;i<3;i++){
+
+
+let bx=
+100+i*340;
+
+
+
+ctx.fillStyle=
+"rgba(255,255,255,.06)";
+
+
+ctx.roundRect(
+bx,
+y0,
+280,
+120,
+20
+);
+
+
+ctx.fill();
+
+
+
+ctx.strokeStyle=
+"rgba(255,255,255,.15)";
+
+
+ctx.stroke();
+
+
+
+ctx.fillStyle=
+light;
+
+
+ctx.font=
+"22px Microsoft YaHei";
+
+
+ctx.fillText(
+arr[i][0],
+bx+140,
+y0+40
+);
+
+
+
+ctx.font=
+"bold 38px Arial";
+
+
+ctx.fillText(
+arr[i][1],
+bx+140,
+y0+85
+);
+
+
+}
+
+
+
+//======================
+// 月份
+//======================
+
+
+
+let monthY=470;
+
+
+ctx.font=
+"bold 42px Microsoft YaHei";
+
+
+ctx.fillStyle=light;
+
+
+ctx.fillText(
+
+current.getFullYear()
++"年"
++
+(current.getMonth()+1)
++"月收益",
+
+W/2,
+
+monthY
+
+);
+
+
+
+
+//======================
+// 日历
+//======================
+
+
+let gx=90;
+
+let gy=550;
+
+
+let cw=140;
+
+let ch=105;
+
+
+let gap=12;
+
+
+
+let week=[
+
+"一","二","三","四","五","六","日"
+
+];
+
+
+ctx.font=
+"26px Microsoft YaHei";
+
+
+ctx.fillStyle=
+color;
+
+
+
+for(let i=0;i<7;i++){
+
+ctx.fillText(
+
+week[i],
+
+gx+i*(cw+gap)+cw/2,
+
+gy
+
+);
+
+}
+
+
+
+let year=
+current.getFullYear();
+
+
+let mon=
+current.getMonth();
+
+
+let first=
+new Date(
+year,
+mon,
+1
+)
+.getDay();
+
+
+let offset=
+(first+6)%7;
+
+
+
+let max=
+new Date(
+year,
+mon+1,
+0
+)
+.getDate();
+
+
+
+let calendarBottom=gy;
+
+
+
+for(let d=1;d<=max;d++){
+
+
+let index=
+offset+d-1;
+
+
+let row=
+Math.floor(index/7);
+
+
+let col=
+index%7;
+
+
+
+let px=
+gx+col*(cw+gap);
+
+
+let py=
+gy+40+row*(ch+gap);
+
+
+
+calendarBottom=
+py+ch;
+
+
+
+ctx.fillStyle=
+"rgba(255,255,255,.04)";
+
+
+ctx.roundRect(
+px,
+py,
+cw,
+ch,
+15
+);
+
+
+ctx.fill();
+
+
+
+ctx.strokeStyle=
+"rgba(255,255,255,.15)";
+
+
+ctx.stroke();
+
+
+
+
+ctx.fillStyle=
+light;
+
+
+ctx.font=
+"bold 28px Arial";
+
+
+ctx.fillText(
+d,
+px+cw/2,
+py+38
+);
+
+
+
+
+let val=
+records[key]&&records[key][d];
+
+
+
+if(val){
+
+
+ctx.font=
+"bold 25px Arial";
+
+
+ctx.fillText(
+
+val,
+
+px+cw/2,
+
+py+75
+
+);
+
+
+}
+
+
+}
+
+
+
+
+//======================
+// 自动水印区域
+//======================
+
+
+
+let watermarkY=
+calendarBottom
++
+120;
+
+
+
+// 防止超过
+
+
+if(watermarkY>1450){
+
+watermarkY=1450;
+
+}
+
+
+
+ctx.textAlign="center";
+
+
+
+let wm=
+"加入磐石开启财富人生";
+
+
+
+ctx.font=
+"900 62px Microsoft YaHei";
+
+
+
+
+// 黑描边
+
+
+ctx.lineWidth=14;
+
+ctx.strokeStyle=
+"rgba(0,0,0,.8)";
+
+
+ctx.strokeText(
+wm,
+W/2,
+watermarkY
+);
+
+
+
+
+// 金色主体
+
+
+ctx.fillStyle=
+color;
+
+
+ctx.globalAlpha=.65;
+
+
+ctx.fillText(
+wm,
+W/2,
+watermarkY
+);
+
+
+ctx.globalAlpha=1;
+
+
+
+
+// 品牌
+
+
+ctx.font=
+"24px Arial";
+
+
+ctx.fillStyle=
+"rgba(255,255,255,.35)";
+
+
+ctx.fillText(
+
+"P A N S H I  ·  WEALTH",
+
+W/2,
+
+watermarkY+70
+
+);
+
+
+
+
+
+//======================
+// 下载
+//======================
+
+
+cv.toBlob(
+
+function(blob){
+
+
+let url=
+URL.createObjectURL(blob);
+
+
+
+let a=
+document.createElement("a");
+
+
+
+a.href=url;
+
+
+
+a.download=
+"磐石收益账本.png";
+
+
+
+a.click();
+
+
+
+URL.revokeObjectURL(url);
+
+
+
+},
+
+"image/png"
+
+);
+
+
+
+};
+
+
+
+</script>
