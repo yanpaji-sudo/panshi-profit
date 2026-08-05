@@ -351,7 +351,7 @@ document.getElementById("total").innerHTML="¥"+Math.round(total).toLocaleString
 document.getElementById("rateShow").innerHTML=(rate*100).toFixed(1)+"%/天";
 };
 
-/* ========= 导出（纯Canvas手动绘制，零外部依赖）========= */
+/* ========= 导出（精美卡片设计）========= */
 document.getElementById("export").onclick=function(){
 var btn=this;
 btn.innerHTML="生成中...";
@@ -368,117 +368,277 @@ requestAnimationFrame(function(){
 setTimeout(function(){
 var card=document.getElementById("capture");
 var rect=card.getBoundingClientRect();
-var dpr=window.devicePixelRatio||2;
-var cw=Math.round(rect.width*dpr);
-var ch=Math.round(rect.height*dpr);
+var dpr=3;
+var padding=30*dpr;
+var cw=Math.round(rect.width*dpr+padding*2);
+var ch=Math.round(rect.height*dpr+padding*2);
+var w=rect.width*dpr;
+var h=rect.height*dpr;
 
 var canvas=document.createElement("canvas");
 canvas.width=cw;canvas.height=ch;
 var ctx=canvas.getContext("2d");
-ctx.scale(dpr,dpr);
 
-// 读取当前主题的主色
-var cs=getComputedStyle(card);
-var borderColor=cs.borderColor||"#c9a84c";
+// 深色渐变背景
+var bgGrad=ctx.createLinearGradient(0,0,0,ch);
+bgGrad.addColorStop(0,"#1a1a2e");
+bgGrad.addColorStop(0.5,"#16213e");
+bgGrad.addColorStop(1,"#0f3460");
+ctx.fillStyle=bgGrad;
+ctx.fillRect(0,0,cw,ch);
 
-// 绘制卡片背景（圆角矩形）
-var r=30;
-ctx.fillStyle=cs.backgroundColor||"#111";
-roundRect(ctx,0,0,rect.width,rect.height,r);
+// 背景网格纹理
+ctx.strokeStyle="rgba(255,255,255,0.03)";
+ctx.lineWidth=1;
+for(var i=0;i<cw;i+=40){
+ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,ch);ctx.stroke();
+}
+for(var j=0;j<ch;j+=40){
+ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(cw,j);ctx.stroke();
+}
+
+// 径向光晕
+var glow=ctx.createRadialGradient(cw/2,ch*0.4,0,cw/2,ch*0.4,ch*0.8);
+glow.addColorStop(0,"rgba(201,168,76,0.15)");
+glow.addColorStop(0.5,"rgba(201,168,76,0.05)");
+glow.addColorStop(1,"transparent");
+ctx.fillStyle=glow;
+ctx.fillRect(0,0,cw,ch);
+
+// 卡片阴影
+ctx.save();
+ctx.shadowColor="rgba(201,168,76,0.5)";
+ctx.shadowBlur=40*dpr;
+ctx.shadowOffsetX=0;
+ctx.shadowOffsetY=10*dpr;
+roundRect(ctx,padding,padding,w,h,30*dpr);
+ctx.fillStyle="#111111";
+ctx.fill();
+ctx.restore();
+
+// 卡片主体渐变背景
+var cardGrad=ctx.createLinearGradient(padding,padding,padding,padding+h);
+cardGrad.addColorStop(0,"#1a1a1a");
+cardGrad.addColorStop(0.3,"#0d0d0d");
+cardGrad.addColorStop(1,"#000000");
+roundRect(ctx,padding,padding,w,h,30*dpr);
+ctx.fillStyle=cardGrad;
 ctx.fill();
 
-// 绘制边框
-ctx.strokeStyle=borderColor;
+// 顶部高光
+var topGlow=ctx.createLinearGradient(0,padding,0,padding+h*0.3);
+topGlow.addColorStop(0,"rgba(255,255,255,0.05)");
+topGlow.addColorStop(1,"transparent");
+roundRect(ctx,padding,padding,w,h*0.3,30*dpr);
+ctx.fillStyle=topGlow;
+ctx.fill();
+
+// 金色渐变边框
+ctx.save();
+roundRect(ctx,padding,padding,w,h,30*dpr);
+var borderGrad=ctx.createLinearGradient(padding,padding,padding+w,padding+h);
+borderGrad.addColorStop(0,"#c9a84c");
+borderGrad.addColorStop(0.3,"#ffeeb0");
+borderGrad.addColorStop(0.7,"#c9a84c");
+borderGrad.addColorStop(1,"#8b6914");
+ctx.strokeStyle=borderGrad;
+ctx.lineWidth=2*dpr;
+ctx.stroke();
+ctx.restore();
+
+// 内边框装饰
+roundRect(ctx,padding+3*dpr,padding+3*dpr,w-6*dpr,h-6*dpr,27*dpr);
+ctx.strokeStyle="rgba(201,168,76,0.3)";
 ctx.lineWidth=1;
-roundRect(ctx,0.5,0.5,rect.width-1,rect.height-1,r);
 ctx.stroke();
 
-// 绘制标题
-ctx.fillStyle="#fff";
-ctx.font="900 30px 'PingFang SC','Microsoft YaHei',sans-serif";
+// 顶部装饰线
+ctx.strokeStyle="rgba(201,168,76,0.4)";
+ctx.lineWidth=1;
+ctx.beginPath();
+ctx.moveTo(padding+40*dpr,padding+60*dpr);
+ctx.lineTo(padding+w-40*dpr,padding+60*dpr);
+ctx.stroke();
+
+// 顶部菱形装饰
+drawDiamond(ctx,padding+w/2,padding+60*dpr,8*dpr,"rgba(201,168,76,0.8)");
+
+// 底部装饰线
+var bottomY=padding+h-80*dpr;
+ctx.beginPath();
+ctx.moveTo(padding+40*dpr,bottomY);
+ctx.lineTo(padding+w-40*dpr,bottomY);
+ctx.stroke();
+drawDiamond(ctx,padding+w/2,bottomY,8*dpr,"rgba(201,168,76,0.8)");
+
+// 四角装饰
+var corSize=15*dpr;
+var corX=[padding+5*dpr,padding+w-5*dpr-corSize];
+var corY=[padding+5*dpr,padding+h-5*dpr-corSize];
+for(var ci=0;ci<2;ci++){
+for(var cj=0;cj<2;cj++){
+ctx.strokeStyle="rgba(201,168,76,0.5)";
+ctx.lineWidth=1;
+var cx=corX[ci],cy=corY[cj];
+ctx.beginPath();ctx.moveTo(cx,cy+corSize);ctx.lineTo(cx,cy);ctx.lineTo(cx+corSize,cy);ctx.stroke();
+ctx.beginPath();ctx.moveTo(cx+corSize,cy+corSize);ctx.arc(cx+corSize/2,cy+corSize/2,2*dpr,0,Math.PI*2);ctx.fillStyle="rgba(201,168,76,0.6)";ctx.fill();
+}
+}
+
+// 标题区域
+var titleY=padding+100*dpr;
+ctx.font=40*dpr+"px serif";
 ctx.textAlign="center";
-ctx.fillText("磐石收益账本",rect.width/2,50);
+ctx.fillText("💎",padding+w/2,titleY-30*dpr);
 
-// 绘制副标题
-ctx.fillStyle="rgba(255,255,255,.5)";
-ctx.font="12px 'PingFang SC',sans-serif";
-ctx.fillText("财富记录 · 智能累计",rect.width/2,72);
+ctx.font="bold "+36*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
+var titleGrad=ctx.createLinearGradient(padding,titleY,padding+w,titleY);
+titleGrad.addColorStop(0,"#c9a84c");
+titleGrad.addColorStop(0.3,"#ffeeb0");
+titleGrad.addColorStop(0.7,"#fff8dc");
+titleGrad.addColorStop(1,"#c9a84c");
+ctx.fillStyle=titleGrad;
+ctx.fillText("磐 石 收 益 账 本",padding+w/2,titleY);
 
-// 绘制统计区
-var statY=95;
-var statW=(rect.width-40)/3;
-var stats=[
-["累计收益","¥"+(function(){var k=getKey(),s=0;for(var i in income[k]||{})s+=income[k][i]||0;return s.toLocaleString();})()],
-["收益天数",(function(){var k=getKey(),d=0;for(var i in income[k]||{})if(income[k][i])d++;return d;})()],
-["日均收益","¥"+(function(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(income[k][i]){s+=income[k][i];d++;}}return d?Math.round(s/d).toLocaleString():0;})()]
+ctx.font=14*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(201,168,76,0.6)";
+ctx.fillText("P A N S H I · W E A L T H",padding+w/2,titleY+35*dpr);
+
+// 统计卡片
+var statY=titleY+80*dpr;
+var statW=(w-80*dpr)/3;
+var statH=100*dpr;
+var statData=[
+{label:"累计收益",value:"¥"+getStatSum(),icon:"💰"},
+{label:"收益天数",value:getStatDays(),icon:"📅"},
+{label:"日均收益",value:"¥"+getStatAvg(),icon:"📊"}
 ];
-stats.forEach(function(st,i){
-var sx=10+i*(statW+10);
-ctx.fillStyle="rgba(255,255,255,.05)";
-roundRect(ctx,sx,statY,statW,70,16);ctx.fill();
-ctx.fillStyle="rgba(255,255,255,.4)";ctx.font="11px sans-serif";
-ctx.textAlign="center";ctx.fillText(st[0],sx+statW/2,statY+22);
-ctx.fillStyle="#fff";ctx.font="900 18px sans-serif";
-ctx.fillText(st[1],sx+statW/2,statY+48);
+
+statData.forEach(function(st,i){
+var sx=padding+25*dpr+i*(statW+15*dpr);
+var sy=statY;
+
+roundRect(ctx,sx,sy,statW,statH,16*dpr);
+var statBgGrad=ctx.createLinearGradient(sx,sy,sx,sy+statH);
+statBgGrad.addColorStop(0,"rgba(201,168,76,0.1)");
+statBgGrad.addColorStop(1,"rgba(201,168,76,0.02)");
+ctx.fillStyle=statBgGrad;
+ctx.fill();
+
+roundRect(ctx,sx,sy,statW,statH,16*dpr);
+ctx.strokeStyle="rgba(201,168,76,0.3)";
+ctx.lineWidth=1;
+ctx.stroke();
+
+ctx.font=22*dpr+"px serif";
+ctx.textAlign="center";
+ctx.fillText(st.icon,sx+statW/2,sy+32*dpr);
+
+ctx.font=12*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(201,168,76,0.5)";
+ctx.fillText(st.label,sx+statW/2,sy+60*dpr);
+
+ctx.font="bold "+20*dpr+"px 'PingFang SC',sans-serif";
+var valGrad=ctx.createLinearGradient(sx,sy+70*dpr,sx+statW,sy+70*dpr);
+valGrad.addColorStop(0,"#ffeeb0");
+valGrad.addColorStop(1,"#c9a84c");
+ctx.fillStyle=valGrad;
+ctx.fillText(st.value,sx+statW/2,sy+90*dpr);
 });
 
-// 绘制年月
-ctx.fillStyle="#fff";ctx.font="900 20px sans-serif";
-ctx.fillText((function(){return now.getFullYear()+"年"+(now.getMonth()+1)+"月";})(),rect.width/2,statY+100);
+// 月份标题
+var monthY=statY+statH+50*dpr;
+ctx.fillStyle="#fff";
+ctx.font="bold "+22*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillText("📆 "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",padding+w/2,monthY);
 
-// 绘制日期网格
-var gridY=statY+125;
-var cellW=(rect.width-28)/7;
-var cellH=50;
+// 日历网格
+var gridY=monthY+40*dpr;
+var cellW=(w-60*dpr)/7;
+var cellH=50*dpr;
 var k=getKey();
 var first=(new Date(now.getFullYear(),now.getMonth(),1).getDay()+6)%7;
 var totalDays=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
 
-ctx.font="12px sans-serif";ctx.fillStyle="rgba(255,255,255,.4)";
-["一","二","三","四","五","六","日"].forEach(function(w,i){
-ctx.fillText(w,14+i*cellW+cellW/2,gridY-8);
+var weekDays=["一","二","三","四","五","六","日"];
+ctx.font=11*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.4)";
+weekDays.forEach(function(wd,i){
+ctx.fillText(wd,padding+20*dpr+i*cellW+cellW/2,gridY-8*dpr);
 });
 
 for(var d=1;d<=totalDays;d++){
 var idx=first+d-1;
 var col=idx%7;var row=Math.floor(idx/7);
-var x=10+col*cellW;var y=gridY+row*cellH;
+var x=padding+20*dpr+col*cellW;
+var y=gridY+row*cellH;
+var cx=x+cellW/2;
+var cy=y+cellH/2;
+
 if(income[k]&&income[k][d]){
-ctx.strokeStyle=borderColor;ctx.lineWidth=1;
-roundRect(ctx,x,y,cellW-4,cellH-4,12);ctx.stroke();
+roundRect(ctx,x+1,y+1,cellW-2,cellH-2,8*dpr);
+ctx.fillStyle="rgba(201,168,76,0.15)";
+ctx.fill();
+roundRect(ctx,x+1,y+1,cellW-2,cellH-2,8*dpr);
+ctx.strokeStyle="rgba(201,168,76,0.6)";
+ctx.lineWidth=1;
+ctx.stroke();
 }
-ctx.fillStyle="#fff";ctx.font="13px sans-serif";ctx.textAlign="center";
-ctx.fillText(d,x+(cellW-4)/2,y+18);
+
+ctx.font="bold "+11*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle=income[k]&&income[k][d]?"#ffeeb0":"rgba(255,255,255,0.3)";
+ctx.textAlign="center";
+ctx.fillText(d,cx,cy-4*dpr);
+
 if(income[k]&&income[k][d]){
-ctx.fillStyle="#fff";ctx.font="bold 11px sans-serif";
-var val=String(income[k][d]);if(val.length>5)val=val.substring(0,5);
-ctx.fillText(val,x+(cellW-4)/2,y+36);
+ctx.font="bold "+9*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="#ffeeb0";
+var val=String(income[k][d]);
+if(val.length>5)val=val.substring(0,5)+"..";
+ctx.fillText(val,cx,cy+14*dpr);
 }
 }
 
-// 绘制备注
-var noteY=gridY+Math.ceil((first+totalDays)/7)*cellH+15;
+// 备注区域
+var noteY=gridY+Math.ceil((first+totalDays)/7)*cellH+35*dpr;
+
+ctx.font="bold "+14*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="#ffeeb0";
 ctx.textAlign="left";
-ctx.fillStyle="rgba(255,255,255,.8)";ctx.font="bold 13px sans-serif";
-ctx.fillText("📝 日期备注",14,noteY);
-var niY=noteY+20;
-if(notes[k]){
-ctx.fillStyle="rgba(255,255,255,.4)";ctx.font="12px sans-serif";
+ctx.fillText("📝 本月备注",padding+25*dpr,noteY);
+
+var niY=noteY+25*dpr;
+if(notes[k]&&Object.keys(notes[k]).length>0){
+ctx.font=11*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.5)";
 var n=0;
 for(var dk in notes[k]){
-if(n<5){ctx.fillText("📝 "+dk+"日："+notes[k][dk],14,niY+n*20);n++;}
+if(n>=5)break;
+ctx.fillText("• "+dk+"日  "+notes[k][dk],padding+25*dpr,niY+n*22*dpr);
+n++;
+}
+if(Object.keys(notes[k]).length>5){
+ctx.fillText("... 还有"+(Object.keys(notes[k]).length-5)+"条备注",padding+25*dpr,niY+5*22*dpr);
 }
 }else{
-ctx.fillStyle="rgba(255,255,255,.25)";ctx.font="12px sans-serif";
-ctx.fillText("暂无备注",14,niY);
+ctx.font=11*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.2)";
+ctx.fillText("暂无备注记录",padding+25*dpr,niY+10*dpr);
 }
+
+// 底部水印
+var footerY=padding+h-40*dpr;
+ctx.font=10*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.15)";
+ctx.textAlign="center";
+ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),padding+w/2,footerY);
 
 // 导出
 canvas.toBlob(function(blob){
 var url=URL.createObjectURL(blob);
 var a=document.createElement("a");
 a.href=url;
-a.download="磐石收益账本_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
+a.download="磐石收益账本_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月_精美版.png";
 document.body.appendChild(a);a.click();document.body.removeChild(a);
 setTimeout(function(){URL.revokeObjectURL(url);},1000);
 hide.forEach(function(e){e.style.display="";});
@@ -488,6 +648,7 @@ btn.innerHTML="📸 高清导出";
 });
 };
 
+/* ========= 辅助函数 ========= */
 function roundRect(ctx,x,y,w,h,r){
 ctx.beginPath();
 ctx.moveTo(x+r,y);
@@ -500,6 +661,35 @@ ctx.quadraticCurveTo(x,y+h,x,y+h-r);
 ctx.lineTo(x,y+r);
 ctx.quadraticCurveTo(x,y,x+r,y);
 ctx.closePath();
+}
+
+function drawDiamond(ctx,x,y,size,color){
+ctx.fillStyle=color;
+ctx.beginPath();
+ctx.moveTo(x,y-size);
+ctx.lineTo(x+size*0.6,y);
+ctx.lineTo(x,y+size);
+ctx.lineTo(x-size*0.6,y);
+ctx.closePath();
+ctx.fill();
+}
+
+function getStatSum(){
+var k=getKey(),s=0;
+for(var i in income[k]||{})s+=income[k][i]||0;
+return s.toLocaleString();
+}
+
+function getStatDays(){
+var k=getKey(),d=0;
+for(var i in income[k]||{})if(income[k][i])d++;
+return d;
+}
+
+function getStatAvg(){
+var k=getKey(),s=0,d=0;
+for(var i in income[k]||{}){if(income[k][i]){s+=income[k][i];d++;}}
+return d?Math.round(s/d).toLocaleString():0;
 }
 
 render();
