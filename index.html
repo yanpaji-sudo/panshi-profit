@@ -206,7 +206,7 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 .panel textarea{width:100%;height:130px;border-radius:15px;padding:10px;font-size:14px;resize:none;outline:none;background:#000;}
 .panel button{width:100%;height:45px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
 
-.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:5px;}
+.preview-overlay{position:fixed;inset:0;background:#000;z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:5px;}
 .preview-overlay img{max-width:100%;max-height:90vh;border-radius:8px;box-shadow:0 8px 30px rgba(0,0,0,0.5);object-fit:contain;}
 .preview-tip{color:#fff;font-size:13px;font-weight:bold;margin:5px 0;text-align:center;}
 .preview-close{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);padding:6px 20px;border-radius:15px;font-size:11px;cursor:pointer;margin-top:3px;}
@@ -284,18 +284,16 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 
 <script>
 var posterThemes={
-gold:{main:"#c9a84c",mainR:"201,168,76",light:"#ffeeb0",lightR:"255,238,176",bg:"#080808",icon:"👑",name:"鎏金GOLD",slogan:"财富如金·历久弥新",particles:["✦","✧","◆","⬥"]},
-jade:{main:"#23c997",mainR:"35,201,151",light:"#d0fff2",lightR:"208,255,242",bg:"#031710",icon:"💚",name:"翡翠JADE",slogan:"生机盎然·财源广进",particles:["❦","❧","✿","❀"]},
-blue:{main:"#4da3ff",mainR:"77,163,255",light:"#d8ecff",lightR:"216,236,255",bg:"#061326",icon:"💙",name:"星耀BLUE",slogan:"星辰大海·财富无限",particles:["✧","✶","✹","✦"]},
-purple:{main:"#b46cff",mainR:"180,108,255",light:"#efd7ff",lightR:"239,215,255",bg:"#12051d",icon:"💜",name:"紫晶PURPLE",slogan:"神秘高贵·财富密码",particles:["☪","✡","🔮","✶"]},
-black:{main:"#eee",mainR:"238,238,238",light:"#fff",lightR:"255,255,255",bg:"#000",icon:"🖤",name:"黑钻BLACK",slogan:"极致简约·非凡财富",particles:["◈","◇","⬖","⬗"]},
-rose:{main:"#ff8fa3",mainR:"255,143,163",light:"#ffe0e7",lightR:"255,224,231",bg:"#1b080d",icon:"💗",name:"玫瑰ROSE",slogan:"浪漫温馨·财富之美",particles:["♡","♥","❦","✿"]},
-ocean:{main:"#20d5ff",mainR:"32,213,255",light:"#d9f8ff",lightR:"217,248,255",bg:"#03151f",icon:"💎",name:"深海OCEAN",slogan:"波澜壮阔·财富之海",particles:["~","≈","≋","∿"]},
-silver:{main:"#ddd",mainR:"221,221,221",light:"#fff",lightR:"255,255,255",bg:"#111",icon:"🤍",name:"银灰SILVER",slogan:"低调奢华·财富永恒",particles:["◈","◇","○","◎"]}
+gold:{bg:"#080808",main:"#c9a84c",light:"#ffeeb0",icon:"👑",name:"鎏金GOLD",slogan:"财富如金·历久弥新",particles:["✦","✧","◆","⬥"]},
+jade:{bg:"#031710",main:"#23c997",light:"#d0fff2",icon:"💚",name:"翡翠JADE",slogan:"生机盎然·财源广进",particles:["❦","❧","✿","❀"]},
+blue:{bg:"#061326",main:"#4da3ff",light:"#d8ecff",icon:"💙",name:"星耀BLUE",slogan:"星辰大海·财富无限",particles:["✧","✶","✹","✦"]},
+purple:{bg:"#12051d",main:"#b46cff",light:"#efd7ff",icon:"💜",name:"紫晶PURPLE",slogan:"神秘高贵·财富密码",particles:["☪","✡","🔮","✶"]},
+black:{bg:"#000",main:"#eee",light:"#fff",icon:"🖤",name:"黑钻BLACK",slogan:"极致简约·非凡财富",particles:["◈","◇","⬖","⬗"]},
+rose:{bg:"#1b080d",main:"#ff8fa3",light:"#ffe0e7",icon:"💗",name:"玫瑰ROSE",slogan:"浪漫温馨·财富之美",particles:["♡","♥","❦","✿"]},
+ocean:{bg:"#03151f",main:"#20d5ff",light:"#d9f8ff",icon:"💎",name:"深海OCEAN",slogan:"波澜壮阔·财富之海",particles:["~","≈","≋","∿"]},
+silver:{bg:"#111",main:"#ddd",light:"#fff",icon:"🤍",name:"银灰SILVER",slogan:"低调奢华·财富永恒",particles:["◈","◇","○","◎"]}
 };
 
-function rgba(r,g,b,a){return"rgba("+r+","+g+","+b+","+a+")";}
-function hex2rgb(h){return{ r:parseInt(h.slice(1,3),16), g:parseInt(h.slice(3,5),16), b:parseInt(h.slice(5,7),16) };}
 function changeTheme(t){document.body.className=t;try{localStorage.setItem("ps_theme",t);}catch(e){}}
 (function(){var t=localStorage.getItem("ps_theme");document.body.className=t?t:"gold";})();
 
@@ -344,8 +342,6 @@ function getStatSum(){var k=getKey(),s=0;for(var i in income[k]||{})s+=income[k]
 function getStatDays(){var k=getKey(),d=0;for(var i in income[k]||{})if(income[k][i])d++;return d;}
 function getStatAvg(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(income[k][i]){s+=income[k][i];d++;}}return d?Math.round(s/d).toLocaleString():0;}
 
-function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
-
 document.getElementById("export").onclick=function(){
 var btn=this;
 btn.innerHTML="⏳";
@@ -358,76 +354,69 @@ var origD=[themeEl.style.display,calcEl.style.display,btnEl.style.display];
 themeEl.style.display="none";calcEl.style.display="none";btnEl.style.display="none";
 
 var card=document.getElementById("capture");
+// 保存原始背景
+var origBg=card.style.background;
+// 设置纯黑背景避免html2canvas产生白边
+card.style.background="#111";
 
-html2canvas(card,{backgroundColor:null,scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
+html2canvas(card,{backgroundColor:"#111",scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
+card.style.background=origBg;
 themeEl.style.display=origD[0];calcEl.style.display=origD[1];btnEl.style.display=origD[2];
 
 var t=document.body.className;
 var pt=posterThemes[t]||posterThemes.gold;
 var M=pt.main;
-var mc=hex2rgb(M);
 
 var dpr=2;
 var pW=720*dpr;
-var m=20*dpr;
-
-var ty=15*dpr;
-var th=105*dpr;
-
+var m=18*dpr;
 var cW=pW-m*2;
 var cH=canvas.height*(cW/canvas.width);
 var cX=m;
-var cY=ty+th+10*dpr;
-
-var pH=cY+cH+45*dpr;
+var cY=130*dpr;
+var pH=cY+cH+50*dpr;
 
 var pC=document.createElement("canvas");
 pC.width=pW;
 pC.height=pH;
 var ctx=pC.getContext("2d");
 
-// 纯黑背景铺满
+// 整个画布填充深色
 ctx.fillStyle=pt.bg;
 ctx.fillRect(0,0,pW,pH);
 
-// 光晕
-var g=ctx.createRadialGradient(pW/2,ty+30*dpr,0,pW/2,ty+30*dpr,pW*0.4);
-g.addColorStop(0,rgba(mc.r,mc.g,mc.b,0.08));g.addColorStop(1,"transparent");
-ctx.fillStyle=g;ctx.fillRect(0,0,pW,th+20*dpr);
-
-// 粒子
-ctx.fillStyle=rgba(mc.r,mc.g,mc.b,0.03);
-for(var p=0;p<20;p++){ctx.font=(5+Math.random()*10)*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*pW,Math.random()*(ty+th));}
-
-// 标题
-ctx.font=40*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(pt.icon,pW/2,ty+25*dpr);
-ctx.font="bold "+34*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
-var tg=ctx.createLinearGradient(0,ty+30*dpr,pW,ty+30*dpr);
+// 标题区
+var ty=20*dpr;
+ctx.font=38*dpr+"px serif";ctx.textAlign="center";
+ctx.fillText(pt.icon,pW/2,ty+22*dpr);
+ctx.font="bold "+32*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
+var tg=ctx.createLinearGradient(0,ty+28*dpr,pW,ty+28*dpr);
 tg.addColorStop(0,M);tg.addColorStop(0.3,pt.light);tg.addColorStop(0.7,pt.light);tg.addColorStop(1,M);
 ctx.fillStyle=tg;
-ctx.fillText("磐 石 收 益 账 本",pW/2,ty+62*dpr);
-ctx.font="bold "+12*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(mc.r,mc.g,mc.b,0.45);
-ctx.fillText(pt.name+" · "+pt.slogan,pW/2,ty+85*dpr);
+ctx.fillText("磐 石 收 益 账 本",pW/2,ty+58*dpr);
+ctx.font="bold "+11*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.3)";
+ctx.fillText(pt.name+" · "+pt.slogan,pW/2,ty+78*dpr);
 
-// 卡片
+// 卡片阴影
 ctx.save();
-ctx.shadowColor=rgba(mc.r,mc.g,mc.b,0.35);ctx.shadowBlur=40*dpr;ctx.shadowOffsetY=15*dpr;
-roundRect(ctx,cX,cY,cW,cH,14*dpr);
-ctx.fillStyle="#0a0a0a";ctx.fill();
+ctx.shadowColor="rgba(0,0,0,0.6)";ctx.shadowBlur=35*dpr;ctx.shadowOffsetY=12*dpr;
+ctx.fillStyle="#111";
+ctx.beginPath();ctx.moveTo(cX+14*dpr,cY);ctx.lineTo(cX+cW-14*dpr,cY);ctx.quadraticCurveTo(cX+cW,cY,cX+cW,cY+14*dpr);ctx.lineTo(cX+cW,cY+cH-14*dpr);ctx.quadraticCurveTo(cX+cW,cY+cH,cX+cW-14*dpr,cY+cH);ctx.lineTo(cX+14*dpr,cY+cH);ctx.quadraticCurveTo(cX,cY+cH,cX,cY+cH-14*dpr);ctx.lineTo(cX,cY+14*dpr);ctx.quadraticCurveTo(cX,cY,cX+14*dpr,cY);ctx.closePath();
+ctx.fill();
 ctx.restore();
 ctx.drawImage(canvas,cX,cY,cW,cH);
-roundRect(ctx,cX,cY,cW,cH,14*dpr);
-ctx.strokeStyle=M;ctx.lineWidth=1.5*dpr;ctx.stroke();
+
+// 边框
+ctx.beginPath();ctx.moveTo(cX+14*dpr,cY);ctx.lineTo(cX+cW-14*dpr,cY);ctx.quadraticCurveTo(cX+cW,cY,cX+cW,cY+14*dpr);ctx.lineTo(cX+cW,cY+cH-14*dpr);ctx.quadraticCurveTo(cX+cW,cY+cH,cX+cW-14*dpr,cY+cH);ctx.lineTo(cX+14*dpr,cY+cH);ctx.quadraticCurveTo(cX,cY+cH,cX,cY+cH-14*dpr);ctx.lineTo(cX,cY+14*dpr);ctx.quadraticCurveTo(cX,cY,cX+14*dpr,cY);ctx.closePath();
+ctx.strokeStyle=M;ctx.lineWidth=2*dpr;ctx.stroke();
 
 // 水印
-var fy=cY+cH+22*dpr;
-ctx.font=8*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle="rgba(255,255,255,0.07)";ctx.textAlign="center";
-ctx.fillText("P A N S H I · W E A L T H · "+new Date().getFullYear()+" | "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pW/2,fy);
+ctx.font=7*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.06)";ctx.textAlign="center";
+ctx.fillText("P A N S H I · W E A L T H · "+new Date().getFullYear()+" | "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pW/2,cY+cH+28*dpr);
 
-var dataUrl=pC.toDataURL("image/png",0.8);
+var dataUrl=pC.toDataURL("image/png",0.85);
 var isM=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 if(isM){
 document.getElementById("previewImage").src=dataUrl;
@@ -441,6 +430,7 @@ document.body.appendChild(a);a.click();document.body.removeChild(a);
 btn.innerHTML="📸 高清导出";
 btn.disabled=false;
 }).catch(function(e){
+card.style.background=origBg;
 themeEl.style.display=origD[0];calcEl.style.display=origD[1];btnEl.style.display=origD[2];
 alert("失败："+e.message);
 btn.innerHTML="📸 高清导出";
