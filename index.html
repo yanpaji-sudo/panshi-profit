@@ -269,6 +269,9 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 </div>
 
 <script>
+// 将十六进制颜色转换为RGB数组
+function hexToRgb(hex){var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return r+","+g+","+b;}
+
 var themeColors={
 gold:{main:"#c9a84c",light:"#ffeeb0",dark:"#8b6914",bg1:"#0a0a0a",bg2:"#1a1a0a",bg3:"#0f0f00",cardBg1:"#1a1a1a",cardBg2:"#0d0d0d",cardBg3:"#000000",textLight:"rgba(255,238,176,0.4)",textBright:"#ffeeb0",icon:"👑",name:"鎏金GOLD",desc:"尊贵典雅",particles:["✦","✧","⬥","◆"]},
 jade:{main:"#23c997",light:"#d0fff2",dark:"#0d7a55",bg1:"#010a08",bg2:"#031a14",bg3:"#05291f",cardBg1:"#0a2a1a",cardBg2:"#051a10",cardBg3:"#02100a",textLight:"rgba(208,255,242,0.4)",textBright:"#d0fff2",icon:"💚",name:"翡翠JADE",desc:"生机盎然",particles:["❦","❧","✿","❀"]},
@@ -279,6 +282,9 @@ rose:{main:"#ff8fa3",light:"#ffe0e7",dark:"#bf4a5e",bg1:"#0a0204",bg2:"#1b080d",
 ocean:{main:"#20d5ff",light:"#d9f8ff",dark:"#0a8abf",bg1:"#010a10",bg2:"#03151f",bg3:"#052030",cardBg1:"#082030",cardBg2:"#041520",cardBg3:"#020a10",textLight:"rgba(217,248,255,0.4)",textBright:"#d9f8ff",icon:"💎",name:"深海OCEAN",desc:"波澜壮阔",particles:["~","≈","≋","∿"]},
 silver:{main:"#dddddd",light:"#ffffff",dark:"#999999",bg1:"#0a0a0a",bg2:"#1a1a1a",bg3:"#222222",cardBg1:"#222222",cardBg2:"#1a1a1a",cardBg3:"#111111",textLight:"rgba(255,255,255,0.4)",textBright:"#ffffff",icon:"🤍",name:"银灰SILVER",desc:"低调奢华",particles:["◈","◇","○","◎"]}
 };
+
+// 辅助函数：生成rgba颜色字符串
+function rgba(hex,alpha){return "rgba("+hexToRgb(hex)+","+alpha+")";}
 
 function getCurrentTheme(){var t=document.body.className;return themeColors[t]||themeColors.gold;}
 function changeTheme(t){document.body.className=t;try{localStorage.setItem("ps_theme",t);}catch(e){}}
@@ -382,7 +388,7 @@ ctx.lineTo(x,y+size);ctx.lineTo(x-size*0.6,y);
 ctx.closePath();ctx.fill();
 }
 
-/* ========= 导出卡片 ========= */
+/* ========= 导出精美卡片 ========= */
 document.getElementById("export").onclick=function(){
 var btn=this;
 btn.innerHTML="⏳ 生成中...";
@@ -419,17 +425,17 @@ for(var j=0;j<ch;j+=30){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(cw,j);ctx.str
 
 // 光晕
 var glow=ctx.createRadialGradient(cw/2,ch*0.35,0,cw/2,ch*0.35,ch*0.7);
-glow.addColorStop(0,M+",0.2)");glow.addColorStop(0.5,M+",0.05)");glow.addColorStop(1,"transparent");
+glow.addColorStop(0,rgba(M,0.2));glow.addColorStop(0.5,rgba(M,0.05));glow.addColorStop(1,"transparent");
 ctx.fillStyle=glow;ctx.fillRect(0,0,cw,ch);
 
 // 粒子
-ctx.fillStyle=M+",0.1)";
+ctx.fillStyle=rgba(M,0.1);
 ctx.font=18*dpr+"px serif";
 for(var p=0;p<30;p++){ctx.fillText(particles[p%particles.length],Math.random()*cw,Math.random()*ch);}
 
 // 卡片阴影
 ctx.save();
-ctx.shadowColor=M+",0.7)";
+ctx.shadowColor=rgba(M,0.7);
 ctx.shadowBlur=60*dpr;ctx.shadowOffsetX=0;ctx.shadowOffsetY=20*dpr;
 roundRect(ctx,pad,pad,cardW,cardH,35*dpr);
 ctx.fillStyle="#0a0a0a";ctx.fill();
@@ -458,21 +464,21 @@ ctx.restore();
 
 // 内边框
 roundRect(ctx,pad+6*dpr,pad+6*dpr,cardW-12*dpr,cardH-12*dpr,29*dpr);
-ctx.strokeStyle=M+",0.2)";ctx.lineWidth=1;ctx.stroke();
+ctx.strokeStyle=rgba(M,0.2);ctx.lineWidth=1;ctx.stroke();
 
 // 装饰线
-ctx.strokeStyle=M+",0.35)";ctx.lineWidth=1.5;
+ctx.strokeStyle=rgba(M,0.35);ctx.lineWidth=1.5;
 ctx.beginPath();ctx.moveTo(pad+60*dpr,pad+85*dpr);ctx.lineTo(pad+cardW-60*dpr,pad+85*dpr);ctx.stroke();
-drawDiamond(ctx,pad+cardW/2,pad+85*dpr,14*dpr,M+",0.9)");
+drawDiamond(ctx,pad+cardW/2,pad+85*dpr,14*dpr,rgba(M,0.9));
 
 var btmLineY=pad+cardH-110*dpr;
 ctx.beginPath();ctx.moveTo(pad+60*dpr,btmLineY);ctx.lineTo(pad+cardW-60*dpr,btmLineY);ctx.stroke();
-drawDiamond(ctx,pad+cardW/2,btmLineY,14*dpr,M+",0.9)");
+drawDiamond(ctx,pad+cardW/2,btmLineY,14*dpr,rgba(M,0.9));
 
 // 四角
 var corS=24*dpr;
-var corA=M+",0.5)";
-var corF=M+",0.7)";
+var corA=rgba(M,0.5);
+var corF=rgba(M,0.7);
 var cxArr=[pad+12*dpr,pad+cardW-12*dpr-corS];
 var cyArr=[pad+12*dpr,pad+cardH-12*dpr-corS];
 for(var ci=0;ci<2;ci++){for(var cj=0;cj<2;cj++){
@@ -496,12 +502,12 @@ ctx.fillText("磐石收益账本",pad+cardW/2,titleY);
 
 // 主题名
 ctx.font="bold "+15*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=M+",0.6)";
+ctx.fillStyle=rgba(M,0.6);
 ctx.fillText(tc.name,pad+cardW/2,titleY+35*dpr);
 
 // 日期
 ctx.font=13*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=M+",0.4)";
+ctx.fillStyle=rgba(M,0.4);
 ctx.fillText(tc.desc+" · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月",pad+cardW/2,titleY+58*dpr);
 
 // 统计卡片
@@ -517,14 +523,14 @@ stats.forEach(function(st,i){
 var sx=pad+50*dpr+i*(statW+15*dpr);var sy=statY;
 roundRect(ctx,sx,sy,statW,statH,22*dpr);
 var sbg=ctx.createLinearGradient(sx,sy,sx,sy+statH);
-sbg.addColorStop(0,M+",0.12)");sbg.addColorStop(1,M+",0.03)");
+sbg.addColorStop(0,rgba(M,0.12));sbg.addColorStop(1,rgba(M,0.03));
 ctx.fillStyle=sbg;ctx.fill();
 roundRect(ctx,sx,sy,statW,statH,22*dpr);
-ctx.strokeStyle=M+",0.25)";ctx.lineWidth=1;ctx.stroke();
+ctx.strokeStyle=rgba(M,0.25);ctx.lineWidth=1;ctx.stroke();
 ctx.font=30*dpr+"px serif";ctx.textAlign="center";
 ctx.fillText(st.icon,sx+statW/2,sy+40*dpr);
 ctx.font=12*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=M+",0.45)";
+ctx.fillStyle=rgba(M,0.45);
 ctx.fillText(st.label,sx+statW/2,sy+72*dpr);
 ctx.font="bold "+26*dpr+"px 'PingFang SC',sans-serif";
 var vg=ctx.createLinearGradient(sx,sy+90*dpr,sx+statW,sy+90*dpr);
@@ -555,9 +561,9 @@ var x=pad+45*dpr+col*cellW,y=gridY+row*cellH;
 var cx=x+cellW/2,cy=y+cellH/2;
 if(income[k]&&income[k][d]){
 roundRect(ctx,x+3,y+3,cellW-6,cellH-6,10*dpr);
-ctx.fillStyle=M+",0.18)";ctx.fill();
+ctx.fillStyle=rgba(M,0.18);ctx.fill();
 roundRect(ctx,x+3,y+3,cellW-6,cellH-6,10*dpr);
-ctx.strokeStyle=M+",0.65)";ctx.lineWidth=1;ctx.stroke();
+ctx.strokeStyle=rgba(M,0.65);ctx.lineWidth=1;ctx.stroke();
 }
 ctx.font="bold "+12*dpr+"px 'PingFang SC',sans-serif";
 ctx.fillStyle=income[k]&&income[k][d]?L:tc.textLight;ctx.textAlign="center";
