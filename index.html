@@ -7,11 +7,10 @@
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<title>磐石收益账本 V3.2</title>
+<title>磐石收益账本</title>
 
 
 <style>
-
 
 *{
 margin:0;
@@ -32,7 +31,7 @@ display:flex;
 
 justify-content:center;
 
-background:#050505;
+background:var(--bg);
 
 font-family:
 
@@ -46,116 +45,17 @@ transition:.3s;
 
 
 
+/* 默认主题 */
 
+:root{
 
-/* ======================
-8套主题变量
-====================== */
-
-
-body.theme-gold{
-
---bg:#080808;
+--bg:#050505;
 --card:#111;
 --main:#c9a84c;
 --light:#ffeeb0;
 --sub:#9c8750;
 
 }
-
-
-
-body.theme-jade{
-
---bg:#031710;
---card:#08271d;
---main:#23c997;
---light:#d0fff2;
---sub:#65a890;
-
-}
-
-
-
-body.theme-blue{
-
---bg:#061326;
---card:#0b203d;
---main:#4da3ff;
---light:#d8ecff;
---sub:#7698c0;
-
-}
-
-
-
-
-body.theme-purple{
-
---bg:#12051d;
---card:#221035;
---main:#b46cff;
---light:#efd7ff;
---sub:#a58ac0;
-
-}
-
-
-
-
-body.theme-black{
-
---bg:#000;
---card:#080808;
---main:#eee;
---light:#fff;
---sub:#777;
-
-}
-
-
-
-
-
-body.theme-rose{
-
---bg:#1b080d;
---card:#2b1119;
---main:#ff8fa3;
---light:#ffe0e8;
---sub:#d18b9b;
-
-}
-
-
-
-
-
-body.theme-ocean{
-
---bg:#02131d;
---card:#062b3a;
---main:#20d5ff;
---light:#d9f8ff;
---sub:#6aaabd;
-
-}
-
-
-
-
-
-body.theme-silver{
-
---bg:#111;
---card:#222;
---main:#ddd;
---light:#fff;
---sub:#999;
-
-}
-
-
 
 
 
@@ -172,21 +72,17 @@ max-width:440px;
 
 
 
-
 .card{
 
-width:100%;
 
 position:relative;
 
 overflow:hidden;
 
-
 padding:24px 18px;
 
 
 border-radius:30px;
-
 
 
 background:
@@ -198,7 +94,6 @@ transparent 35%
 ),
 
 var(--card);
-
 
 
 border:1px solid var(--main);
@@ -215,17 +110,22 @@ box-shadow:
 
 .card:before{
 
+
 content:"";
 
+
 position:absolute;
+
 
 width:420px;
 
 height:420px;
 
+
 left:-160px;
 
 top:-160px;
+
 
 
 background:
@@ -236,17 +136,23 @@ rgba(255,255,255,.15),
 transparent 65%
 );
 
+
 }
+
+
 
 
 
 .inner{
 
+
 position:absolute;
 
 inset:6px;
 
+
 border-radius:25px;
+
 
 border:
 
@@ -262,13 +168,18 @@ pointer-events:none;
 
 .title{
 
+
 position:relative;
+
 
 text-align:center;
 
+
 font-size:30px;
 
+
 font-weight:900;
+
 
 letter-spacing:5px;
 
@@ -284,26 +195,36 @@ var(--light)
 
 -webkit-background-clip:text;
 
+
 color:transparent;
 
+
 }
+
 
 
 
 
 .sub{
 
+
 text-align:center;
+
 
 font-size:12px;
 
+
 margin-top:8px;
+
 
 letter-spacing:3px;
 
+
 color:var(--sub);
 
+
 }
+
 
 
 
@@ -311,27 +232,35 @@ color:var(--sub);
 
 .theme{
 
+
 display:flex;
+
 
 gap:5px;
 
+
 margin:20px 0;
 
+
 flex-wrap:wrap;
+
 
 }
 
 
 
 
-
 .theme button{
+
 
 flex:1;
 
+
 min-width:60px;
 
+
 height:34px;
+
 
 border-radius:18px;
 
@@ -351,19 +280,21 @@ color:var(--light);
 
 font-size:11px;
 
+
 }
 
-<!-- 第2段 / 4段 -->
 
 
-<style>
 
 
 .stats{
 
+
 display:flex;
 
+
 gap:10px;
+
 
 }
 
@@ -371,9 +302,12 @@ gap:10px;
 
 .stat{
 
+
 flex:1;
 
+
 padding:15px 5px;
+
 
 border-radius:16px;
 
@@ -383,7 +317,6 @@ background:
 rgba(255,255,255,.05);
 
 
-
 border:
 
 1px solid rgba(255,255,255,.12);
@@ -391,47 +324,62 @@ border:
 
 text-align:center;
 
-}
 
+}
 
 
 
 .label{
 
+
 font-size:11px;
+
 
 color:var(--sub);
 
-}
 
+}
 
 
 
 .value{
 
+
 margin-top:8px;
+
 
 font-size:20px;
 
+
 font-weight:900;
 
+
 color:var(--light);
+
 
 }
 
 
+<!-- 第2段 / 4段 -->
 
+
+<style>
 
 
 .month{
 
+
 margin:22px 0;
+
 
 display:flex;
 
+
 align-items:center;
 
+
 justify-content:space-between;
+
 
 }
 
@@ -440,9 +388,12 @@ justify-content:space-between;
 
 .month button{
 
+
 width:42px;
 
+
 height:36px;
+
 
 border-radius:18px;
 
@@ -468,9 +419,12 @@ font-size:25px;
 
 .month span{
 
+
 font-size:20px;
 
+
 font-weight:900;
+
 
 color:var(--light);
 
@@ -480,43 +434,55 @@ color:var(--light);
 
 
 
-
 .week{
+
 
 display:grid;
 
+
 grid-template-columns:repeat(7,1fr);
+
 
 text-align:center;
 
+
 font-size:12px;
+
 
 color:var(--sub);
 
+
 margin-bottom:8px;
 
+
 }
+
 
 
 
 
 .grid{
 
+
 display:grid;
+
 
 grid-template-columns:repeat(7,1fr);
 
+
 gap:6px;
+
 
 }
 
 
 
 
-
 .day{
 
+
 height:58px;
+
 
 border-radius:12px;
 
@@ -533,6 +499,7 @@ border:
 
 display:flex;
 
+
 flex-direction:column;
 
 
@@ -544,6 +511,7 @@ justify-content:center;
 
 position:relative;
 
+
 }
 
 
@@ -551,11 +519,14 @@ position:relative;
 
 .day.active{
 
+
 border-color:var(--main);
+
 
 background:
 
 rgba(255,255,255,.08);
+
 
 }
 
@@ -564,47 +535,63 @@ rgba(255,255,255,.08);
 
 .day input{
 
+
 width:90%;
+
 
 border:0;
 
-outline:0;
+
+outline:none;
+
 
 background:transparent;
 
 
 text-align:center;
 
+
 color:var(--light);
+
+
+font-weight:bold;
 
 
 font-size:13px;
 
-font-weight:bold;
 
 }
+
 
 
 
 
 .note-icon{
 
+
 position:absolute;
+
 
 right:3px;
 
+
 top:2px;
 
+
 font-size:11px;
+
 
 }
 
 
 
 
+
 .note-box{
 
+
 margin-top:18px;
+
 
 padding:14px;
 
@@ -615,7 +602,6 @@ border-radius:18px;
 background:
 
 rgba(255,255,255,.05);
-
 
 
 border:
@@ -631,11 +617,15 @@ border:
 
 .note-title{
 
+
 font-weight:bold;
+
 
 color:var(--light);
 
+
 margin-bottom:10px;
+
 
 }
 
@@ -645,9 +635,12 @@ margin-bottom:10px;
 
 .note-item{
 
+
 font-size:12px;
 
+
 line-height:24px;
+
 
 color:var(--sub);
 
@@ -659,6 +652,7 @@ color:var(--sub);
 
 
 .calculator{
+
 
 margin-top:18px;
 
@@ -674,7 +668,6 @@ border:
 1px solid var(--main);
 
 
-
 background:
 
 rgba(255,255,255,.05);
@@ -685,7 +678,9 @@ rgba(255,255,255,.05);
 
 
 
+
 .calc-title{
+
 
 text-align:center;
 
@@ -709,6 +704,7 @@ margin-bottom:15px;
 
 
 .calculator input,
+
 
 .calculator select{
 
@@ -737,9 +733,6 @@ color:var(--light);
 
 
 text-align:center;
-
-
-outline:none;
 
 
 }
@@ -773,7 +766,9 @@ font-weight:bold;
 
 
 
+
 .calc-result{
+
 
 margin-top:12px;
 
@@ -781,12 +776,14 @@ margin-top:12px;
 padding:10px;
 
 
+background:#000;
+
+
 border-radius:15px;
 
 
-background:#000;
-
 }
+
 
 
 
@@ -807,6 +804,7 @@ color:var(--sub);
 
 
 }
+
 
 
 
@@ -846,6 +844,7 @@ margin-top:20px;
 
 
 
+
 .buttons button{
 
 
@@ -869,7 +868,9 @@ font-weight:bold;
 
 
 
+
 .export{
+
 
 border:0;
 
@@ -912,10 +913,10 @@ color:var(--light);
 .brand{
 
 
-margin-top:20px;
-
-
 text-align:center;
+
+
+margin-top:20px;
 
 
 font-size:11px;
@@ -932,8 +933,6 @@ color:rgba(255,255,255,.3);
 
 
 
-
-/*备注弹窗*/
 
 
 .mask{
@@ -954,9 +953,7 @@ align-items:center;
 justify-content:center;
 
 
-background:
-
-rgba(0,0,0,.75);
+background:rgba(0,0,0,.75);
 
 
 z-index:999;
@@ -976,9 +973,7 @@ width:85%;
 background:#111;
 
 
-border:
-
-1px solid var(--main);
+border:1px solid var(--main);
 
 
 border-radius:22px;
@@ -988,6 +983,7 @@ padding:20px;
 
 
 }
+
 
 
 
@@ -1009,6 +1005,7 @@ margin-bottom:15px;
 
 
 
+
 .panel textarea{
 
 
@@ -1021,24 +1018,20 @@ height:130px;
 background:#000;
 
 
-border:
-
-1px solid var(--main);
+border:1px solid var(--main);
 
 
 border-radius:15px;
 
 
-color:white;
+color:#fff;
 
 
 padding:10px;
 
 
-resize:none;
-
-
 }
+
 
 
 
@@ -1073,13 +1066,11 @@ font-weight:bold;
 
 
 
-/*图片保存弹窗*/
-
-
 .save-mask{
 
 
 position:fixed;
+
 
 inset:0;
 
@@ -1093,13 +1084,14 @@ align-items:center;
 justify-content:center;
 
 
-background:rgba(0,0,0,.8);
+background:rgba(0,0,0,.85);
 
 
 z-index:9999;
 
 
 }
+
 
 
 
@@ -1140,9 +1132,6 @@ width:100%;
 border-radius:15px;
 
 
-margin-bottom:15px;
-
-
 }
 
 
@@ -1150,6 +1139,9 @@ margin-bottom:15px;
 
 
 .save-box button{
+
+
+margin-top:15px;
 
 
 width:100%;
@@ -1180,7 +1172,7 @@ font-weight:bold;
 </head>
 
 
-<body class="theme-gold">
+<body>
 
 
 <div class="wrap">
@@ -1193,16 +1185,12 @@ font-weight:bold;
 
 
 <div class="title">
-
 磐石收益账本
-
 </div>
 
 
 <div class="sub">
-
 财富记录 · 智能累计
-
 </div>
 
 
@@ -1210,7 +1198,6 @@ font-weight:bold;
 
 
 <div class="theme">
-
 
 <button onclick="changeTheme('gold')">鎏金</button>
 
@@ -1228,8 +1215,8 @@ font-weight:bold;
 
 <button onclick="changeTheme('silver')">银灰</button>
 
-
 </div>
+
 
 
 
@@ -1242,60 +1229,49 @@ font-weight:bold;
 <div class="stat">
 
 <div class="label">
-
 累计收益
-
 </div>
 
 <div class="value" id="sum">
-
 ¥0
-
 </div>
 
-</div>
 
+</div>
 
 
 
 <div class="stat">
 
 <div class="label">
-
 收益天数
-
 </div>
 
 <div class="value" id="days">
-
 0
-
 </div>
 
-</div>
 
+</div>
 
 
 
 <div class="stat">
 
 <div class="label">
-
 日均收益
-
 </div>
 
 <div class="value" id="avg">
-
 ¥0
-
-</div>
-
 </div>
 
 
 </div>
 
+
+
+</div>
 
 
 
@@ -1304,11 +1280,8 @@ font-weight:bold;
 
 <div class="month">
 
-
 <button id="prev">
-
 ‹
-
 </button>
 
 
@@ -1316,9 +1289,7 @@ font-weight:bold;
 
 
 <button id="next">
-
 ›
-
 </button>
 
 
@@ -1332,21 +1303,14 @@ font-weight:bold;
 <div class="week">
 
 <div>一</div>
-
 <div>二</div>
-
 <div>三</div>
-
 <div>四</div>
-
 <div>五</div>
-
 <div>六</div>
-
 <div>日</div>
 
 </div>
-
 
 
 
@@ -1360,25 +1324,21 @@ font-weight:bold;
 
 
 
+
 <div class="note-box">
 
 
 <div class="note-title">
-
 📝 日期备注
-
 </div>
 
 
 <div id="noteList">
-
 暂无备注
-
 </div>
 
 
 </div>
-
 
 
 
@@ -1389,10 +1349,9 @@ font-weight:bold;
 
 
 <div class="calc-title">
-
 📈 收益计算器
-
 </div>
+
 
 
 
@@ -1411,24 +1370,16 @@ placeholder="输入仓位金额">
 
 
 <option value="0.018">
-
 动态收入（日息1.8%）
-
 </option>
-
 
 
 <option value="0.012">
-
 静态收入（日息1.2%）
-
 </option>
 
 
-
 </select>
-
-
 
 
 
@@ -1444,11 +1395,8 @@ placeholder="输入时间（天）">
 
 
 
-
 <button id="calcBtn">
-
 计算盈利
-
 </button>
 
 
@@ -1461,31 +1409,24 @@ placeholder="输入时间（天）">
 
 
 <div>
-
 纯利润
 
 <span id="profit">
-
 ¥0
-
 </span>
 
-
 </div>
+
 
 
 
 <div>
-
 总金额
 
 <span id="total">
-
 ¥0
-
 </span>
 
-
 </div>
 
 
@@ -1493,7 +1434,6 @@ placeholder="输入时间（天）">
 
 
 </div>
-
 
 
 
@@ -1504,16 +1444,13 @@ placeholder="输入时间（天）">
 
 
 <button class="export" id="export">
-
 📸 高清导出
-
 </button>
 
 
+
 <button class="clear" id="clear">
-
 清空
-
 </button>
 
 
@@ -1524,9 +1461,7 @@ placeholder="输入时间（天）">
 
 
 <div class="brand">
-
 P A N S H I · WEALTH
-
 </div>
 
 
@@ -1536,7 +1471,6 @@ P A N S H I · WEALTH
 
 
 </div>
-
 
 
 
@@ -1551,31 +1485,27 @@ P A N S H I · WEALTH
 
 
 <h3 id="noteTitle">
-
 日期备注
-
 </h3>
 
 
+
 <textarea id="noteText"
-
 placeholder="输入当天备注">
-
 </textarea>
 
 
 
-
 <button id="saveNote">
-
 保存备注
-
 </button>
 
 
 </div>
 
+
 </div>
+
 
 
 
@@ -1591,11 +1521,8 @@ placeholder="输入当天备注">
 <img id="previewImg">
 
 
-
 <button id="saveImg">
-
 保存图片
-
 </button>
 
 
@@ -1609,69 +1536,123 @@ placeholder="输入当天备注">
 
 
 
+
+
 <script>
 
 
 
 
-//======================
-//主题系统 V3.2
-//======================
+//=====================
+//主题变量控制
+//=====================
+
+
+const themes={
+
+
+gold:{
+main:"#c9a84c",
+light:"#ffeeb0",
+card:"#111",
+bg:"#050505",
+sub:"#9c8750"
+},
+
+
+jade:{
+main:"#23c997",
+light:"#d0fff2",
+card:"#08271d",
+bg:"#031710",
+sub:"#65a890"
+},
+
+
+blue:{
+main:"#4da3ff",
+light:"#d8ecff",
+card:"#0b203d",
+bg:"#061326",
+sub:"#7698c0"
+},
+
+
+purple:{
+main:"#b46cff",
+light:"#efd7ff",
+card:"#221035",
+bg:"#12051d",
+sub:"#a58ac0"
+},
+
+
+black:{
+main:"#eeeeee",
+light:"#ffffff",
+card:"#080808",
+bg:"#000",
+sub:"#777"
+},
+
+
+rose:{
+main:"#ff8fa3",
+light:"#ffe0e8",
+card:"#2b1119",
+bg:"#1b080d",
+sub:"#d18b9b"
+},
+
+
+ocean:{
+main:"#20d5ff",
+light:"#d9f8ff",
+card:"#062b3a",
+bg:"#02131d",
+sub:"#6aaabd"
+},
+
+
+silver:{
+main:"#ddd",
+light:"#fff",
+card:"#222",
+bg:"#111",
+sub:"#999"
+}
+
+
+};
+
+
+
+
 
 
 function changeTheme(type){
 
 
-
-let old=[
-
-"theme-gold",
-
-"theme-jade",
-
-"theme-blue",
-
-"theme-purple",
-
-"theme-black",
-
-"theme-rose",
-
-"theme-ocean",
-
-"theme-silver"
-
-];
+let t=themes[type];
 
 
+document.documentElement.style.setProperty("--main",t.main);
 
-old.forEach(function(t){
+document.documentElement.style.setProperty("--light",t.light);
 
+document.documentElement.style.setProperty("--card",t.card);
 
-document.body.classList.remove(t);
+document.documentElement.style.setProperty("--bg",t.bg);
 
-
-});
-
-
-
-
-
-document.body.classList.add(
-
-"theme-"+type
-
-);
+document.documentElement.style.setProperty("--sub",t.sub);
 
 
 
 localStorage.setItem(
-
 "ps_theme",
-
 type
-
 );
+
 
 
 }
@@ -1679,26 +1660,14 @@ type
 
 
 
-
-
-let savedTheme=
+let oldTheme=
 
 localStorage.getItem("ps_theme");
 
 
+if(oldTheme){
 
-if(savedTheme){
-
-
-document.body.classList.remove("theme-gold");
-
-
-document.body.classList.add(
-
-"theme-"+savedTheme
-
-);
-
+changeTheme(oldTheme);
 
 }
 
@@ -1707,76 +1676,39 @@ document.body.classList.add(
 
 
 
-//======================
-//数据
-//======================
-
-
 let now=new Date();
-
-
 
 
 let income=
 
 JSON.parse(
 
-localStorage.getItem("ps_income")
-
-||
-
-"{}"
+localStorage.getItem("ps_income")||"{}"
 
 );
-
 
 
 let notes=
 
 JSON.parse(
 
-localStorage.getItem("ps_notes")
-
-||
-
-"{}"
+localStorage.getItem("ps_notes")||"{}"
 
 );
 
 
-
-
-
 function getKey(){
 
-
-return now.getFullYear()
-
-+
-
-"-"
-
-+
-
-now.getMonth();
-
+return now.getFullYear()+"-"+now.getMonth();
 
 }
-
 
 
 
 let currentDay=null;
 
 
-
-
-
-
-
-//======================
-//日历渲染
-//======================
+<!-- 第4段 / 最后一段 -->
 
 
 function render(){
@@ -1784,17 +1716,13 @@ function render(){
 
 let y=now.getFullYear();
 
-
 let m=now.getMonth();
-
 
 
 
 document.getElementById("ym").innerHTML=
 
 y+"年"+(m+1)+"月";
-
-
 
 
 
@@ -1805,11 +1733,9 @@ grid.innerHTML="";
 
 
 
-
-let first=
+let offset=
 
 (new Date(y,m,1).getDay()+6)%7;
-
 
 
 
@@ -1819,9 +1745,7 @@ new Date(y,m+1,0).getDate();
 
 
 
-
-
-for(let i=0;i<first;i++){
+for(let i=0;i<offset;i++){
 
 
 let e=document.createElement("div");
@@ -1841,16 +1765,13 @@ grid.appendChild(e);
 
 
 
-
 let key=getKey();
-
 
 
 if(!income[key]) income[key]={};
 
 
 if(!notes[key]) notes[key]={};
-
 
 
 
@@ -1866,14 +1787,12 @@ box.className="day";
 
 
 
-
 if(income[key][d]){
-
 
 box.classList.add("active");
 
-
 }
+
 
 
 
@@ -1897,7 +1816,6 @@ box.appendChild(icon);
 
 
 
-
 let num=document.createElement("div");
 
 
@@ -1913,19 +1831,10 @@ box.appendChild(num);
 let input=document.createElement("input");
 
 
-
-input.value=
-
-income[key][d]||"";
-
+input.value=income[key][d]||"";
 
 
 input.placeholder="0";
-
-
-
-input.inputMode="numeric";
-
 
 
 
@@ -1933,13 +1842,7 @@ input.inputMode="numeric";
 input.oninput=function(){
 
 
-
-this.value=this.value
-
-.replace(/\D/g,"")
-
-.substring(0,8);
-
+this.value=this.value.replace(/\D/g,"").substring(0,8);
 
 
 
@@ -1965,25 +1868,16 @@ box.classList.remove("active");
 
 
 
-
-
 localStorage.setItem(
-
 "ps_income",
-
 JSON.stringify(income)
-
 );
-
 
 
 calc();
 
 
-
 };
-
-
 
 
 
@@ -1992,8 +1886,6 @@ input.onclick=function(e){
 e.stopPropagation();
 
 };
-
-
 
 
 
@@ -2011,7 +1903,6 @@ box.appendChild(input);
 grid.appendChild(box);
 
 
-
 }
 
 
@@ -2022,15 +1913,12 @@ calc();
 showNotes();
 
 
-
 }
 
-<!-- 第4段 / 4段 -->
 
 
-//======================
-//统计
-//======================
+
+
 
 
 function calc(){
@@ -2059,6 +1947,7 @@ days++;
 
 }
 
+
 }
 
 
@@ -2070,11 +1959,9 @@ document.getElementById("sum").innerHTML=
 
 
 
-
 document.getElementById("days").innerHTML=
 
 days;
-
 
 
 
@@ -2083,15 +1970,11 @@ document.getElementById("avg").innerHTML=
 
 "¥"+
 
-(
-
-days?
+(days?
 
 Math.round(sum/days):
 
-0
-
-)
+0)
 
 .toLocaleString();
 
@@ -2104,9 +1987,7 @@ Math.round(sum/days):
 
 
 
-//======================
-//备注
-//======================
+
 
 
 function openNote(day){
@@ -2118,23 +1999,9 @@ currentDay=day;
 let key=getKey();
 
 
-
 document.getElementById("noteTitle").innerHTML=
 
-(now.getMonth()+1)
-
-+
-
-"月"
-
-+
-
-day
-
-+
-
-"日备注";
-
+(now.getMonth()+1)+"月"+day+"日备注";
 
 
 
@@ -2144,12 +2011,7 @@ notes[key][day]||"";
 
 
 
-
-
-document.getElementById("mask")
-
-.style.display="flex";
-
+document.getElementById("mask").style.display="flex";
 
 
 }
@@ -2157,42 +2019,23 @@ document.getElementById("mask")
 
 
 
-
-
-document.getElementById("saveNote")
-
-.onclick=function(){
-
+document.getElementById("saveNote").onclick=function(){
 
 
 let key=getKey();
 
 
-
 let text=
 
-document.getElementById("noteText")
-
-.value
-
-.trim();
+document.getElementById("noteText").value.trim();
 
 
 
-
-
-if(!notes[key]){
-
-notes[key]={};
-
-}
-
-
+if(!notes[key]) notes[key]={};
 
 
 
 if(text){
-
 
 notes[key][currentDay]=text;
 
@@ -2207,21 +2050,14 @@ delete notes[key][currentDay];
 
 
 
-
 localStorage.setItem(
-
 "ps_notes",
-
 JSON.stringify(notes)
-
 );
 
 
 
-document.getElementById("mask")
-
-.style.display="none";
-
+document.getElementById("mask").style.display="none";
 
 
 render();
@@ -2233,25 +2069,15 @@ render();
 
 
 
-
-
-document.getElementById("mask")
-
-.onclick=function(e){
-
-
+document.getElementById("mask").onclick=function(e){
 
 if(e.target===this){
 
-
 this.style.display="none";
-
 
 }
 
-
 };
-
 
 
 
@@ -2261,49 +2087,27 @@ this.style.display="none";
 function showNotes(){
 
 
-let key=getKey();
-
-
 let box=document.getElementById("noteList");
 
 
 let html="";
 
 
+let key=getKey();
+
 
 
 for(let d in notes[key]||{}){
 
 
-html+=
-
-"<div class='note-item'>📝 "
-
-+
-
-d
-
-+
-
-"日："
-
-+
-
-notes[key][d]
-
-+
-
-"</div>";
-
+html+="<div class='note-item'>📝 "+d+"日："+notes[key][d]+"</div>";
 
 
 }
 
 
 
-box.innerHTML=
-
-html||"暂无备注";
+box.innerHTML=html||"暂无备注";
 
 
 }
@@ -2314,38 +2118,22 @@ html||"暂无备注";
 
 
 
-
-//======================
-//月份
-//======================
-
-
-document.getElementById("prev")
-
-.onclick=function(){
-
+document.getElementById("prev").onclick=function(){
 
 now.setMonth(now.getMonth()-1);
 
-
 render();
-
 
 };
 
 
 
 
-document.getElementById("next")
-
-.onclick=function(){
-
+document.getElementById("next").onclick=function(){
 
 now.setMonth(now.getMonth()+1);
 
-
 render();
-
 
 };
 
@@ -2356,16 +2144,7 @@ render();
 
 
 
-
-//======================
-//清空
-//======================
-
-
-document.getElementById("clear")
-
-.onclick=function(){
-
+document.getElementById("clear").onclick=function(){
 
 
 if(confirm("确定清空本月收益记录？")){
@@ -2374,15 +2153,10 @@ if(confirm("确定清空本月收益记录？")){
 delete income[getKey()];
 
 
-
 localStorage.setItem(
-
 "ps_income",
-
 JSON.stringify(income)
-
 );
-
 
 
 render();
@@ -2391,7 +2165,6 @@ render();
 }
 
 
-
 };
 
 
@@ -2401,108 +2174,52 @@ render();
 
 
 
-//======================
-//收益计算器
-//======================
+
+document.getElementById("calcBtn").onclick=function(){
 
 
-document.getElementById("calcBtn")
+let p=
 
-.onclick=function(){
-
-
-
-let money=
-
-Number(
-
-document.getElementById("position").value
-
-);
+Number(document.getElementById("position").value);
 
 
+let r=
 
-let rate=
+Number(document.getElementById("incomeType").value);
 
-Number(
 
-document.getElementById("incomeType").value
+let t=
 
-);
+Number(document.getElementById("time").value);
 
 
 
-let time=
-
-Number(
-
-document.getElementById("time").value
-
-);
-
-
-
-
-
-if(!money||!time){
-
+if(!p||!t){
 
 alert("请输入仓位和时间");
 
-
 return;
-
 
 }
 
 
 
+let profit=p*r*t;
 
-let profit=
 
-money*
-
-rate*
-
-time;
+let total=p+profit;
 
 
 
+document.getElementById("profit").innerHTML=
 
-let total=
-
-money+
-
-profit;
+"¥"+Math.round(profit).toLocaleString();
 
 
 
+document.getElementById("total").innerHTML=
 
-
-
-document.getElementById("profit")
-
-.innerHTML=
-
-"¥"+
-
-Math.round(profit)
-
-.toLocaleString();
-
-
-
-
-
-document.getElementById("total")
-
-.innerHTML=
-
-"¥"+
-
-Math.round(total)
-
-.toLocaleString();
+"¥"+Math.round(total).toLocaleString();
 
 
 
@@ -2516,14 +2233,40 @@ Math.round(total)
 
 
 
-//======================
-//高清导出 + 保存
-//======================
+//==========================
+//高清导出
+//隐藏主题和计算器
+//保留日历和水印区域
+//==========================
 
 
-document.getElementById("export")
+document.getElementById("export").onclick=function(){
 
-.onclick=function(){
+
+
+let themeBox=document.querySelector(".theme");
+
+let calcBox=document.querySelector(".calculator");
+
+let btnBox=document.querySelector(".buttons");
+
+
+
+themeBox.style.display="none";
+
+calcBox.style.display="none";
+
+btnBox.style.display="none";
+
+
+
+
+
+
+let canvas=document.createElement("canvas");
+
+
+let ctx=canvas.getContext("2d");
 
 
 
@@ -2531,97 +2274,94 @@ let card=document.getElementById("capture");
 
 
 
-let hide=[
+let w=card.offsetWidth;
 
-document.querySelector(".theme"),
 
-document.querySelector(".calculator"),
-
-document.querySelector(".buttons")
-
-];
+let h=card.offsetHeight;
 
 
 
+canvas.width=w*3;
 
 
-hide.forEach(function(e){
-
-e.style.display="none";
-
-
-});
+canvas.height=h*3;
 
 
 
+ctx.scale(3,3);
 
 
 
-html2canvas(card,{
-
-scale:4,
-
-backgroundColor:null,
-
-useCORS:true
-
-})
-
-.then(function(canvas){
+ctx.fillStyle=getComputedStyle(document.body).backgroundColor;
 
 
-
-let img=
-
-canvas.toDataURL("image/png");
-
-
-
-document.getElementById("previewImg").src=img;
-
-
-
-document.getElementById("saveMask")
-
-.style.display="flex";
+ctx.fillRect(0,0,w,h);
 
 
 
 
 
+let data=
 
-document.getElementById("saveImg")
+new XMLSerializer().serializeToString(card);
 
-.onclick=function(){
+
+
+let svg=
+
+`
+
+<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+
+<foreignObject width="100%" height="100%">
+
+<div xmlns="http://www.w3.org/1999/xhtml">
+
+${data}
+
+</div>
+
+</foreignObject>
+
+</svg>
+
+`;
+
+
+
+let img=new Image();
+
+
+
+img.onload=function(){
+
+
+ctx.drawImage(img,0,0,w,h);
+
+
+
+let url=canvas.toDataURL("image/png");
+
+
+
+document.getElementById("previewImg").src=url;
+
+
+document.getElementById("saveMask").style.display="flex";
+
+
+
+document.getElementById("saveImg").onclick=function(){
 
 
 
 let a=document.createElement("a");
 
 
-a.href=img;
+a.href=url;
 
 
-a.download=
-
-"磐石收益账本_"
-
-+
-
-now.getFullYear()
-
-+
-
-"年"
-
-+
-
-(now.getMonth()+1)
-
-+
-
-"月.png";
-
+a.download="磐石收益账本.png";
 
 
 a.click();
@@ -2632,18 +2372,26 @@ a.click();
 
 
 
-});
+};
 
 
 
 
 
-hide.forEach(function(e){
+img.src="data:image/svg+xml;charset=utf-8,"+
 
-e.style.display="";
+encodeURIComponent(svg);
 
-});
 
+
+
+
+
+themeBox.style.display="flex";
+
+calcBox.style.display="block";
+
+btnBox.style.display="flex";
 
 
 };
@@ -2654,21 +2402,12 @@ e.style.display="";
 
 
 
-
-
-//关闭图片保存窗口
-
-
-document.getElementById("saveMask")
-
-.onclick=function(e){
+document.getElementById("saveMask").onclick=function(e){
 
 
 if(e.target===this){
 
-
 this.style.display="none";
-
 
 }
 
@@ -2679,14 +2418,7 @@ this.style.display="none";
 
 
 
-
-
-
-//启动
-
-
 render();
-
 
 
 </script>
