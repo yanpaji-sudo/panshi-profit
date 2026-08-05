@@ -206,7 +206,6 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 .panel textarea{width:100%;height:130px;border-radius:15px;padding:10px;font-size:14px;resize:none;outline:none;background:#000;}
 .panel button{width:100%;height:45px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
 
-/* 预览弹窗 */
 .preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:15px;}
 .preview-overlay img{max-width:95%;max-height:75vh;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
 .preview-tip{color:#fff;font-size:16px;font-weight:bold;margin:15px 0;text-align:center;}
@@ -284,17 +283,20 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 </div>
 
 <script>
-/* ============ 8套主题海报配色 ============ */
+/* ============ 8套主题海报配色（使用预解析的RGB值）============ */
 var posterThemes={
-gold:{main:"#c9a84c",light:"#ffeeb0",dark:"#8b6914",bg:"#0a0800",accent:"#f0d060",icon:"👑",name:"鎏金 · GOLD",slogan:"财富如金 · 历久弥新",particles:["✦","✧","◆","⬥","◇"],pattern:"geometric"},
-jade:{main:"#23c997",light:"#d0fff2",dark:"#0d7a55",bg:"#010a06",accent:"#5eeac0",icon:"💚",name:"翡翠 · JADE",slogan:"生机盎然 · 财源广进",particles:["❦","❧","✿","❀","🍀"],pattern:"nature"},
-blue:{main:"#4da3ff",light:"#d8ecff",dark:"#1a5fbf",bg:"#020a18",accent:"#80c0ff",icon:"💙",name:"星耀 · BLUE",slogan:"星辰大海 · 财富无限",particles:["✧","✶","✹","✦","✷"],pattern:"stars"},
-purple:{main:"#b46cff",light:"#efd7ff",dark:"#6b30bf",bg:"#0a0218",accent:"#d0a0ff",icon:"💜",name:"紫晶 · PURPLE",slogan:"神秘高贵 · 财富密码",particles:["☪","✡","🔮","✶","💎"],pattern:"crystal"},
-black:{main:"#eee",light:"#fff",dark:"#999",bg:"#000",accent:"#ccc",icon:"🖤",name:"黑钻 · BLACK",slogan:"极致简约 · 非凡财富",particles:["◈","◇","⬖","⬗","○"],pattern:"minimal"},
-rose:{main:"#ff8fa3",light:"#ffe0e7",dark:"#bf4a5e",bg:"#0d0204",accent:"#ffb0c0",icon:"💗",name:"玫瑰 · ROSE",slogan:"浪漫温馨 · 财富之美",particles:["♡","♥","❦","✿","🌹"],pattern:"romantic"},
-ocean:{main:"#20d5ff",light:"#d9f8ff",dark:"#0a8abf",bg:"#010a14",accent:"#60e0ff",icon:"💎",name:"深海 · OCEAN",slogan:"波澜壮阔 · 财富之海",particles:["~","≈","≋","∿","🌊"],pattern:"wave"},
-silver:{main:"#ddd",light:"#fff",dark:"#999",bg:"#0a0a0a",accent:"#eee",icon:"🤍",name:"银灰 · SILVER",slogan:"低调奢华 · 财富永恒",particles:["◈","◇","○","◎","●"],pattern:"elegant"}
+gold:{main:"#c9a84c",mainR:"201,168,76",light:"#ffeeb0",lightR:"255,238,176",dark:"#8b6914",darkR:"139,105,20",bg:"#0a0800",bgR:"10,8,0",accent:"#f0d060",accentR:"240,208,96",icon:"👑",name:"鎏金 · GOLD",slogan:"财富如金 · 历久弥新",particles:["✦","✧","◆","⬥","◇"]},
+jade:{main:"#23c997",mainR:"35,201,151",light:"#d0fff2",lightR:"208,255,242",dark:"#0d7a55",darkR:"13,122,85",bg:"#010a06",bgR:"1,10,6",accent:"#5eeac0",accentR:"94,234,192",icon:"💚",name:"翡翠 · JADE",slogan:"生机盎然 · 财源广进",particles:["❦","❧","✿","❀","🍀"]},
+blue:{main:"#4da3ff",mainR:"77,163,255",light:"#d8ecff",lightR:"216,236,255",dark:"#1a5fbf",darkR:"26,95,191",bg:"#020a18",bgR:"2,10,24",accent:"#80c0ff",accentR:"128,192,255",icon:"💙",name:"星耀 · BLUE",slogan:"星辰大海 · 财富无限",particles:["✧","✶","✹","✦","✷"]},
+purple:{main:"#b46cff",mainR:"180,108,255",light:"#efd7ff",lightR:"239,215,255",dark:"#6b30bf",darkR:"107,48,191",bg:"#0a0218",bgR:"10,2,24",accent:"#d0a0ff",accentR:"208,160,255",icon:"💜",name:"紫晶 · PURPLE",slogan:"神秘高贵 · 财富密码",particles:["☪","✡","🔮","✶","💎"]},
+black:{main:"#eee",mainR:"238,238,238",light:"#fff",lightR:"255,255,255",dark:"#999",darkR:"153,153,153",bg:"#000",bgR:"0,0,0",accent:"#ccc",accentR:"204,204,204",icon:"🖤",name:"黑钻 · BLACK",slogan:"极致简约 · 非凡财富",particles:["◈","◇","⬖","⬗","○"]},
+rose:{main:"#ff8fa3",mainR:"255,143,163",light:"#ffe0e7",lightR:"255,224,231",dark:"#bf4a5e",darkR:"191,74,94",bg:"#0d0204",bgR:"13,2,4",accent:"#ffb0c0",accentR:"255,176,192",icon:"💗",name:"玫瑰 · ROSE",slogan:"浪漫温馨 · 财富之美",particles:["♡","♥","❦","✿","🌹"]},
+ocean:{main:"#20d5ff",mainR:"32,213,255",light:"#d9f8ff",lightR:"217,248,255",dark:"#0a8abf",darkR:"10,138,191",bg:"#010a14",bgR:"1,10,20",accent:"#60e0ff",accentR:"96,224,255",icon:"💎",name:"深海 · OCEAN",slogan:"波澜壮阔 · 财富之海",particles:["~","≈","≋","∿","🌊"]},
+silver:{main:"#ddd",mainR:"221,221,221",light:"#fff",lightR:"255,255,255",dark:"#999",darkR:"153,153,153",bg:"#0a0a0a",bgR:"10,10,10",accent:"#eee",accentR:"238,238,238",icon:"🤍",name:"银灰 · SILVER",slogan:"低调奢华 · 财富永恒",particles:["◈","◇","○","◎","●"]}
 };
+
+// 简化的rgba函数
+function rgba(rgbStr,alpha){return"rgba("+rgbStr+","+alpha+")";}
 
 function changeTheme(t){document.body.className=t;try{localStorage.setItem("ps_theme",t);}catch(e){}}
 (function(){var t=localStorage.getItem("ps_theme");document.body.className=t?t:"gold";})();
@@ -352,8 +354,6 @@ function getStatSum(){var k=getKey(),s=0;for(var i in income[k]||{})s+=income[k]
 function getStatDays(){var k=getKey(),d=0;for(var i in income[k]||{})if(income[k][i])d++;return d;}
 function getStatAvg(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(income[k][i]){s+=income[k][i];d++;}}return d?Math.round(s/d).toLocaleString():0;}
 
-function hexToRgb(hex){var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return r+","+g+","+b;}
-function rgba(hex,alpha){return"rgba("+hexToRgb(hex)+","+alpha+")";}
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
 /* ============ 海报级导出 ============ */
@@ -373,12 +373,10 @@ var card=document.getElementById("capture");
 html2canvas(card,{backgroundColor:null,scale:3,useCORS:true,allowTaint:true}).then(function(canvas){
 themeEl.style.display=origD[0];calcEl.style.display=origD[1];btnEl.style.display=origD[2];
 
-// 获取主题
 var t=document.body.className;
 var pt=posterThemes[t]||posterThemes.gold;
-var M=pt.main,L=pt.light,D=pt.dark,BG=pt.bg,AC=pt.accent;
+var M=pt.main,MR=pt.mainR,LR=pt.lightR,DR=pt.darkR,BGR=pt.bgR,ACR=pt.accentR;
 
-// 创建海报画布
 var dpr=3;
 var posterW=750*dpr;
 var posterH=1334*dpr;
@@ -387,143 +385,110 @@ pCanvas.width=posterW;
 pCanvas.height=posterH;
 var ctx=pCanvas.getContext("2d");
 
-// ===== 1. 深色渐变背景 =====
+// 1. 背景
 var bgGrad=ctx.createLinearGradient(0,0,posterW,posterH);
-bgGrad.addColorStop(0,BG);
-bgGrad.addColorStop(0.4,"#000000");
-bgGrad.addColorStop(1,BG);
-ctx.fillStyle=bgGrad;
-ctx.fillRect(0,0,posterW,posterH);
+bgGrad.addColorStop(0,pt.bg);bgGrad.addColorStop(0.4,"#000");bgGrad.addColorStop(1,pt.bg);
+ctx.fillStyle=bgGrad;ctx.fillRect(0,0,posterW,posterH);
 
-// ===== 2. 网格纹理 =====
-ctx.strokeStyle="rgba(255,255,255,0.015)";
-ctx.lineWidth=1;
+// 2. 网格
+ctx.strokeStyle="rgba(255,255,255,0.015)";ctx.lineWidth=1;
 for(var i=0;i<posterW;i+=40*dpr){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,posterH);ctx.stroke();}
 for(var j=0;j<posterH;j+=40*dpr){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(posterW,j);ctx.stroke();}
 
-// ===== 3. 光晕效果 =====
+// 3. 光晕
 var glow1=ctx.createRadialGradient(posterW*0.3,posterH*0.2,0,posterW*0.3,posterH*0.2,posterW*0.5);
-glow1.addColorStop(0,rgba(M,0.15));glow1.addColorStop(1,"transparent");
+glow1.addColorStop(0,rgba(MR,0.15));glow1.addColorStop(1,"transparent");
 ctx.fillStyle=glow1;ctx.fillRect(0,0,posterW,posterH);
 var glow2=ctx.createRadialGradient(posterW*0.7,posterH*0.6,0,posterW*0.7,posterH*0.6,posterW*0.4);
-glow2.addColorStop(0,rgba(AC,0.1));glow2.addColorStop(1,"transparent");
+glow2.addColorStop(0,rgba(ACR,0.1));glow2.addColorStop(1,"transparent");
 ctx.fillStyle=glow2;ctx.fillRect(0,0,posterW,posterH);
 
-// ===== 4. 装饰粒子 =====
-ctx.fillStyle=rgba(M,0.08);
-for(var p=0;p<50;p++){
-var ps=8+Math.random()*20;
-ctx.font=ps*dpr+"px serif";
-ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*posterW,Math.random()*posterH);
-}
+// 4. 粒子
+ctx.fillStyle=rgba(MR,0.08);
+for(var p=0;p<50;p++){var ps=8+Math.random()*20;ctx.font=ps*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*posterW,Math.random()*posterH);}
 
-// ===== 5. 顶部装饰带 =====
-var topBandH=80*dpr;
-var topBandGrad=ctx.createLinearGradient(0,0,0,topBandH);
-topBandGrad.addColorStop(0,rgba(M,0.3));topBandGrad.addColorStop(1,"transparent");
-ctx.fillStyle=topBandGrad;
-ctx.fillRect(0,0,posterW,topBandH);
+// 5. 顶部装饰带
+var topH=80*dpr;
+var topG=ctx.createLinearGradient(0,0,0,topH);
+topG.addColorStop(0,rgba(MR,0.3));topG.addColorStop(1,"transparent");
+ctx.fillStyle=topG;ctx.fillRect(0,0,posterW,topH);
+ctx.strokeStyle=rgba(MR,0.4);ctx.lineWidth=2*dpr;
+ctx.beginPath();ctx.moveTo(60*dpr,topH-10*dpr);ctx.lineTo(posterW-60*dpr,topH-10*dpr);ctx.stroke();
 
-// 顶部装饰线
-ctx.strokeStyle=rgba(M,0.4);ctx.lineWidth=2*dpr;
-ctx.beginPath();ctx.moveTo(60*dpr,topBandH-10*dpr);ctx.lineTo(posterW-60*dpr,topBandH-10*dpr);ctx.stroke();
-
-// ===== 6. 标题区域 =====
+// 6. 标题
 var titleY=180*dpr;
-// 图标
 ctx.font=80*dpr+"px serif";ctx.textAlign="center";
 ctx.fillText(pt.icon,posterW/2,titleY-20*dpr);
-
-// 主标题
 ctx.font="bold "+64*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
-var titleGrad=ctx.createLinearGradient(0,titleY,posterW,titleY);
-titleGrad.addColorStop(0,M);titleGrad.addColorStop(0.3,L);titleGrad.addColorStop(0.7,L);titleGrad.addColorStop(1,M);
-ctx.fillStyle=titleGrad;
+var titG=ctx.createLinearGradient(0,titleY,posterW,titleY);
+titG.addColorStop(0,M);titG.addColorStop(0.3,pt.light);titG.addColorStop(0.7,pt.light);titG.addColorStop(1,M);
+ctx.fillStyle=titG;
 ctx.fillText("磐 石 收 益 账 本",posterW/2,titleY+30*dpr);
-
-// 主题名
 ctx.font="bold "+22*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(M,0.7);
+ctx.fillStyle=rgba(MR,0.7);
 ctx.fillText(pt.name,posterW/2,titleY+70*dpr);
-
-// 口号
 ctx.font="italic "+18*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(M,0.4);
+ctx.fillStyle=rgba(MR,0.4);
 ctx.fillText(pt.slogan,posterW/2,titleY+100*dpr);
 
-// ===== 7. 分隔装饰 =====
+// 7. 分隔线
 var sepY=titleY+150*dpr;
-ctx.strokeStyle=rgba(M,0.3);ctx.lineWidth=1*dpr;
+ctx.strokeStyle=rgba(MR,0.3);ctx.lineWidth=1*dpr;
 ctx.beginPath();ctx.moveTo(posterW*0.2,sepY);ctx.lineTo(posterW*0.8,sepY);ctx.stroke();
-// 中间菱形
-ctx.fillStyle=rgba(M,0.8);
+ctx.fillStyle=rgba(MR,0.8);
 ctx.beginPath();var ds=12*dpr;
-ctx.moveTo(posterW/2,sepY-ds);ctx.lineTo(posterW/2+ds*0.6,sepY);
-ctx.lineTo(posterW/2,sepY+ds);ctx.lineTo(posterW/2-ds*0.6,sepY);
+ctx.moveTo(posterW/2,sepY-ds);ctx.lineTo(posterW/2+ds*0.6,sepY);ctx.lineTo(posterW/2,sepY+ds);ctx.lineTo(posterW/2-ds*0.6,sepY);
 ctx.closePath();ctx.fill();
 
-// ===== 8. 卡片截图区域 =====
+// 8. 卡片截图
 var cardW=posterW*0.85;
 var cardH=canvas.height*(cardW/canvas.width);
 var cardX=(posterW-cardW)/2;
 var cardY=sepY+40*dpr;
-
-// 卡片阴影
 ctx.save();
-ctx.shadowColor=rgba(M,0.6);ctx.shadowBlur=80*dpr;ctx.shadowOffsetY=30*dpr;
+ctx.shadowColor=rgba(MR,0.6);ctx.shadowBlur=80*dpr;ctx.shadowOffsetY=30*dpr;
 roundRect(ctx,cardX,cardY,cardW,cardH,25*dpr);
 ctx.fillStyle="#0a0a0a";ctx.fill();
 ctx.restore();
-
-// 绘制卡片
 ctx.drawImage(canvas,cardX,cardY,cardW,cardH);
-
-// 卡片边框
 roundRect(ctx,cardX,cardY,cardW,cardH,25*dpr);
 ctx.strokeStyle=M;ctx.lineWidth=3*dpr;ctx.stroke();
 
-// ===== 9. 统计亮点区 =====
+// 9. 统计区
 var statSecY=cardY+cardH+60*dpr;
-ctx.fillStyle=L;ctx.font="bold "+30*dpr+"px 'PingFang SC',sans-serif";ctx.textAlign="center";
+ctx.fillStyle=pt.light;ctx.font="bold "+30*dpr+"px 'PingFang SC',sans-serif";ctx.textAlign="center";
 ctx.fillText("📊 本月数据一览",posterW/2,statSecY);
-
-var statData=[
-{label:"累计收益",val:"¥"+getStatSum(),icon:"💰"},
-{label:"收益天数",val:getStatDays()+"天",icon:"📅"},
-{label:"日均收益",val:"¥"+getStatAvg(),icon:"📊"}
-];
+var statData=[["累计收益","¥"+getStatSum(),"💰"],["收益天数",getStatDays()+"天","📅"],["日均收益","¥"+getStatAvg(),"📊"]];
 var sW=(posterW-120*dpr)/3;
 var sH=130*dpr;
 var sY=statSecY+50*dpr;
 statData.forEach(function(s,i){
 var sx=40*dpr+i*(sW+20*dpr);
 roundRect(ctx,sx,sY,sW,sH,20*dpr);
-ctx.fillStyle=rgba(M,0.1);ctx.fill();
-ctx.strokeStyle=rgba(M,0.3);ctx.lineWidth=1;ctx.stroke();
+ctx.fillStyle=rgba(MR,0.1);ctx.fill();
+ctx.strokeStyle=rgba(MR,0.3);ctx.lineWidth=1;ctx.stroke();
 ctx.font=35*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(s.icon,sx+sW/2,sY+45*dpr);
+ctx.fillText(s[2],sx+sW/2,sY+45*dpr);
 ctx.font=13*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(M,0.5);
-ctx.fillText(s.label,sx+sW/2,sY+75*dpr);
+ctx.fillStyle=rgba(MR,0.5);
+ctx.fillText(s[0],sx+sW/2,sY+75*dpr);
 ctx.font="bold "+28*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=L;
-ctx.fillText(s.val,sx+sW/2,sY+112*dpr);
+ctx.fillStyle=pt.light;
+ctx.fillText(s[1],sx+sW/2,sY+112*dpr);
 });
 
-// ===== 10. 底部水印 =====
+// 10. 水印
 var footerY=posterH-100*dpr;
-ctx.strokeStyle=rgba(M,0.2);ctx.lineWidth=1;
+ctx.strokeStyle=rgba(MR,0.2);ctx.lineWidth=1;
 ctx.beginPath();ctx.moveTo(posterW*0.2,footerY);ctx.lineTo(posterW*0.8,footerY);ctx.stroke();
-
 ctx.font=13*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(255,255,255,0.15);ctx.textAlign="center";
+ctx.fillStyle="rgba(255,255,255,0.15)";ctx.textAlign="center";
 ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),posterW/2,footerY+25*dpr);
 ctx.fillText("磐石收益账本 · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月收益报告",posterW/2,footerY+50*dpr);
 
-// ===== 11. 导出 =====
+// 11. 导出
 var dataUrl=pCanvas.toDataURL("image/png");
 var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
 if(isMobile){
 document.getElementById("previewImage").src=dataUrl;
 document.getElementById("previewOverlay").style.display="flex";
@@ -531,11 +496,8 @@ document.getElementById("previewOverlay").style.display="flex";
 var a=document.createElement("a");
 a.href=dataUrl;
 a.download="磐石收益账本_海报_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
+document.body.appendChild(a);a.click();document.body.removeChild(a);
 }
-
 btn.innerHTML="📸 高清导出";
 btn.disabled=false;
 }).catch(function(e){
@@ -547,7 +509,6 @@ btn.disabled=false;
 };
 
 document.getElementById("previewOverlay").onclick=function(e){if(e.target===this)this.style.display="none";};
-
 render();
 </script>
 </body>
