@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -270,15 +271,6 @@ body.silver .month span{color:#ffffff;}
 </div>
 </div>
 
-<!-- 隐藏的图片预览弹窗，用于移动端长按保存 -->
-<div class="mask" id="imgMask" style="z-index:1000;">
-<div class="panel" style="max-width:90%;max-height:90vh;overflow:auto;background:#000;text-align:center;">
-<h3 style="color:#fff;">长按图片保存到相册</h3>
-<img id="previewImg" style="width:100%;border-radius:15px;" alt="预览图">
-<button id="closePreview" style="margin-top:15px;background:#c9a84c;color:#000;">关闭</button>
-</div>
-</div>
-
 <script>
 /* ========= 主题颜色配置 ========= */
 var themeColors={
@@ -440,13 +432,14 @@ document.getElementById("total").textContent="¥"+Math.round(total).toLocaleStri
 document.getElementById("rateShow").textContent=(rate*100).toFixed(1)+"%/天";
 };
 
-/* ========= 导出（移动端长按保存）========= */
+/* ========= 导出（使用新窗口打开图片，支持原生保存）========= */
 document.getElementById("export").onclick=function(){
 var btn=this;
 var origText=btn.textContent;
 btn.textContent="生成中...";
 btn.disabled=true;
 
+// 隐藏不需要导出的元素
 var hide=[];
 var t=document.querySelector(".theme");if(t)hide.push(t);
 var c=document.querySelector(".calculator");if(c)hide.push(c);
@@ -733,7 +726,7 @@ ctx.fillStyle="rgba(255,255,255,0.15)";
 ctx.textAlign="center";
 ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),padding+w/2,footerY);
 
-// 使用toDataURL转为base64图片
+// 生成base64图片
 var dataUrl=canvas.toDataURL("image/png");
 
 // 恢复界面
@@ -741,15 +734,45 @@ hide.forEach(function(e){e.style.display="";});
 btn.textContent=origText;
 btn.disabled=false;
 
-// 判断设备类型
+// 判断设备
 var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 if(isMobile){
-// 移动端：显示预览弹窗，用户长按保存
-document.getElementById("previewImg").src=dataUrl;
-document.getElementById("imgMask").style.display="flex";
+// 移动端：使用Web Share API（iOS 14+支持），可以直接保存到相册
+if(navigator.share && navigator.canShare){
+// 将dataURL转为blob
+var byteString=atob(dataUrl.split(",")[1]);
+var mimeString=dataUrl.split(",")[0].split(":")[1].split(";")[0];
+var ab=new ArrayBuffer(byteString.length);
+var ia=new Uint8Array(ab);
+for(var i=0;i<byteString.length;i++){ia[i]=byteString.charCodeAt(i);}
+var blob=new Blob([ab],{type:mimeString});
+var file=new File([blob],"磐石收益账本_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png",{type:"image/png"});
+
+navigator.share({
+title:"磐石收益账本",
+text:now.getFullYear()+"年"+(now.getMonth()+1)+"月收益记录",
+files:[file]
+}).then(function(){
+console.log("分享成功");
+}).catch(function(err){
+// 用户取消或分享失败，打开新窗口作为降级方案
+console.log("分享失败，打开预览:",err);
+window.open(dataUrl,"_blank");
+});
 }else{
-// 桌面端：直接触发下载
+// 不支持Web Share API，打开新窗口显示图片
+var win=window.open("","_blank","width="+screen.width+",height="+screen.height);
+if(win){
+win.document.write('<html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>保存图片</title><style>body{margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh;}img{max-width:100%;height:auto;}p{color:#fff;text-align:center;padding:10px;font-size:14px;}</style></head><body><div><p>⬇️ 长按图片保存到相册 ⬇️</p><img src="'+dataUrl+'" onload="this.style.display=\'block\'"><p style="font-size:12px;opacity:.6;">如无法保存，请截图</p></div></body></html>');
+win.document.close();
+}else{
+// 如果弹窗被拦截，在当前窗口打开
+window.location.href=dataUrl;
+}
+}
+}else{
+// 桌面端：直接下载
 var a=document.createElement("a");
 a.href=dataUrl;
 a.download="磐石收益账本_"+now.getFullYear()+"年"+(now.getMonth()+1)+"月.png";
@@ -760,14 +783,6 @@ document.body.removeChild(a);
 }
 },100);
 });
-};
-
-// 关闭预览弹窗
-document.getElementById("closePreview").onclick=function(){
-document.getElementById("imgMask").style.display="none";
-};
-document.getElementById("imgMask").onclick=function(e){
-if(e.target===this)this.style.display="none";
 };
 
 /* ========= 辅助函数 ========= */
