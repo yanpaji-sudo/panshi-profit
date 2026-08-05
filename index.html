@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<title>磐石收益账本 V3.1</title>
+<title>磐石收益账本 V3.2</title>
 
 
 <style>
@@ -39,20 +40,23 @@ font-family:
 "Microsoft YaHei",
 Arial,sans-serif;
 
+transition:.3s;
+
 }
 
 
 
 
-/* =====================
-八大主题
-===================== */
+
+/* ======================
+8套主题变量
+====================== */
 
 
-body.gold{
+body.theme-gold{
 
 --bg:#080808;
---card:#111111;
+--card:#111;
 --main:#c9a84c;
 --light:#ffeeb0;
 --sub:#9c8750;
@@ -61,7 +65,7 @@ body.gold{
 
 
 
-body.jade{
+body.theme-jade{
 
 --bg:#031710;
 --card:#08271d;
@@ -73,7 +77,7 @@ body.jade{
 
 
 
-body.blue{
+body.theme-blue{
 
 --bg:#061326;
 --card:#0b203d;
@@ -85,7 +89,8 @@ body.blue{
 
 
 
-body.purple{
+
+body.theme-purple{
 
 --bg:#12051d;
 --card:#221035;
@@ -97,19 +102,22 @@ body.purple{
 
 
 
-body.black{
 
---bg:#000000;
+body.theme-black{
+
+--bg:#000;
 --card:#080808;
---main:#eeeeee;
---light:#ffffff;
---sub:#777777;
+--main:#eee;
+--light:#fff;
+--sub:#777;
 
 }
 
 
 
-body.rose{
+
+
+body.theme-rose{
 
 --bg:#1b080d;
 --card:#2b1119;
@@ -121,7 +129,9 @@ body.rose{
 
 
 
-body.ocean{
+
+
+body.theme-ocean{
 
 --bg:#02131d;
 --card:#062b3a;
@@ -133,15 +143,19 @@ body.ocean{
 
 
 
-body.silver{
 
---bg:#111111;
---card:#222222;
---main:#dddddd;
---light:#ffffff;
---sub:#999999;
+
+body.theme-silver{
+
+--bg:#111;
+--card:#222;
+--main:#ddd;
+--light:#fff;
+--sub:#999;
 
 }
+
+
 
 
 
@@ -161,12 +175,11 @@ max-width:440px;
 
 .card{
 
+width:100%;
 
 position:relative;
 
 overflow:hidden;
-
-width:100%;
 
 
 padding:24px 18px;
@@ -175,15 +188,14 @@ padding:24px 18px;
 border-radius:30px;
 
 
-background:
 
+background:
 
 linear-gradient(
 160deg,
 rgba(255,255,255,.1),
 transparent 35%
 ),
-
 
 var(--card);
 
@@ -192,34 +204,28 @@ var(--card);
 border:1px solid var(--main);
 
 
-
 box-shadow:
 
 0 20px 80px rgba(0,0,0,.8);
-
 
 }
 
 
 
-.card:before{
 
+.card:before{
 
 content:"";
 
-
 position:absolute;
-
 
 width:420px;
 
 height:420px;
 
-
 left:-160px;
 
 top:-160px;
-
 
 
 background:
@@ -230,23 +236,17 @@ rgba(255,255,255,.15),
 transparent 65%
 );
 
-
 }
-
-
 
 
 
 .inner{
 
-
 position:absolute;
 
 inset:6px;
 
-
 border-radius:25px;
-
 
 border:
 
@@ -255,7 +255,6 @@ border:
 
 pointer-events:none;
 
-
 }
 
 
@@ -263,21 +262,15 @@ pointer-events:none;
 
 .title{
 
-
 position:relative;
-
 
 text-align:center;
 
-
 font-size:30px;
-
 
 font-weight:900;
 
-
 letter-spacing:5px;
-
 
 
 background:
@@ -289,72 +282,56 @@ var(--light)
 );
 
 
-
 -webkit-background-clip:text;
-
 
 color:transparent;
 
-
 }
-
 
 
 
 
 .sub{
 
-
 text-align:center;
-
 
 font-size:12px;
 
-
 margin-top:8px;
-
 
 letter-spacing:3px;
 
-
 color:var(--sub);
 
-
 }
+
+
 
 
 
 .theme{
 
-
 display:flex;
-
 
 gap:5px;
 
-
 margin:20px 0;
-
 
 flex-wrap:wrap;
 
-
 }
+
 
 
 
 
 .theme button{
 
-
 flex:1;
-
 
 min-width:60px;
 
-
 height:34px;
-
 
 border-radius:18px;
 
@@ -364,21 +341,18 @@ border:
 1px solid var(--main);
 
 
-
 background:
 
 rgba(255,255,255,.05);
 
 
-
 color:var(--light);
-
 
 
 font-size:11px;
 
-
 }
+
 <!-- 第2段 / 4段 -->
 
 
@@ -415,7 +389,6 @@ border:
 1px solid rgba(255,255,255,.12);
 
 
-
 text-align:center;
 
 }
@@ -449,6 +422,7 @@ color:var(--light);
 
 
 
+
 .month{
 
 margin:22px 0;
@@ -465,7 +439,6 @@ justify-content:space-between;
 
 
 .month button{
-
 
 width:42px;
 
@@ -495,11 +468,9 @@ font-size:25px;
 
 .month span{
 
-
 font-size:20px;
 
 font-weight:900;
-
 
 color:var(--light);
 
@@ -512,23 +483,17 @@ color:var(--light);
 
 .week{
 
-
 display:grid;
 
 grid-template-columns:repeat(7,1fr);
 
-
 text-align:center;
-
 
 font-size:12px;
 
-
 color:var(--sub);
 
-
 margin-bottom:8px;
-
 
 }
 
@@ -537,15 +502,11 @@ margin-bottom:8px;
 
 .grid{
 
-
 display:grid;
-
 
 grid-template-columns:repeat(7,1fr);
 
-
 gap:6px;
-
 
 }
 
@@ -555,9 +516,7 @@ gap:6px;
 
 .day{
 
-
 height:58px;
-
 
 border-radius:12px;
 
@@ -567,15 +526,12 @@ background:
 rgba(255,255,255,.04);
 
 
-
 border:
 
 1px solid rgba(255,255,255,.1);
 
 
-
 display:flex;
-
 
 flex-direction:column;
 
@@ -586,83 +542,60 @@ align-items:center;
 justify-content:center;
 
 
-
 position:relative;
 
-
 }
-
 
 
 
 
 .day.active{
 
-
 border-color:var(--main);
-
 
 background:
 
 rgba(255,255,255,.08);
 
-
 }
-
 
 
 
 
 .day input{
 
-
 width:90%;
-
-
-height:22px;
-
 
 border:0;
 
-
 outline:0;
-
 
 background:transparent;
 
 
-text-align:center!important;
-
+text-align:center;
 
 color:var(--light);
 
 
 font-size:13px;
 
-
 font-weight:bold;
-
 
 }
 
 
 
 
-
 .note-icon{
-
 
 position:absolute;
 
-
 right:3px;
-
 
 top:2px;
 
-
 font-size:11px;
-
 
 }
 
@@ -671,9 +604,7 @@ font-size:11px;
 
 .note-box{
 
-
 margin-top:18px;
-
 
 padding:14px;
 
@@ -692,7 +623,6 @@ border:
 1px solid rgba(255,255,255,.12);
 
 
-
 }
 
 
@@ -701,29 +631,23 @@ border:
 
 .note-title{
 
-
 font-weight:bold;
-
 
 color:var(--light);
 
-
 margin-bottom:10px;
-
 
 }
 
 
 
 
-.note-item{
 
+.note-item{
 
 font-size:12px;
 
-
 line-height:24px;
-
 
 color:var(--sub);
 
@@ -734,9 +658,7 @@ color:var(--sub);
 
 
 
-
 .calculator{
-
 
 margin-top:18px;
 
@@ -765,7 +687,6 @@ rgba(255,255,255,.05);
 
 .calc-title{
 
-
 text-align:center;
 
 
@@ -786,8 +707,8 @@ margin-bottom:15px;
 
 
 
-.calculator input,
 
+.calculator input,
 
 .calculator select{
 
@@ -812,9 +733,7 @@ border:
 1px solid var(--main);
 
 
-
 color:var(--light);
-
 
 
 text-align:center;
@@ -824,7 +743,6 @@ outline:none;
 
 
 }
-
 
 
 
@@ -855,9 +773,7 @@ font-weight:bold;
 
 
 
-
 .calc-result{
-
 
 margin-top:12px;
 
@@ -865,13 +781,13 @@ margin-top:12px;
 padding:10px;
 
 
-background:#000;
-
-
 border-radius:15px;
 
 
+background:#000;
+
 }
+
 
 
 
@@ -891,7 +807,6 @@ color:var(--sub);
 
 
 }
-
 
 
 
@@ -956,7 +871,6 @@ font-weight:bold;
 
 .export{
 
-
 border:0;
 
 
@@ -1017,6 +931,9 @@ color:rgba(255,255,255,.3);
 
 
 
+
+
+/*备注弹窗*/
 
 
 .mask{
@@ -1126,7 +1043,6 @@ resize:none;
 
 
 
-
 .panel button{
 
 
@@ -1154,13 +1070,117 @@ font-weight:bold;
 }
 
 
+
+
+
+/*图片保存弹窗*/
+
+
+.save-mask{
+
+
+position:fixed;
+
+inset:0;
+
+
+display:none;
+
+
+align-items:center;
+
+
+justify-content:center;
+
+
+background:rgba(0,0,0,.8);
+
+
+z-index:9999;
+
+
+}
+
+
+
+
+.save-box{
+
+
+width:85%;
+
+
+background:#111;
+
+
+border:1px solid var(--main);
+
+
+border-radius:20px;
+
+
+padding:20px;
+
+
+text-align:center;
+
+
+}
+
+
+
+
+
+.save-box img{
+
+
+width:100%;
+
+
+border-radius:15px;
+
+
+margin-bottom:15px;
+
+
+}
+
+
+
+
+
+.save-box button{
+
+
+width:100%;
+
+
+height:45px;
+
+
+border:0;
+
+
+border-radius:15px;
+
+
+background:var(--main);
+
+
+font-weight:bold;
+
+
+}
+
+
 </style>
+<!-- 第3段 / 4段 -->
 
 
 </head>
 
 
-<body class="gold">
+<body class="theme-gold">
 
 
 <div class="wrap">
@@ -1187,6 +1207,8 @@ font-weight:bold;
 
 
 
+
+
 <div class="theme">
 
 
@@ -1208,7 +1230,10 @@ font-weight:bold;
 
 
 </div>
-<!-- 第3段 / 4段 -->
+
+
+
+
 
 
 <div class="stats">
@@ -1217,11 +1242,15 @@ font-weight:bold;
 <div class="stat">
 
 <div class="label">
+
 累计收益
+
 </div>
 
 <div class="value" id="sum">
+
 ¥0
+
 </div>
 
 </div>
@@ -1232,11 +1261,15 @@ font-weight:bold;
 <div class="stat">
 
 <div class="label">
+
 收益天数
+
 </div>
 
 <div class="value" id="days">
+
 0
+
 </div>
 
 </div>
@@ -1247,17 +1280,22 @@ font-weight:bold;
 <div class="stat">
 
 <div class="label">
+
 日均收益
+
 </div>
 
 <div class="value" id="avg">
+
 ¥0
-</div>
 
 </div>
 
+</div>
+
 
 </div>
+
 
 
 
@@ -1268,7 +1306,9 @@ font-weight:bold;
 
 
 <button id="prev">
+
 ‹
+
 </button>
 
 
@@ -1276,11 +1316,14 @@ font-weight:bold;
 
 
 <button id="next">
+
 ›
+
 </button>
 
 
 </div>
+
 
 
 
@@ -1289,11 +1332,17 @@ font-weight:bold;
 <div class="week">
 
 <div>一</div>
+
 <div>二</div>
+
 <div>三</div>
+
 <div>四</div>
+
 <div>五</div>
+
 <div>六</div>
+
 <div>日</div>
 
 </div>
@@ -1302,7 +1351,9 @@ font-weight:bold;
 
 
 
+
 <div class="grid" id="grid"></div>
+
 
 
 
@@ -1319,7 +1370,6 @@ font-weight:bold;
 </div>
 
 
-
 <div id="noteList">
 
 暂无备注
@@ -1327,8 +1377,8 @@ font-weight:bold;
 </div>
 
 
-
 </div>
+
 
 
 
@@ -1367,6 +1417,7 @@ placeholder="输入仓位金额">
 </option>
 
 
+
 <option value="0.012">
 
 静态收入（日息1.2%）
@@ -1374,7 +1425,9 @@ placeholder="输入仓位金额">
 </option>
 
 
+
 </select>
+
 
 
 
@@ -1391,11 +1444,13 @@ placeholder="输入时间（天）">
 
 
 
+
 <button id="calcBtn">
 
 计算盈利
 
 </button>
+
 
 
 
@@ -1415,6 +1470,7 @@ placeholder="输入时间（天）">
 
 </span>
 
+
 </div>
 
 
@@ -1429,14 +1485,15 @@ placeholder="输入时间（天）">
 
 </span>
 
-</div>
-
-
 
 </div>
 
 
 </div>
+
+
+</div>
+
 
 
 
@@ -1474,9 +1531,13 @@ P A N S H I · WEALTH
 
 
 
-</div>
 
 </div>
+
+
+</div>
+
+
 
 
 
@@ -1514,9 +1575,34 @@ placeholder="输入当天备注">
 
 </div>
 
+</div>
+
+
+
+
+
+
+<div class="save-mask" id="saveMask">
+
+
+<div class="save-box">
+
+
+<img id="previewImg">
+
+
+
+<button id="saveImg">
+
+保存图片
+
+</button>
+
 
 </div>
 
+
+</div>
 
 
 
@@ -1526,44 +1612,65 @@ placeholder="输入当天备注">
 <script>
 
 
+
+
 //======================
-//主题修复版
+//主题系统 V3.2
 //======================
 
 
 function changeTheme(type){
 
 
-let list=[
 
-"gold",
-"jade",
-"blue",
-"purple",
-"black",
-"rose",
-"ocean",
-"silver"
+let old=[
+
+"theme-gold",
+
+"theme-jade",
+
+"theme-blue",
+
+"theme-purple",
+
+"theme-black",
+
+"theme-rose",
+
+"theme-ocean",
+
+"theme-silver"
 
 ];
 
 
 
-list.forEach(function(t){
+old.forEach(function(t){
+
 
 document.body.classList.remove(t);
+
 
 });
 
 
 
-document.body.classList.add(type);
+
+
+document.body.classList.add(
+
+"theme-"+type
+
+);
 
 
 
 localStorage.setItem(
+
 "ps_theme",
+
 type
+
 );
 
 
@@ -1571,15 +1678,27 @@ type
 
 
 
-let saveTheme=
+
+
+
+let savedTheme=
 
 localStorage.getItem("ps_theme");
 
 
 
-if(saveTheme){
+if(savedTheme){
 
-document.body.classList.add(saveTheme);
+
+document.body.classList.remove("theme-gold");
+
+
+document.body.classList.add(
+
+"theme-"+savedTheme
+
+);
+
 
 }
 
@@ -1597,6 +1716,7 @@ let now=new Date();
 
 
 
+
 let income=
 
 JSON.parse(
@@ -1608,8 +1728,6 @@ localStorage.getItem("ps_income")
 "{}"
 
 );
-
-
 
 
 
@@ -1654,8 +1772,10 @@ let currentDay=null;
 
 
 
+
+
 //======================
-//日历
+//日历渲染
 //======================
 
 
@@ -1686,10 +1806,10 @@ grid.innerHTML="";
 
 
 
-
 let first=
 
 (new Date(y,m,1).getDay()+6)%7;
+
 
 
 
@@ -1721,13 +1841,16 @@ grid.appendChild(e);
 
 
 
+
 let key=getKey();
 
 
 
 if(!income[key]) income[key]={};
 
+
 if(!notes[key]) notes[key]={};
+
 
 
 
@@ -1740,7 +1863,6 @@ let box=document.createElement("div");
 
 
 box.className="day";
-
 
 
 
@@ -1772,7 +1894,6 @@ box.appendChild(icon);
 
 
 }
-
 
 
 
@@ -1810,6 +1931,7 @@ input.inputMode="numeric";
 
 
 input.oninput=function(){
+
 
 
 this.value=this.value
@@ -1864,11 +1986,14 @@ calc();
 
 
 
+
 input.onclick=function(e){
 
 e.stopPropagation();
 
 };
+
+
 
 
 
@@ -1895,6 +2020,7 @@ calc();
 
 
 showNotes();
+
 
 
 }
@@ -1927,13 +2053,14 @@ if(income[key][i]){
 
 sum+=Number(income[key][i]);
 
+
 days++;
 
 
 }
 
-
 }
+
 
 
 
@@ -1943,9 +2070,12 @@ document.getElementById("sum").innerHTML=
 
 
 
+
 document.getElementById("days").innerHTML=
 
 days;
+
+
 
 
 
@@ -1968,6 +2098,7 @@ Math.round(sum/days):
 
 
 }
+
 
 
 
@@ -2027,6 +2158,7 @@ document.getElementById("mask")
 
 
 
+
 document.getElementById("saveNote")
 
 .onclick=function(){
@@ -2076,7 +2208,6 @@ delete notes[key][currentDay];
 
 
 
-
 localStorage.setItem(
 
 "ps_notes",
@@ -2087,7 +2218,6 @@ JSON.stringify(notes)
 
 
 
-
 document.getElementById("mask")
 
 .style.display="none";
@@ -2095,7 +2225,6 @@ document.getElementById("mask")
 
 
 render();
-
 
 
 };
@@ -2121,9 +2250,7 @@ this.style.display="none";
 }
 
 
-
 };
-
 
 
 
@@ -2174,11 +2301,9 @@ notes[key][d]
 
 
 
-
 box.innerHTML=
 
 html||"暂无备注";
-
 
 
 }
@@ -2189,10 +2314,10 @@ html||"暂无备注";
 
 
 
-//======================
-//月份切换
-//======================
 
+//======================
+//月份
+//======================
 
 
 document.getElementById("prev")
@@ -2200,18 +2325,13 @@ document.getElementById("prev")
 .onclick=function(){
 
 
-now.setMonth(
-
-now.getMonth()-1
-
-);
+now.setMonth(now.getMonth()-1);
 
 
 render();
 
 
 };
-
 
 
 
@@ -2221,17 +2341,15 @@ document.getElementById("next")
 .onclick=function(){
 
 
-now.setMonth(
-
-now.getMonth()+1
-
-);
+now.setMonth(now.getMonth()+1);
 
 
 render();
 
 
 };
+
+
 
 
 
@@ -2298,9 +2416,7 @@ let money=
 
 Number(
 
-document.getElementById("position")
-
-.value
+document.getElementById("position").value
 
 );
 
@@ -2310,9 +2426,7 @@ let rate=
 
 Number(
 
-document.getElementById("incomeType")
-
-.value
+document.getElementById("incomeType").value
 
 );
 
@@ -2322,12 +2436,9 @@ let time=
 
 Number(
 
-document.getElementById("time")
-
-.value
+document.getElementById("time").value
 
 );
-
 
 
 
@@ -2347,7 +2458,6 @@ return;
 
 
 
-
 let profit=
 
 money*
@@ -2355,7 +2465,6 @@ money*
 rate*
 
 time;
-
 
 
 
@@ -2385,7 +2494,6 @@ Math.round(profit)
 
 
 
-
 document.getElementById("total")
 
 .innerHTML=
@@ -2409,7 +2517,7 @@ Math.round(total)
 
 
 //======================
-//高清导出
+//高清导出 + 保存
 //======================
 
 
@@ -2436,12 +2544,13 @@ document.querySelector(".buttons")
 
 
 
+
 hide.forEach(function(e){
 
 e.style.display="none";
 
-});
 
+});
 
 
 
@@ -2462,8 +2571,35 @@ useCORS:true
 
 
 
+let img=
+
+canvas.toDataURL("image/png");
+
+
+
+document.getElementById("previewImg").src=img;
+
+
+
+document.getElementById("saveMask")
+
+.style.display="flex";
+
+
+
+
+
+
+document.getElementById("saveImg")
+
+.onclick=function(){
+
+
+
 let a=document.createElement("a");
 
+
+a.href=img;
 
 
 a.download=
@@ -2488,19 +2624,15 @@ now.getFullYear()
 
 
 
-
-
-a.href=
-
-canvas.toDataURL(
-
-"image/png"
-
-);
-
-
-
 a.click();
+
+
+
+};
+
+
+
+});
 
 
 
@@ -2514,11 +2646,36 @@ e.style.display="";
 
 
 
-});
+};
 
+
+
+
+
+
+
+
+
+//关闭图片保存窗口
+
+
+document.getElementById("saveMask")
+
+.onclick=function(e){
+
+
+if(e.target===this){
+
+
+this.style.display="none";
+
+
+}
 
 
 };
+
+
 
 
 
