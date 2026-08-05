@@ -206,10 +206,10 @@ body.silver #noteList,body.silver #noteList div{color:rgba(255,255,255,0.8);}
 .panel textarea{width:100%;height:130px;border-radius:15px;padding:10px;font-size:14px;resize:none;outline:none;background:#000;}
 .panel button{width:100%;height:45px;margin-top:15px;border-radius:15px;font-size:15px;font-weight:bold;cursor:pointer;border-width:0;}
 
-.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:15px;}
-.preview-overlay img{max-width:95%;max-height:80vh;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.6);}
-.preview-tip{color:#fff;font-size:16px;font-weight:bold;margin:10px 0;text-align:center;}
-.preview-close{background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:10px 30px;border-radius:25px;font-size:14px;cursor:pointer;margin-top:8px;}
+.preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:1000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:10px;}
+.preview-overlay img{max-width:96%;max-height:85vh;border-radius:18px;box-shadow:0 15px 50px rgba(0,0,0,0.6);}
+.preview-tip{color:#fff;font-size:15px;font-weight:bold;margin:8px 0;text-align:center;}
+.preview-close{background:rgba(255,255,255,0.12);color:#fff;border:1px solid rgba(255,255,255,0.25);padding:8px 28px;border-radius:20px;font-size:13px;cursor:pointer;margin-top:6px;}
 </style>
 </head>
 
@@ -295,7 +295,6 @@ silver:{main:"#ddd",mainR:"221,221,221",light:"#fff",lightR:"255,255,255",dark:"
 };
 
 function rgba(rgbStr,alpha){return"rgba("+rgbStr+","+alpha+")";}
-
 function changeTheme(t){document.body.className=t;try{localStorage.setItem("ps_theme",t);}catch(e){}}
 (function(){var t=localStorage.getItem("ps_theme");document.body.className=t?t:"gold";})();
 
@@ -314,8 +313,7 @@ var grid=document.getElementById("grid");grid.innerHTML="";
 var first=(new Date(y,m,1).getDay()+6)%7;
 var total=new Date(y,m+1,0).getDate();
 var key=getKey();
-if(!income[key])income[key]={};
-if(!notes[key])notes[key]={};
+if(!income[key])income[key]={};if(!notes[key])notes[key]={};
 for(var i=0;i<first;i++){var e=document.createElement("div");e.className="day";e.style.visibility="hidden";grid.appendChild(e);}
 for(var d=1;d<=total;d++){
 var box=document.createElement("div");box.className="day";
@@ -331,14 +329,7 @@ box.appendChild(inp);grid.appendChild(box);
 calc();showNotes();
 }
 
-function calc(){
-var key=getKey(),sum=0,days=0;
-for(var i in income[key]||{}){if(income[key][i]){sum+=income[key][i];days++;}}
-document.getElementById("sum").innerHTML="¥"+sum.toLocaleString();
-document.getElementById("days").innerHTML=days;
-document.getElementById("avg").innerHTML="¥"+(days?Math.round(sum/days):0).toLocaleString();
-}
-
+function calc(){var key=getKey(),sum=0,days=0;for(var i in income[key]||{}){if(income[key][i]){sum+=income[key][i];days++;}}document.getElementById("sum").innerHTML="¥"+sum.toLocaleString();document.getElementById("days").innerHTML=days;document.getElementById("avg").innerHTML="¥"+(days?Math.round(sum/days):0).toLocaleString();}
 function openNote(day){currentDay=day;var key=getKey();document.getElementById("noteTitle").innerHTML=(now.getMonth()+1)+"月"+day+"日备注";document.getElementById("noteText").value=(notes[key]&&notes[key][day])||"";document.getElementById("mask").style.display="flex";}
 document.getElementById("saveNote").onclick=function(){var key=getKey(),txt=document.getElementById("noteText").value.trim();if(!notes[key])notes[key]={};if(txt)notes[key][currentDay]=txt;else delete notes[key][currentDay];try{localStorage.setItem("ps_notes",JSON.stringify(notes));}catch(e){}document.getElementById("mask").style.display="none";render();};
 document.getElementById("mask").onclick=function(e){if(e.target===this)this.style.display="none";};
@@ -354,7 +345,7 @@ function getStatAvg(){var k=getKey(),s=0,d=0;for(var i in income[k]||{}){if(inco
 
 function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
-/* ============ 海报导出 - 自适应高度 ============ */
+/* ============ 手机适配海报导出 ============ */
 document.getElementById("export").onclick=function(){
 var btn=this;
 btn.innerHTML="⏳ 生成中...";
@@ -368,131 +359,107 @@ themeEl.style.display="none";calcEl.style.display="none";btnEl.style.display="no
 
 var card=document.getElementById("capture");
 
-html2canvas(card,{backgroundColor:null,scale:3,useCORS:true,allowTaint:true}).then(function(canvas){
+html2canvas(card,{backgroundColor:null,scale:2,useCORS:true,allowTaint:true}).then(function(canvas){
 themeEl.style.display=origD[0];calcEl.style.display=origD[1];btnEl.style.display=origD[2];
 
 var t=document.body.className;
 var pt=posterThemes[t]||posterThemes.gold;
-var M=pt.main,MR=pt.mainR,LR=pt.lightR,DR=pt.darkR,BGR=pt.bgR,ACR=pt.accentR;
+var M=pt.main,MR=pt.mainR,LR=pt.lightR;
 
-var dpr=2; // 降低dpr减小文件大小
-var pW=750*dpr; // 固定宽度750
+var dpr=2;
+var pW=750*dpr;
+var pMargin=30*dpr;
 
-// 计算各部分高度
-var headerH=200*dpr; // 标题区
-var sepSpace=50*dpr; // 分隔间距
-var cardW=pW*0.88;
+// 卡片尺寸
+var cardW=pW-pMargin*2;
 var cardH=canvas.height*(cardW/canvas.width);
-var cardAreaH=cardH+60*dpr; // 卡片+阴影空间
-var statsH=200*dpr; // 统计区
-var footerH=120*dpr; // 底部水印
-var topBandH=60*dpr; // 顶部装饰带
+var cardX=pMargin;
+var cardY=260*dpr;
 
-var pH=topBandH+headerH+sepSpace+cardAreaH+sepSpace+statsH+footerH+40*dpr;
+// 总高度=卡片底部+底部水印
+var pH=cardY+cardH+110*dpr;
 
 var pCanvas=document.createElement("canvas");
 pCanvas.width=pW;
 pCanvas.height=pH;
 var ctx=pCanvas.getContext("2d");
 
-// 1. 背景
-var bgGrad=ctx.createLinearGradient(0,0,pW,pH);
-bgGrad.addColorStop(0,pt.bg);bgGrad.addColorStop(0.5,"#000");bgGrad.addColorStop(1,pt.bg);
-ctx.fillStyle=bgGrad;ctx.fillRect(0,0,pW,pH);
+// 1.背景
+var bgG=ctx.createLinearGradient(0,0,pW,pH);
+bgG.addColorStop(0,pt.bg);bgG.addColorStop(0.5,"#000");bgG.addColorStop(1,pt.bg);
+ctx.fillStyle=bgG;ctx.fillRect(0,0,pW,pH);
 
-// 2. 网格
-ctx.strokeStyle="rgba(255,255,255,0.015)";ctx.lineWidth=1;
-for(var i=0;i<pW;i+=50*dpr){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,pH);ctx.stroke();}
-for(var j=0;j<pH;j+=50*dpr){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(pW,j);ctx.stroke();}
+// 2.网格
+ctx.strokeStyle="rgba(255,255,255,0.012)";ctx.lineWidth=1;
+for(var i=0;i<pW;i+=40*dpr){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,pH);ctx.stroke();}
+for(var j=0;j<pH;j+=40*dpr){ctx.beginPath();ctx.moveTo(0,j);ctx.lineTo(pW,j);ctx.stroke();}
 
-// 3. 光晕
-var glow1=ctx.createRadialGradient(pW*0.3,pH*0.15,0,pW*0.3,pH*0.15,pW*0.5);
-glow1.addColorStop(0,rgba(MR,0.12));glow1.addColorStop(1,"transparent");
-ctx.fillStyle=glow1;ctx.fillRect(0,0,pW,pH);
+// 3.光晕
+var g1=ctx.createRadialGradient(pW*0.5,pH*0.2,0,pW*0.5,pH*0.2,pW*0.6);
+g1.addColorStop(0,rgba(MR,0.12));g1.addColorStop(1,"transparent");
+ctx.fillStyle=g1;ctx.fillRect(0,0,pW,pH);
 
-// 4. 粒子
-ctx.fillStyle=rgba(MR,0.06);
-for(var p=0;p<40;p++){var ps=6+Math.random()*16;ctx.font=ps*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*pW,Math.random()*pH);}
+// 4.粒子
+ctx.fillStyle=rgba(MR,0.05);
+for(var p=0;p<35;p++){ctx.font=(6+Math.random()*14)*dpr+"px serif";ctx.fillText(pt.particles[Math.floor(Math.random()*pt.particles.length)],Math.random()*pW,Math.random()*pH);}
 
-// 5. 顶部装饰带
-var topG=ctx.createLinearGradient(0,0,0,topBandH);
-topG.addColorStop(0,rgba(MR,0.25));topG.addColorStop(1,"transparent");
-ctx.fillStyle=topG;ctx.fillRect(0,0,pW,topBandH);
-ctx.strokeStyle=rgba(MR,0.35);ctx.lineWidth=1.5*dpr;
-ctx.beginPath();ctx.moveTo(50*dpr,topBandH-8*dpr);ctx.lineTo(pW-50*dpr,topBandH-8*dpr);ctx.stroke();
+// 5.顶部渐变带
+var bandH=50*dpr;
+var bandG=ctx.createLinearGradient(0,0,0,bandH);
+bandG.addColorStop(0,rgba(MR,0.2));bandG.addColorStop(1,"transparent");
+ctx.fillStyle=bandG;ctx.fillRect(0,0,pW,bandH);
+ctx.strokeStyle=rgba(MR,0.3);ctx.lineWidth=1*dpr;
+ctx.beginPath();ctx.moveTo(40*dpr,bandH-6*dpr);ctx.lineTo(pW-40*dpr,bandH-6*dpr);ctx.stroke();
 
-// 6. 标题
-var titleY=topBandH+50*dpr;
-ctx.font=60*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(pt.icon,pW/2,titleY);
-ctx.font="bold "+50*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
-var titG=ctx.createLinearGradient(0,titleY+10*dpr,pW,titleY+10*dpr);
-titG.addColorStop(0,M);titG.addColorStop(0.3,pt.light);titG.addColorStop(0.7,pt.light);titG.addColorStop(1,M);
-ctx.fillStyle=titG;
-ctx.fillText("磐 石 收 益 账 本",pW/2,titleY+55*dpr);
-ctx.font="bold "+18*dpr+"px 'PingFang SC',sans-serif";
+// 6.标题
+var ty=bandH+35*dpr;
+ctx.font=50*dpr+"px serif";ctx.textAlign="center";
+ctx.fillText(pt.icon,pW/2,ty);
+ctx.font="bold "+42*dpr+"px 'PingFang SC','Microsoft YaHei',sans-serif";
+var tg=ctx.createLinearGradient(0,ty+8*dpr,pW,ty+8*dpr);
+tg.addColorStop(0,M);tg.addColorStop(0.3,pt.light);tg.addColorStop(0.7,pt.light);tg.addColorStop(1,M);
+ctx.fillStyle=tg;
+ctx.fillText("磐 石 收 益 账 本",pW/2,ty+48*dpr);
+ctx.font="bold "+15*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle=rgba(MR,0.55);
+ctx.fillText(pt.name,pW/2,ty+72*dpr);
+ctx.font="italic "+12*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle=rgba(MR,0.3);
+ctx.fillText(pt.slogan,pW/2,ty+92*dpr);
+
+// 7.分隔线
+var sy=ty+120*dpr;
+ctx.strokeStyle=rgba(MR,0.2);ctx.lineWidth=1*dpr;
+ctx.beginPath();ctx.moveTo(pW*0.3,sy);ctx.lineTo(pW*0.7,sy);ctx.stroke();
 ctx.fillStyle=rgba(MR,0.6);
-ctx.fillText(pt.name,pW/2,titleY+85*dpr);
-ctx.font="italic "+14*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(MR,0.35);
-ctx.fillText(pt.slogan,pW/2,titleY+108*dpr);
-
-// 7. 分隔线
-var sepY=titleY+140*dpr;
-ctx.strokeStyle=rgba(MR,0.25);ctx.lineWidth=1*dpr;
-ctx.beginPath();ctx.moveTo(pW*0.25,sepY);ctx.lineTo(pW*0.75,sepY);ctx.stroke();
-ctx.fillStyle=rgba(MR,0.7);
-ctx.beginPath();var ds=10*dpr;
-ctx.moveTo(pW/2,sepY-ds);ctx.lineTo(pW/2+ds*0.6,sepY);ctx.lineTo(pW/2,sepY+ds);ctx.lineTo(pW/2-ds*0.6,sepY);
+ctx.beginPath();var ds=8*dpr;
+ctx.moveTo(pW/2,sy-ds);ctx.lineTo(pW/2+ds*0.6,sy);ctx.lineTo(pW/2,sy+ds);ctx.lineTo(pW/2-ds*0.6,sy);
 ctx.closePath();ctx.fill();
 
-// 8. 卡片截图
-var cardX=(pW-cardW)/2;
-var cardY=sepY+35*dpr;
+// 8.卡片
+cardY=sy+30*dpr;
+cardW=pW-pMargin*2;
+cardH=canvas.height*(cardW/canvas.width);
+cardX=pMargin;
+
 ctx.save();
-ctx.shadowColor=rgba(MR,0.5);ctx.shadowBlur=60*dpr;ctx.shadowOffsetY=25*dpr;
-roundRect(ctx,cardX,cardY,cardW,cardH,20*dpr);
+ctx.shadowColor=rgba(MR,0.45);ctx.shadowBlur=50*dpr;ctx.shadowOffsetY=20*dpr;
+roundRect(ctx,cardX,cardY,cardW,cardH,18*dpr);
 ctx.fillStyle="#0a0a0a";ctx.fill();
 ctx.restore();
 ctx.drawImage(canvas,cardX,cardY,cardW,cardH);
-roundRect(ctx,cardX,cardY,cardW,cardH,20*dpr);
-ctx.strokeStyle=M;ctx.lineWidth=2.5*dpr;ctx.stroke();
+roundRect(ctx,cardX,cardY,cardW,cardH,18*dpr);
+ctx.strokeStyle=M;ctx.lineWidth=2*dpr;ctx.stroke();
 
-// 9. 统计区
-var statSecY=cardY+cardH+55*dpr;
-ctx.fillStyle=pt.light;ctx.font="bold "+26*dpr+"px 'PingFang SC',sans-serif";ctx.textAlign="center";
-ctx.fillText("📊 本月数据一览",pW/2,statSecY);
+// 9.底部水印
+var fy=cardY+cardH+55*dpr;
+ctx.font=10*dpr+"px 'PingFang SC',sans-serif";
+ctx.fillStyle="rgba(255,255,255,0.1)";ctx.textAlign="center";
+ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),pW/2,fy);
+ctx.fillText("磐石收益账本 · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月收益报告",pW/2,fy+18*dpr);
 
-var statData=[["累计收益","¥"+getStatSum(),"💰"],["收益天数",getStatDays()+"天","📅"],["日均收益","¥"+getStatAvg(),"📊"]];
-var sW=(pW-100*dpr)/3;
-var sH=110*dpr;
-var sY=statSecY+35*dpr;
-statData.forEach(function(s,i){
-var sx=30*dpr+i*(sW+20*dpr);
-roundRect(ctx,sx,sY,sW,sH,16*dpr);
-ctx.fillStyle=rgba(MR,0.08);ctx.fill();
-ctx.strokeStyle=rgba(MR,0.25);ctx.lineWidth=1;ctx.stroke();
-ctx.font=28*dpr+"px serif";ctx.textAlign="center";
-ctx.fillText(s[2],sx+sW/2,sY+38*dpr);
-ctx.font=11*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=rgba(MR,0.45);
-ctx.fillText(s[0],sx+sW/2,sY+65*dpr);
-ctx.font="bold "+22*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle=pt.light;
-ctx.fillText(s[1],sx+sW/2,sY+95*dpr);
-});
-
-// 10. 水印
-var footerY=pH-80*dpr;
-ctx.strokeStyle=rgba(MR,0.15);ctx.lineWidth=1;
-ctx.beginPath();ctx.moveTo(pW*0.25,footerY);ctx.lineTo(pW*0.75,footerY);ctx.stroke();
-ctx.font=11*dpr+"px 'PingFang SC',sans-serif";
-ctx.fillStyle="rgba(255,255,255,0.12)";ctx.textAlign="center";
-ctx.fillText("P A N S H I  ·  W E A L T H  ·  "+new Date().getFullYear(),pW/2,footerY+20*dpr);
-ctx.fillText("磐石收益账本 · "+now.getFullYear()+"年"+(now.getMonth()+1)+"月收益报告",pW/2,footerY+40*dpr);
-
-// 11. 导出
-var dataUrl=pCanvas.toDataURL("image/png",0.9);
+// 10.导出
+var dataUrl=pCanvas.toDataURL("image/png",0.85);
 var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 if(isMobile){
 document.getElementById("previewImage").src=dataUrl;
