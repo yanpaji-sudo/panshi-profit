@@ -8,7 +8,6 @@
 <meta name="viewport"
 content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-
 <title>磐石收益账本 Pro</title>
 
 
@@ -41,7 +40,7 @@ font-family:
 "Microsoft YaHei",
 Arial,sans-serif;
 
-background:var(--bg);
+background:#050505;
 
 }
 
@@ -88,7 +87,7 @@ body.black{
 
 --bg:#000;
 --card:#080808;
---main:#999;
+--main:#aaa;
 --light:#fff;
 --sub:#777;
 
@@ -140,15 +139,9 @@ body.bronze{
 
 
 
-/*================
-布局
-================*/
-
-
 .wrap{
 
 width:100%;
-
 max-width:430px;
 
 }
@@ -162,7 +155,6 @@ position:relative;
 
 overflow:hidden;
 
-
 background:
 
 linear-gradient(
@@ -172,7 +164,6 @@ transparent 40%
 ),
 
 var(--card);
-
 
 
 border:
@@ -196,91 +187,17 @@ box-shadow:
 
 
 
-.card:before{
-
-
-content:"";
-
-
-position:absolute;
-
-
-width:420px;
-
-height:420px;
-
-
-left:-200px;
-
-top:-200px;
-
-
-
-background:
-
-radial-gradient(
-circle,
-rgba(255,255,255,.18),
-transparent 65%
-);
-
-
-
-}
-
-
-
-.card:after{
-
-
-content:"";
-
-
-position:absolute;
-
-
-width:350px;
-
-
-height:350px;
-
-
-right:-180px;
-
-
-bottom:-180px;
-
-
-
-background:
-
-radial-gradient(
-circle,
-rgba(255,210,100,.12),
-transparent 65%
-);
-
-
-}
-
-
-
-
-
 .inner{
 
 position:absolute;
 
 inset:6px;
 
-
 border:
 
 1px solid rgba(255,255,255,.15);
 
-
 border-radius:27px;
-
 
 }
 
@@ -297,21 +214,15 @@ z-index:5;
 
 
 
-
-
 .title{
 
 text-align:center;
 
-
 font-size:30px;
-
 
 font-weight:900;
 
-
 letter-spacing:5px;
-
 
 
 background:
@@ -323,11 +234,9 @@ var(--light)
 );
 
 
-
 -webkit-background-clip:text;
 
 color:transparent;
-
 
 }
 
@@ -335,123 +244,86 @@ color:transparent;
 
 .sub{
 
-
 margin-top:8px;
-
 
 text-align:center;
 
-
 font-size:12px;
-
 
 letter-spacing:3px;
 
-
 color:var(--sub);
-
 
 }
 
 
 
-
-/*主题*/
-
+/*主题按钮*/
 
 .theme{
 
-
 display:grid;
-
 
 grid-template-columns:repeat(4,1fr);
 
-
 gap:8px;
-
 
 margin:22px 0;
 
-
 }
+
 
 
 .theme button{
 
-
 height:32px;
 
-
 border-radius:20px;
-
 
 background:
 
 rgba(255,255,255,.06);
 
-
-
 border:
 
 1px solid var(--main);
 
-
-
 color:var(--light);
-
 
 font-size:11px;
 
-
 }
-
 
 
 
 /*统计*/
 
-
 .stats{
-
 
 display:flex;
 
-
 gap:10px;
-
 
 }
 
 
-
 .stat{
-
 
 flex:1;
 
-
 padding:15px 5px;
-
-
-border-radius:16px;
-
-
 
 background:
 
 rgba(255,255,255,.05);
 
-
-
 border:
 
 1px solid rgba(255,255,255,.15);
 
-
+border-radius:16px;
 
 text-align:center;
-
 
 }
 
@@ -459,30 +331,23 @@ text-align:center;
 
 .label{
 
-
 font-size:11px;
 
-
 color:var(--sub);
-
 
 }
 
 
-.value{
 
+.value{
 
 margin-top:8px;
 
-
 font-size:20px;
-
 
 font-weight:900;
 
-
 color:var(--light);
-
 
 }
 
@@ -491,92 +356,65 @@ color:var(--light);
 
 .month{
 
-
 display:flex;
-
 
 justify-content:space-between;
 
-
 align-items:center;
 
-
 margin:22px 0;
-
 
 }
 
 
-
 .month button{
-
 
 width:40px;
 
-
 height:36px;
-
 
 border-radius:20px;
 
-
-
 background:none;
-
 
 border:
 
 1px solid var(--main);
 
-
-
 font-size:25px;
-
 
 color:var(--light);
 
-
 }
-
 
 
 .month span{
 
-
 font-size:20px;
-
 
 font-weight:900;
 
-
 color:var(--light);
 
-
 }
+
 
 
 
 
 .week{
 
-
 display:grid;
-
 
 grid-template-columns:repeat(7,1fr);
 
-
 text-align:center;
-
 
 font-size:12px;
 
-
 color:var(--sub);
 
-
 margin-bottom:8px;
-
 
 }
 
@@ -585,15 +423,11 @@ margin-bottom:8px;
 
 .grid{
 
-
 display:grid;
-
 
 grid-template-columns:repeat(7,1fr);
 
-
 gap:6px;
-
 
 }
 
@@ -603,20 +437,15 @@ gap:6px;
 .day{
 
 
-height:58px;
+height:60px;
 
-
-border-radius:12px;
-
+position:relative;
 
 display:flex;
 
-
 flex-direction:column;
 
-
 justify-content:center;
-
 
 align-items:center;
 
@@ -626,6 +455,9 @@ background:
 rgba(255,255,255,.04);
 
 
+border-radius:12px;
+
+
 border:
 
 1px solid rgba(255,255,255,.12);
@@ -633,31 +465,28 @@ border:
 
 color:var(--light);
 
-
 font-size:12px;
 
 
+cursor:pointer;
+
+
 }
+
 
 
 
 .day.active{
 
-
 border-color:var(--main);
-
 
 background:
 
-rgba(255,215,100,.18);
-
+rgba(255,215,100,.15);
 
 }
 
 
-
-
-/*重点修复：收益输入*/
 
 
 .day input{
@@ -665,126 +494,159 @@ rgba(255,215,100,.18);
 
 width:90%;
 
-
 height:20px;
 
-
-
-margin:4px auto 0;
-
-
-padding:0;
-
-
-display:block;
-
-
+margin:3px auto 0;
 
 border:0;
 
-
 outline:none;
-
-
 
 background:
 
 rgba(0,0,0,.3);
 
-
-
 border-radius:8px;
-
-
 
 text-align:center;
 
+font-size:12px;
+
+font-weight:900;
+
+color:var(--light);
+
+}
 
 
-font-family:
 
-Arial,
-"Microsoft YaHei",
-sans-serif;
 
+/*备注标志*/
+
+
+.note-icon{
+
+
+position:absolute;
+
+
+right:5px;
+
+
+top:3px;
 
 
 font-size:12px;
 
 
-font-weight:900;
-
-
-
-line-height:20px;
-
-
-
-color:var(--light);
-
-
-
-letter-spacing:0;
-
-
-
-appearance:none;
-
-
--webkit-appearance:none;
+display:none;
 
 
 }
 
 
 
-.day input::-webkit-inner-spin-button,
-.day input::-webkit-outer-spin-button{
+.day.has-note .note-icon{
 
-
--webkit-appearance:none;
-
-
-margin:0;
-
+display:block;
 
 }
 
 
 
-/*按钮*/
 
 
-.buttons{
+/*备注区域*/
 
 
-display:flex;
+.notes-box{
 
 
-gap:12px;
+margin-top:18px;
 
 
-margin-top:22px;
-
-
-}
-
-
-
-.buttons button{
-
-
-flex:1;
-
-
-height:52px;
+padding:14px;
 
 
 border-radius:18px;
 
 
-font-weight:bold;
+background:
 
+rgba(255,255,255,.05);
+
+
+border:
+
+1px solid rgba(255,255,255,.15);
+
+
+}
+
+
+
+.notes-title{
+
+
+font-size:14px;
+
+font-weight:900;
+
+color:var(--light);
+
+
+margin-bottom:10px;
+
+
+}
+
+
+
+.note-item{
+
+
+font-size:12px;
+
+
+line-height:22px;
+
+
+color:var(--sub);
+
+
+border-bottom:
+
+1px solid rgba(255,255,255,.08);
+
+
+padding:4px 0;
+
+
+}
+
+
+
+
+.buttons{
+
+display:flex;
+
+gap:12px;
+
+margin-top:20px;
+
+}
+
+
+.buttons button{
+
+flex:1;
+
+height:52px;
+
+border-radius:18px;
+
+font-weight:bold;
 
 }
 
@@ -802,12 +664,10 @@ linear-gradient(
 135deg,
 var(--main),
 var(--light)
-
 );
 
 
 color:#111;
-
 
 }
 
@@ -826,30 +686,150 @@ border:
 
 color:var(--light);
 
-
 }
+
 
 
 
 .brand{
 
-
 margin-top:20px;
-
 
 text-align:center;
 
-
 font-size:11px;
-
 
 letter-spacing:5px;
 
-
 color:rgba(255,255,255,.35);
+
+}
+
+
+
+/*弹窗*/
+
+.note-mask{
+
+
+display:none;
+
+
+position:fixed;
+
+
+inset:0;
+
+
+background:rgba(0,0,0,.75);
+
+
+z-index:99;
+
+
+align-items:center;
+
+
+justify-content:center;
 
 
 }
+
+
+
+.note-panel{
+
+
+width:85%;
+
+
+background:#111;
+
+
+border:1px solid var(--main);
+
+
+border-radius:22px;
+
+
+padding:20px;
+
+
+}
+
+
+
+.note-panel h3{
+
+
+color:var(--light);
+
+text-align:center;
+
+margin-bottom:15px;
+
+
+}
+
+
+
+.note-panel textarea{
+
+
+width:100%;
+
+
+height:120px;
+
+
+background:#000;
+
+
+color:#fff;
+
+
+border:1px solid var(--main);
+
+
+border-radius:12px;
+
+
+padding:10px;
+
+
+resize:none;
+
+
+}
+
+
+
+.note-panel button{
+
+
+width:100%;
+
+
+margin-top:15px;
+
+
+height:42px;
+
+
+border-radius:15px;
+
+
+border:0;
+
+
+background:var(--main);
+
+
+font-weight:bold;
+
+
+}
+
 
 
 
@@ -876,9 +856,8 @@ color:rgba(255,255,255,.35);
 
 
 <div class="sub">
-财富记录 · 智能累计 · 品牌管理
+财富记录 · 智能累计 · 备注管理
 </div>
-
 
 
 
@@ -895,6 +874,7 @@ color:rgba(255,255,255,.35);
 <button onclick="changeTheme('bronze')">古铜</button>
 
 </div>
+
 
 
 
@@ -943,7 +923,9 @@ color:rgba(255,255,255,.35);
 </div>
 
 
+
 </div>
+
 
 
 
@@ -988,7 +970,35 @@ color:rgba(255,255,255,.35);
 
 
 
+
 <div class="grid" id="grid"></div>
+
+
+
+
+
+<!--备注显示-->
+
+<div class="notes-box">
+
+
+<div class="notes-title">
+
+📝 本月备注记录
+
+</div>
+
+
+
+<div id="notesList">
+
+暂无备注
+
+</div>
+
+
+
+</div>
 
 
 
@@ -996,17 +1006,25 @@ color:rgba(255,255,255,.35);
 
 <div class="buttons">
 
+
 <button class="export" id="export">
+
 📸 导出品牌图
+
 </button>
 
 
+
 <button class="clear" id="clear">
+
 清空
+
 </button>
 
 
 </div>
+
+
 
 
 
@@ -1017,13 +1035,54 @@ P A N S H I · WEALTH
 </div>
 
 
-</div>
-
 
 </div>
 
 
 </div>
+
+
+</div>
+
+
+
+
+
+
+
+<!--备注弹窗-->
+
+
+<div class="note-mask" id="noteMask">
+
+
+<div class="note-panel">
+
+
+<h3 id="noteTitle">
+日期备注
+</h3>
+
+
+
+<textarea id="noteText"
+placeholder="请输入当天备注内容..."></textarea>
+
+
+
+<button id="saveNote">
+
+保存备注
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
 
 
 
@@ -1033,32 +1092,38 @@ P A N S H I · WEALTH
 <script>
 
 
-//=====================
+//======================
 //主题
-//=====================
+//======================
 
 
 function changeTheme(t){
 
+
 document.body.className=t;
+
 
 localStorage.setItem(
 "ps_theme",
 t
 );
 
+
 }
 
 
 
-let oldTheme=
-localStorage.getItem("ps_theme");
+let themeSave=
+localStorage.getItem(
+"ps_theme"
+);
 
 
-if(oldTheme){
+
+if(themeSave){
 
 document.body.className=
-oldTheme;
+themeSave;
 
 }
 
@@ -1066,14 +1131,17 @@ oldTheme;
 
 
 
-//=====================
+
+//======================
 //数据
-//=====================
+//======================
 
 
 let now=new Date();
 
 
+
+//收益
 
 let income=
 JSON.parse(
@@ -1088,8 +1156,32 @@ localStorage.getItem(
 
 
 
+//备注
+
+let notes=
+JSON.parse(
+
+localStorage.getItem(
+"ps_notes"
+)
+
+|| "{}"
+
+);
+
+
+
+
+
+
+let selectDay=null;
+
+
+
+
 
 function getKey(){
+
 
 return now.getFullYear()
 +
@@ -1105,9 +1197,10 @@ now.getMonth();
 
 
 
-//=====================
-//生成日历
-//=====================
+
+//======================
+//日历生成
+//======================
 
 
 function render(){
@@ -1125,6 +1218,7 @@ now.getMonth();
 
 document.getElementById("ym")
 .innerHTML=
+
 y+"年"+(m+1)+"月";
 
 
@@ -1133,20 +1227,29 @@ let grid=
 document.getElementById("grid");
 
 
-
 grid.innerHTML="";
 
 
 
-
 let first=
-(new Date(y,m,1).getDay()+6)%7;
+
+(new Date(
+y,
+m,
+1
+).getDay()+6)%7;
+
 
 
 
 let total=
-new Date(y,m+1,0).getDate();
 
+new Date(
+y,
+m+1,
+0
+)
+.getDate();
 
 
 
@@ -1155,6 +1258,7 @@ for(let i=0;i<first;i++){
 
 
 let e=document.createElement("div");
+
 
 e.className="day";
 
@@ -1166,8 +1270,6 @@ grid.appendChild(e);
 
 
 }
-
-
 
 
 
@@ -1185,26 +1287,52 @@ income[key]={};
 
 
 
+if(!notes[key]){
+
+notes[key]={};
+
+}
+
+
+
+
+
+
 for(let d=1;d<=total;d++){
 
 
 
-let box=
-document.createElement("div");
+let box=document.createElement("div");
+
 
 
 box.className="day";
 
 
 
-let value=
+let val=
 income[key][d]||"";
 
 
 
-if(value){
+if(val){
 
-box.classList.add("active");
+box.classList.add(
+"active"
+);
+
+}
+
+
+
+
+if(notes[key][d]){
+
+
+box.classList.add(
+"has-note"
+);
+
 
 }
 
@@ -1221,13 +1349,32 @@ num.innerHTML=d;
 
 
 
+
+let icon=
+document.createElement("span");
+
+
+icon.className="note-icon";
+
+
+icon.innerHTML="📝";
+
+
+
+box.appendChild(icon);
+
+
+
+box.appendChild(num);
+
+
+
+
+
+
 let input=
 document.createElement("input");
 
-
-
-//关键修复
-//不用number避免手机样式错乱
 
 
 input.type="text";
@@ -1236,11 +1383,21 @@ input.type="text";
 input.inputMode="numeric";
 
 
-input.value=value;
+
+input.value=val;
 
 
 input.placeholder="0";
 
+
+
+
+
+input.onclick=function(e){
+
+e.stopPropagation();
+
+};
 
 
 
@@ -1250,6 +1407,7 @@ input.oninput=function(){
 
 
 this.value=
+
 this.value
 .replace(/\D/g,"")
 .substring(0,8);
@@ -1261,10 +1419,8 @@ this.value
 if(this.value){
 
 
-
 income[key][d]=
 Number(this.value);
-
 
 
 box.classList.add(
@@ -1287,7 +1443,6 @@ box.classList.remove(
 
 
 
-
 localStorage.setItem(
 
 "ps_income",
@@ -1301,43 +1456,50 @@ JSON.stringify(income)
 calc();
 
 
+};
+
+
+
+
+
+
+
+box.onclick=function(){
+
+
+openNote(d);
+
 
 };
 
 
 
 
-box.appendChild(num);
-
 
 box.appendChild(input);
+
 
 
 grid.appendChild(box);
 
 
-
 }
+
 
 
 
 calc();
 
 
-}
+showNotes();
 
 
-
-
-
-
-//=====================
+}//======================
 //统计
-//=====================
+//======================
 
 
 function calc(){
-
 
 
 let key=getKey();
@@ -1370,9 +1532,11 @@ days++;
 
 
 
+
 document.getElementById("sum")
 .innerHTML=
-"¥"+sum.toLocaleString();
+"¥"+
+sum.toLocaleString();
 
 
 
@@ -1384,6 +1548,7 @@ days;
 
 document.getElementById("avg")
 .innerHTML=
+
 "¥"+
 (
 days?
@@ -1402,12 +1567,232 @@ Math.round(sum/days):
 
 
 
+//======================
+//打开备注
+//======================
 
+
+function openNote(day){
+
+
+
+selectDay=day;
+
+
+
+let key=getKey();
+
+
+
+document.getElementById("noteTitle")
+.innerHTML=
+
+(now.getMonth()+1)
++
+"月"
++
+day
++
+"日备注";
+
+
+
+
+document.getElementById("noteText")
+.value=
+
+notes[key][day]||"";
+
+
+
+document.getElementById("noteMask")
+.style.display="flex";
+
+
+
+}
+
+
+
+
+
+
+//======================
+//保存备注
+//======================
+
+
+document.getElementById("saveNote")
+.onclick=function(){
+
+
+
+let key=getKey();
+
+
+
+let text=
+
+document.getElementById("noteText")
+.value
+.trim();
+
+
+
+
+
+if(!notes[key]){
+
+notes[key]={};
+
+}
+
+
+
+
+if(text){
+
+
+notes[key][selectDay]=text;
+
+
+}else{
+
+
+delete notes[key][selectDay];
+
+
+}
+
+
+
+
+
+localStorage.setItem(
+
+"ps_notes",
+
+JSON.stringify(notes)
+
+);
+
+
+
+
+document.getElementById("noteMask")
+.style.display="none";
+
+
+
+render();
+
+
+
+};
+
+
+
+
+
+
+//点击遮罩关闭
+
+
+document.getElementById("noteMask")
+.onclick=function(e){
+
+
+if(e.target===this){
+
+
+this.style.display="none";
+
+
+}
+
+
+};
+
+
+
+
+
+
+
+//======================
+//备注列表
+//======================
+
+
+function showNotes(){
+
+
+
+let box=
+document.getElementById("notesList");
+
+
+
+let key=getKey();
+
+
+
+let html="";
+
+
+
+
+for(let d in notes[key]||{}){
+
+
+html+=
+
+"<div class='note-item'>"+
+"📅 "+d+"日："+
+
+notes[key][d]
+
++
+
+"</div>";
+
+
+
+}
+
+
+
+
+
+if(html===""){
+
+
+html="暂无备注";
+
+
+}
+
+
+
+box.innerHTML=html;
+
+
+
+}
+
+
+
+
+
+
+//======================
 //月份切换
+//======================
 
 
 document.getElementById("prev")
 .onclick=function(){
+
 
 
 now.setMonth(
@@ -1415,10 +1800,13 @@ now.getMonth()-1
 );
 
 
+
 render();
 
 
 };
+
+
 
 
 
@@ -1426,9 +1814,11 @@ document.getElementById("next")
 .onclick=function(){
 
 
+
 now.setMonth(
 now.getMonth()+1
 );
+
 
 
 render();
@@ -1442,23 +1832,31 @@ render();
 
 
 
-//清空
+
+//======================
+//清空本月收益
+//======================
 
 
 document.getElementById("clear")
 .onclick=function(){
 
 
-if(confirm("确定清空本月记录？")){
+
+if(confirm("确定清空本月收益记录？")){
 
 
 delete income[getKey()];
 
 
 localStorage.setItem(
+
 "ps_income",
+
 JSON.stringify(income)
+
 );
+
 
 
 render();
@@ -1471,6 +1869,10 @@ render();
 
 
 
+
+
+
+//启动
 
 
 render();
@@ -1481,107 +1883,190 @@ render();
 
 
 //==============================
-//高清导出模块
+// 高清导出（收益+备注版）
 //==============================
 
 
-document.getElementById("export").onclick=function(){
+document.getElementById("export")
+.onclick=function(){
 
 
 
-let card=document.getElementById("card");
-
-
-//创建品牌水印层
-
-let wm=document.createElement("div");
-
-
-wm.className="export-watermark";
-
-
-
-wm.style.position="absolute";
-
-wm.style.left="-40%";
-
-wm.style.top="-20%";
-
-wm.style.width="180%";
-
-wm.style.height="180%";
-
-
-wm.style.zIndex="3";
-
-wm.style.pointerEvents="none";
-
-
-wm.style.transform="rotate(-35deg)";
-
-
-
-wm.style.display="flex";
-
-
-wm.style.flexWrap="wrap";
-
-
-wm.style.alignContent="center";
-
-
-wm.style.justifyContent="center";
-
-
-wm.style.gap="90px";
+let card=
+document.getElementById("card");
 
 
 
 
-let color=
+//临时增加导出水印
+
+let watermark=
+document.createElement("div");
+
+
+
+watermark.style.position="absolute";
+
+
+watermark.style.left="-35%";
+
+
+watermark.style.top="-20%";
+
+
+watermark.style.width="170%";
+
+
+watermark.style.height="170%";
+
+
+watermark.style.zIndex="1";
+
+
+watermark.style.pointerEvents="none";
+
+
+watermark.style.transform=
+"rotate(-35deg)";
+
+
+
+watermark.style.display="flex";
+
+
+watermark.style.flexWrap="wrap";
+
+
+watermark.style.alignContent="center";
+
+
+watermark.style.justifyContent="center";
+
+
+watermark.style.gap="100px";
+
+
+
+
+let mainColor=
 getComputedStyle(document.body)
 .getPropertyValue("--main");
 
 
 
 
-
-for(let i=0;i<30;i++){
-
-
-let t=document.createElement("div");
+for(let i=0;i<28;i++){
 
 
+let w=
+document.createElement("div");
 
-t.innerHTML=
+
+
+w.innerHTML=
 "P A N S H I";
 
 
 
-t.style.width="180px";
+w.style.width="180px";
 
 
-t.style.textAlign="center";
+w.style.textAlign="center";
 
 
-t.style.fontSize="26px";
+w.style.fontSize="26px";
 
 
-t.style.fontWeight="900";
+w.style.fontWeight="900";
 
 
-t.style.letterSpacing="5px";
+w.style.letterSpacing="5px";
 
 
-
-t.style.color=color;
-
-
-t.style.opacity=".08";
+w.style.color=
+mainColor;
 
 
 
-wm.appendChild(t);
+w.style.opacity=".06";
+
+
+
+watermark.appendChild(w);
+
+
+}
+
+
+
+card.appendChild(watermark);
+
+
+
+
+
+//生成备注导出区域
+
+
+let exportNotes=
+document.createElement("div");
+
+
+
+exportNotes.style.marginTop="15px";
+
+
+exportNotes.style.padding="12px";
+
+
+exportNotes.style.borderRadius="15px";
+
+
+exportNotes.style.border=
+"1px solid "+mainColor;
+
+
+
+exportNotes.style.color=
+"var(--light)";
+
+
+
+exportNotes.style.fontSize="12px";
+
+
+exportNotes.style.lineHeight="22px";
+
+
+
+
+let key=getKey();
+
+
+
+let noteHtml=
+"📝 本月备注记录<br>";
+
+
+
+let has=false;
+
+
+
+for(let d in notes[key]||{}){
+
+
+has=true;
+
+
+noteHtml+=
+
+"📅 "+
+d+
+"日："+
+notes[key][d]
++
+"<br>";
 
 
 
@@ -1589,62 +2074,36 @@ wm.appendChild(t);
 
 
 
-card.appendChild(wm);
+if(!has){
+
+
+noteHtml+="暂无备注";
+
+
+}
+
+
+
+
+exportNotes.innerHTML=
+noteHtml;
+
+
+
+//放到卡片底部
+
+card.appendChild(exportNotes);
 
 
 
 
 
 
-//底部固定品牌标识
-
-let footer=document.createElement("div");
+//等待渲染
 
 
-footer.innerHTML=
-"加入磐石开启财富人生";
+setTimeout(function(){
 
-
-
-footer.style.position="absolute";
-
-
-footer.style.bottom="28px";
-
-
-footer.style.left="0";
-
-
-footer.style.right="0";
-
-
-footer.style.textAlign="center";
-
-
-footer.style.fontSize="14px";
-
-
-footer.style.fontWeight="900";
-
-
-footer.style.color=color;
-
-
-footer.style.opacity=".75";
-
-
-footer.style.zIndex="5";
-
-
-
-card.appendChild(footer);
-
-
-
-
-
-
-//生成高清图片
 
 
 html2canvas(card,{
@@ -1653,10 +2112,10 @@ html2canvas(card,{
 scale:4,
 
 
-useCORS:true,
-
-
 backgroundColor:null,
+
+
+useCORS:true,
 
 
 allowTaint:true
@@ -1666,11 +2125,12 @@ allowTaint:true
 })
 
 
-.then(canvas=>{
+.then(function(canvas){
 
 
 
-let a=document.createElement("a");
+let a=
+document.createElement("a");
 
 
 
@@ -1678,11 +2138,17 @@ a.download=
 
 "磐石收益账本_"+
 
-now.getFullYear()+
+now.getFullYear()
 
-"年"+
++
 
-(now.getMonth()+1)+
+"年"
+
++
+
+(now.getMonth()+1)
+
++
 
 "月.png";
 
@@ -1700,13 +2166,14 @@ a.click();
 
 
 
-//删除临时水印
+
+//清除临时元素
 
 
-card.removeChild(wm);
+card.removeChild(watermark);
 
 
-card.removeChild(footer);
+card.removeChild(exportNotes);
 
 
 
@@ -1714,7 +2181,12 @@ card.removeChild(footer);
 
 
 
+},300);
+
+
+
 };
+
 
 
 
@@ -1725,3 +2197,4 @@ card.removeChild(footer);
 </body>
 
 </html>
+
