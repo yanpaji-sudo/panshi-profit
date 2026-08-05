@@ -2,175 +2,151 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
 <title>磐石收益账本</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
 }
 
 body{
-    min-height:100vh;
-    background:#050505;
-    display:flex;
-    justify-content:center;
-    padding:20px;
-    font-family:
-    "PingFang SC",
-    "Microsoft YaHei",
-    sans-serif;
+
+background:#050505;
+
+min-height:100vh;
+
+display:flex;
+
+justify-content:center;
+
+align-items:flex-start;
+
+padding:15px;
+
+font-family:
+"PingFang SC",
+"Microsoft YaHei",
+Arial,sans-serif;
+
+transition:.3s;
+
 }
 
 
-/* =========================
-   三套主题变量
-========================= */
+/* 三主题 */
 
-
-/* 黑金尊享 */
 body.gold{
 
 --bg:#070707;
---card:#101010;
---main:#d6b45c;
---light:#fff0ad;
---text:#f8e9b0;
---sub:#95804c;
+--card:#111;
+--main:#c9a84c;
+--gold:#f9e7a0;
+--text:#fff0c0;
+--sub:#8d7740;
 
 }
 
 
-/* 东方玉石 */
 body.jade{
 
---bg:#03130f;
---card:#071d17;
---main:#21c89b;
---light:#b7ffe8;
---text:#d8fff4;
---sub:#579c86;
+--bg:#04150f;
+--card:#09251b;
+--main:#21c997;
+--gold:#c8fff0;
+--text:#dffff7;
+--sub:#5ba98d;
 
 }
 
 
-/* 星耀科技 */
+body.blue{
 
-body.star{
-
---bg:#050b18;
---card:#0b162c;
---main:#5da9ff;
---light:#d7eaff;
---text:#e5f2ff;
---sub:#6685a8;
+--bg:#06101f;
+--card:#0c1c34;
+--main:#4fa3ff;
+--gold:#d9ecff;
+--text:#e8f5ff;
+--sub:#7896bb;
 
 }
-
-
-
-/* 默认 */
-
-body{
-background:var(--bg);
-}
-
-
-/* =====================
-主体
-===================== */
 
 
 .wrap{
 
 width:100%;
-max-width:520px;
+
+max-width:430px;
 
 }
+
 
 
 .card{
 
 position:relative;
 
+width:100%;
+
 background:
+
 linear-gradient(
 160deg,
 rgba(255,255,255,.08),
-transparent 30%
+transparent 35%
 ),
+
 var(--card);
 
 
-border-radius:32px;
+border-radius:28px;
 
-padding:28px 22px 24px;
-
-color:var(--text);
+padding:25px 18px;
 
 overflow:hidden;
 
-border:
 
-1.5px solid
-color-mix(
-in srgb,
-var(--main),
-transparent 35%
-);
+border:1px solid var(--main);
 
 
 box-shadow:
 
-0 20px 80px
-rgba(0,0,0,.7),
-
-inset 0 0 50px
-rgba(255,255,255,.03);
-
+0 15px 60px rgba(0,0,0,.8);
 
 }
 
 
 
-/* 光效 */
-
-.card::before{
+.card:before{
 
 content:"";
 
 position:absolute;
 
-width:400px;
-height:400px;
+width:300px;
 
-top:-200px;
-left:-120px;
+height:300px;
+
+left:-100px;
+
+top:-100px;
 
 
 background:
 
 radial-gradient(
-
 circle,
-
-color-mix(
-in srgb,
-var(--main),
-transparent 80%
-),
-
-transparent 70%
-
+rgba(255,255,255,.12),
+transparent 65%
 );
 
-
 }
+
 
 
 
@@ -178,112 +154,38 @@ transparent 70%
 
 position:absolute;
 
-inset:5px;
+left:5px;
+right:5px;
+top:5px;
+bottom:5px;
 
-border-radius:28px;
+border:1px solid rgba(255,255,255,.12);
 
-border:
-
-1px solid
-color-mix(
-in srgb,
-var(--main),
-transparent 70%
-);
+border-radius:23px;
 
 }
 
 
-
-/* 四角 */
-
-
-.corner{
-
-position:absolute;
-
-width:25px;
-
-height:25px;
-
-border-color:var(--main);
-
-}
-
-
-
-.tl{
-
-top:15px;
-left:15px;
-
-border-left:3px solid;
-border-top:3px solid;
-
-}
-
-
-.tr{
-
-top:15px;
-right:15px;
-
-border-right:3px solid;
-border-top:3px solid;
-
-}
-
-
-.bl{
-
-bottom:15px;
-left:15px;
-
-border-left:3px solid;
-border-bottom:3px solid;
-
-}
-
-
-.br{
-
-bottom:15px;
-right:15px;
-
-border-right:3px solid;
-border-bottom:3px solid;
-
-}
-
-
-
-
-/* 标题 */
 
 
 .title{
 
+position:relative;
+
 text-align:center;
 
-font-size:32px;
+font-size:30px;
 
 font-weight:900;
 
-letter-spacing:6px;
-
-margin-top:12px;
+letter-spacing:5px;
 
 
 background:
-
 linear-gradient(
-
 180deg,
-
 #fff,
-
-var(--main)
-
+var(--gold)
 );
 
 
@@ -291,37 +193,28 @@ var(--main)
 
 color:transparent;
 
-
-text-shadow:
-
-0 5px 20px
-rgba(0,0,0,.5);
-
-
 }
+
 
 
 .sub{
 
 text-align:center;
 
-font-size:13px;
-
-margin-top:8px;
-
-color:var(--sub);
+font-size:12px;
 
 letter-spacing:3px;
 
+color:var(--sub);
+
+margin-top:8px;
 
 }
 
 
 
-/* 主题按钮 */
 
-
-.themes{
+.theme{
 
 display:flex;
 
@@ -329,84 +222,54 @@ gap:10px;
 
 margin:20px 0;
 
-
 }
 
 
-.themes button{
 
+.theme button{
 
 flex:1;
 
 height:36px;
 
-border-radius:20px;
+border-radius:18px;
 
-background:
+border:1px solid var(--main);
 
-rgba(255,255,255,.05);
+background:rgba(255,255,255,.05);
 
+color:var(--gold);
 
-border:
-
-1px solid
-color-mix(
-in srgb,
-var(--main),
-transparent 50%
-);
-
-
-color:var(--text);
+font-size:13px;
 
 }
 
 
 
-/* 数据区域 */
 
 
 .stats{
 
+display:flex;
 
-display:grid;
-
-grid-template-columns:
-
-repeat(3,1fr);
-
-gap:12px;
-
-margin-top:20px;
-
+gap:10px;
 
 }
 
 
-
 .stat{
 
+flex:1;
 
-background:
+background:rgba(255,255,255,.05);
 
-rgba(255,255,255,.05);
+border-radius:15px;
 
-
-border-radius:18px;
-
-padding:18px 5px;
+padding:15px 5px;
 
 text-align:center;
 
-border:
-
-1px solid
-color-mix(
-in srgb,
-var(--main),
-transparent 75%
-);
-
+border:1px solid rgba(255,255,255,.1);
 
 }
 
@@ -414,7 +277,7 @@ transparent 75%
 
 .label{
 
-font-size:12px;
+font-size:11px;
 
 color:var(--sub);
 
@@ -423,20 +286,17 @@ color:var(--sub);
 
 .value{
 
-font-size:22px;
+margin-top:8px;
+
+font-size:20px;
 
 font-weight:900;
 
-margin-top:8px;
-
-color:var(--light);
-
+color:var(--gold);
 
 }
 
 
-
-/* 月份 */
 
 
 .month{
@@ -454,55 +314,48 @@ margin:22px 0;
 
 .month button{
 
+width:42px;
 
-width:45px;
+height:36px;
 
-height:35px;
+border-radius:18px;
 
-border-radius:15px;
-
-border:
-
-1px solid
-var(--main);
-
+border:1px solid var(--main);
 
 background:none;
 
-color:var(--main);
+color:var(--gold);
 
-font-size:18px;
-
+font-size:20px;
 
 }
+
 
 
 .month span{
 
-font-size:22px;
+font-size:20px;
 
-font-weight:800;
+font-weight:bold;
+
+color:var(--gold);
 
 }
 
 
-
-/* 星期 */
 
 
 .week{
 
 display:grid;
 
-grid-template-columns:
-
-repeat(7,1fr);
+grid-template-columns:repeat(7,1fr);
 
 text-align:center;
 
-color:var(--sub);
+font-size:12px;
 
-font-size:13px;
+color:var(--sub);
 
 margin-bottom:8px;
 
@@ -510,39 +363,29 @@ margin-bottom:8px;
 
 
 
-/* 日期 */
 
-.calendar{
+.grid{
 
 display:grid;
 
-grid-template-columns:
+grid-template-columns:repeat(7,1fr);
 
-repeat(7,1fr);
-
-gap:8px;
-
+gap:6px;
 
 }
 
 
 
+
 .day{
 
-height:65px;
+height:55px;
 
-border-radius:14px;
+background:rgba(255,255,255,.04);
 
-background:
+border-radius:10px;
 
-rgba(255,255,255,.04);
-
-
-border:
-
-1px solid
-rgba(255,255,255,.08);
-
+border:1px solid rgba(255,255,255,.1);
 
 display:flex;
 
@@ -552,32 +395,19 @@ justify-content:center;
 
 align-items:center;
 
+font-size:12px;
+
+color:var(--gold);
 
 }
 
 
+
 .day.active{
-
-
-background:
-
-linear-gradient(
-
-180deg,
-
-color-mix(
-in srgb,
-var(--main),
-transparent 70%
-),
-
-transparent
-
-);
-
 
 border-color:var(--main);
 
+background:rgba(201,168,76,.15);
 
 }
 
@@ -587,48 +417,45 @@ border-color:var(--main);
 
 width:80%;
 
-background:none;
-
-border:0;
+border:none;
 
 outline:none;
 
+background:none;
+
 text-align:center;
 
-color:var(--light);
+color:var(--gold);
 
-font-size:13px;
+font-size:11px;
 
 }
 
 
 
-/* 底部按钮 */
 
-.actions{
+.buttons{
 
 display:flex;
 
-gap:15px;
+gap:12px;
 
-margin-top:25px;
-
+margin-top:20px;
 
 }
 
 
-.actions button{
+.buttons button{
 
 flex:1;
 
-height:55px;
+height:52px;
 
-border-radius:18px;
+border-radius:16px;
 
-font-size:16px;
+font-size:15px;
 
-font-weight:800;
-
+font-weight:bold;
 
 }
 
@@ -636,20 +463,17 @@ font-weight:800;
 
 .export{
 
+border:none;
+
 background:
 
 linear-gradient(
-
 135deg,
-
 var(--main),
-
-var(--light)
-
+var(--gold)
 );
 
-
-border:0;
+color:#111;
 
 }
 
@@ -659,32 +483,42 @@ border:0;
 
 background:none;
 
-border:
+border:1px solid var(--main);
 
-1px solid var(--main);
-
-color:var(--main);
+color:var(--gold);
 
 }
+
 
 
 
 .brand{
 
-text-align:center;
-
 margin-top:20px;
 
-font-size:12px;
+text-align:center;
 
-letter-spacing:6px;
+font-size:11px;
 
-opacity:.4;
+letter-spacing:5px;
+
+color:rgba(255,255,255,.25);
 
 }
 
 
+
+
+canvas{
+
+display:none;
+
+}
+
+
+
 </style>
+
 </head>
 
 
@@ -700,13 +534,6 @@ opacity:.4;
 <div class="inner"></div>
 
 
-<div class="corner tl"></div>
-<div class="corner tr"></div>
-<div class="corner bl"></div>
-<div class="corner br"></div>
-
-
-
 <div class="title">
 磐石收益账本
 </div>
@@ -718,22 +545,19 @@ opacity:.4;
 
 
 
-<div class="themes">
+<div class="theme">
 
-<button onclick="setTheme('gold')">
+<button onclick="changeTheme('gold')">
 鎏金
 </button>
 
-
-<button onclick="setTheme('jade')">
+<button onclick="changeTheme('jade')">
 玉石
 </button>
 
-
-<button onclick="setTheme('star')">
+<button onclick="changeTheme('blue')">
 星耀
 </button>
-
 
 </div>
 
@@ -753,15 +577,13 @@ opacity:.4;
 ¥0
 </div>
 
-
 </div>
-
 
 
 <div class="stat">
 
 <div class="label">
-记录天数
+收益天数
 </div>
 
 <div class="value" id="days">
@@ -771,12 +593,10 @@ opacity:.4;
 </div>
 
 
-
-
 <div class="stat">
 
 <div class="label">
-平均每日
+日均收益
 </div>
 
 <div class="value" id="avg">
@@ -797,16 +617,11 @@ opacity:.4;
 ‹
 </button>
 
-
-<span id="ym">
-2026年8月
-</span>
-
+<span id="ym"></span>
 
 <button id="next">
 ›
 </button>
-
 
 </div>
 
@@ -814,37 +629,32 @@ opacity:.4;
 
 <div class="week">
 
-<span>一</span>
-<span>二</span>
-<span>三</span>
-<span>四</span>
-<span>五</span>
-<span>六</span>
-<span>日</span>
+<div>一</div>
+<div>二</div>
+<div>三</div>
+<div>四</div>
+<div>五</div>
+<div>六</div>
+<div>日</div>
 
 </div>
 
 
 
-<div class="calendar" id="grid">
-
-</div>
+<div class="grid" id="grid"></div>
 
 
 
-
-<div class="actions">
-
+<div class="buttons">
 
 <button class="export" id="export">
-高清导出
+📸 导出图片
 </button>
 
 
 <button class="clear" id="clear">
 清空
 </button>
-
 
 </div>
 
@@ -857,8 +667,8 @@ P A N S H I · WEALTH
 
 </div>
 
-
 </div>
+
 
 
 <canvas id="cv" width="1200" height="1800"></canvas>
@@ -866,104 +676,87 @@ P A N S H I · WEALTH
 
 <script>
 
-function setTheme(t){
 
-document.body.className=t;
+//=====================
+// 主题切换
+//=====================
+
+
+function changeTheme(type){
+
+document.body.className=type;
 
 localStorage.setItem(
-"theme",
-t
+"ps_theme",
+type
 );
 
 }
+
 
 
 let oldTheme=
-localStorage.getItem("theme");
+localStorage.getItem("ps_theme");
+
 
 if(oldTheme){
+
 document.body.className=oldTheme;
-}
-
-
-
-</script>
-
-
-</body>
-</html>
-<script>
-
-
-//======================
-// 主题
-//======================
-
-
-function setTheme(t){
-
-    document.body.className=t;
-
-    localStorage.setItem(
-        "panshi_theme",
-        t
-    );
-
-}
-
-
-let saveTheme=
-localStorage.getItem(
-"panshi_theme"
-);
-
-
-if(saveTheme){
-
-document.body.className=saveTheme;
 
 }
 
 
 
-//======================
-// 数据系统
-//======================
+//=====================
+// 数据
+//=====================
 
 
-let current=new Date();
+let now=new Date();
 
 
-let records=
+let income=
 JSON.parse(
+
 localStorage.getItem(
-"panshi_income"
+"ps_income"
 )
+
 ||
+
 "{}"
+
 );
 
 
 
-function monthKey(y,m){
+function getKey(){
 
-return y+"-"+m;
+return now.getFullYear()
++
+"-"
++
+now.getMonth();
 
 }
 
 
 
-//======================
-// 渲染日历
-//======================
+
+//=====================
+// 渲染
+//=====================
 
 
 function render(){
 
 
-let y=current.getFullYear();
+let y=
+now.getFullYear();
 
-let m=current.getMonth();
+
+let m=
+now.getMonth();
 
 
 
@@ -991,12 +784,12 @@ m,
 
 
 
-let offset=
+let start=
 (first+6)%7;
 
 
 
-let days=
+let totalDay=
 new Date(
 y,
 m+1,
@@ -1006,40 +799,35 @@ m+1,
 
 
 
+for(let i=0;i<start;i++){
 
-// 空格
+let e=document.createElement("div");
 
-for(let i=0;i<offset;i++){
+e.className="day";
 
-let empty=
-document.createElement("div");
+e.style.visibility="hidden";
 
-empty.className="day";
-
-empty.style.opacity=0;
-
-grid.appendChild(empty);
+grid.appendChild(e);
 
 }
-
 
 
 
 let key=
-monthKey(y,m);
+getKey();
 
 
 
-if(!records[key]){
+if(!income[key]){
 
-records[key]={};
+income[key]={};
 
 }
 
 
 
 
-for(let d=1;d<=days;d++){
+for(let d=1;d<=totalDay;d++){
 
 
 
@@ -1047,28 +835,30 @@ let box=
 document.createElement("div");
 
 
-let value=
-records[key][d]
+box.className="day";
+
+
+
+let old=
+income[key][d]
 ||
 "";
 
 
 
-box.className=
-"day"+
-(value?" active":"");
+if(old){
+
+box.classList.add("active");
+
+}
 
 
 
 
-let num=
+let number=
 document.createElement("div");
 
-num.innerHTML=d;
-
-
-box.appendChild(num);
-
+number.innerHTML=d;
 
 
 
@@ -1076,12 +866,10 @@ let input=
 document.createElement("input");
 
 
-input.type="text";
-
-input.placeholder="收益";
+input.value=old;
 
 
-input.value=value;
+input.placeholder="0";
 
 
 
@@ -1090,32 +878,35 @@ input.oninput=function(){
 
 this.value=
 this.value
-.replace(/[^\d]/g,"")
-.slice(0,8);
+.replace(/\D/g,"")
+.substring(0,8);
 
 
 
-records[key][d]=
-this.value
-?
-Number(this.value)
-:
-"";
+if(this.value){
+
+income[key][d]=
+Number(this.value);
+
+box.classList.add("active");
+
+
+}else{
+
+delete income[key][d];
+
+box.classList.remove("active");
+
+}
+
 
 
 localStorage.setItem(
 
-"panshi_income",
+"ps_income",
 
-JSON.stringify(records)
+JSON.stringify(income)
 
-);
-
-
-
-box.classList.toggle(
-"active",
-!!this.value
 );
 
 
@@ -1123,12 +914,14 @@ box.classList.toggle(
 calc();
 
 
+
 };
 
 
 
-box.appendChild(input);
+box.appendChild(number);
 
+box.appendChild(input);
 
 
 grid.appendChild(box);
@@ -1138,7 +931,6 @@ grid.appendChild(box);
 }
 
 
-
 calc();
 
 
@@ -1146,45 +938,39 @@ calc();
 
 
 
-//======================
-// 数据统计
-//======================
+
+//=====================
+// 统计
+//=====================
+
 
 
 function calc(){
 
 
-let y=current.getFullYear();
-
-let m=current.getMonth();
+let key=getKey();
 
 
-let key=
-monthKey(y,m);
+let sum=0;
 
-
-
-let total=0;
-
-let count=0;
+let days=0;
 
 
 
-for(let d in records[key]||{}){
+for(let i in income[key]||{}){
 
 
-if(records[key][d]){
+if(income[key][i]){
 
 
-total+=
-Number(records[key][d]);
+sum+=
+Number(income[key][i]);
 
 
-count++;
+days++;
 
 
 }
-
 
 }
 
@@ -1194,13 +980,13 @@ count++;
 document.getElementById("sum")
 .innerHTML=
 "¥"+
-total.toLocaleString();
+sum.toLocaleString();
 
 
 
 document.getElementById("days")
 .innerHTML=
-count;
+days;
 
 
 
@@ -1208,10 +994,8 @@ document.getElementById("avg")
 .innerHTML=
 "¥"+
 (
-count
-?
-Math.round(total/count)
-:
+days?
+Math.round(sum/days):
 0
 )
 .toLocaleString();
@@ -1222,24 +1006,20 @@ Math.round(total/count)
 
 
 
-//======================
-// 月份按钮
-//======================
-
+//=====================
+// 月份
+//=====================
 
 
 document
 .getElementById("prev")
 .onclick=function(){
 
-
-current.setMonth(
-current.getMonth()-1
+now.setMonth(
+now.getMonth()-1
 );
 
-
 render();
-
 
 };
 
@@ -1249,24 +1029,20 @@ document
 .getElementById("next")
 .onclick=function(){
 
-
-current.setMonth(
-current.getMonth()+1
+now.setMonth(
+now.getMonth()+1
 );
 
-
 render();
-
 
 };
 
 
 
 
-//======================
+//=====================
 // 清空
-//======================
-
+//=====================
 
 
 document
@@ -1274,32 +1050,22 @@ document
 .onclick=function(){
 
 
-if(
-confirm(
-"确定清空当前月份收益记录？"
-)
-){
+if(confirm("确定清空本月记录？")){
 
 
-delete records[
-monthKey(
-current.getFullYear(),
-current.getMonth()
-)
-];
+delete income[getKey()];
 
 
 localStorage.setItem(
 
-"panshi_income",
+"ps_income",
 
-JSON.stringify(records)
+JSON.stringify(income)
 
 );
 
 
 render();
-
 
 
 }
@@ -1310,19 +1076,9 @@ render();
 
 
 
-//启动
-
-
-render();
-
-
-
-</script><script>
-
-
-//======================
-// 高清导出
-//======================
+//=====================
+// 导出图片
+//=====================
 
 
 document
@@ -1330,14 +1086,12 @@ document
 .onclick=function(){
 
 
-
-let cv=
+let canvas=
 document.getElementById("cv");
 
 
 let ctx=
-cv.getContext("2d");
-
+canvas.getContext("2d");
 
 
 let W=1200;
@@ -1355,8 +1109,7 @@ H
 
 
 
-
-// 当前主题
+//颜色
 
 
 let theme=
@@ -1364,39 +1117,41 @@ document.body.className;
 
 
 
-let color="#d6b45c";
+let main="#c9a84c";
 
-let light="#fff0ad";
+let light="#f9e7a0";
 
-let bg="#101010";
+let bg="#111";
 
 
 
 if(theme=="jade"){
 
-color="#21c89b";
-light="#b7ffe8";
-bg="#071d17";
+main="#21c997";
+
+light="#c8fff0";
+
+bg="#09251b";
 
 }
 
 
-if(theme=="star"){
+if(theme=="blue"){
 
-color="#5da9ff";
-light="#d7eaff";
-bg="#0b162c";
+main="#4fa3ff";
+
+light="#d9ecff";
+
+bg="#0c1c34";
 
 }
 
 
 
-//======================
-// 背景
-//======================
+//背景
 
 
-let grd=
+let bgc=
 ctx.createLinearGradient(
 0,
 0,
@@ -1405,20 +1160,19 @@ H
 );
 
 
-grd.addColorStop(
+bgc.addColorStop(
 0,
 bg
 );
 
 
-grd.addColorStop(
+bgc.addColorStop(
 1,
-"#020202"
+"#000"
 );
 
 
-
-ctx.fillStyle=grd;
+ctx.fillStyle=bgc;
 
 ctx.fillRect(
 0,
@@ -1430,382 +1184,174 @@ H
 
 
 
-//======================
-// 卡片
-//======================
-
-
-let x=50;
-
-let y=50;
-
-let w=1100;
-
-let h=1700;
-
-
-ctx.beginPath();
-
-ctx.roundRect(
-x,
-y,
-w,
-h,
-45
-);
+//卡片
 
 
 ctx.fillStyle=
-"rgba(0,0,0,.65)";
+"rgba(0,0,0,.6)";
 
 
-ctx.fill();
-
+ctx.strokeStyle=
+main;
 
 
 ctx.lineWidth=3;
 
-ctx.strokeStyle=color;
 
+ctx.beginPath();
 
-ctx.stroke();
+ctx.moveTo(60,60);
 
+ctx.lineTo(1140,60);
 
+ctx.lineTo(1140,1740);
 
+ctx.lineTo(60,1740);
 
-// 内框
+ctx.closePath();
 
-
-ctx.lineWidth=1;
-
-ctx.strokeStyle=
-"rgba(255,255,255,.15)";
-
-
-ctx.roundRect(
-x+10,
-y+10,
-w-20,
-h-20,
-40
-);
-
+ctx.fill();
 
 ctx.stroke();
 
 
 
 
-//======================
-// 标题
-//======================
 
+//标题
 
 
 ctx.textAlign="center";
 
 
-let titleY=150;
-
-
-let tg=
-ctx.createLinearGradient(
-0,
-100,
-0,
-200
-);
-
-
-tg.addColorStop(
-0,
-"#fff"
-);
-
-
-tg.addColorStop(
-1,
-color
-);
-
-
-
-ctx.fillStyle=tg;
+ctx.fillStyle=light;
 
 
 ctx.font=
-"900 70px Microsoft YaHei";
+"bold 70px Microsoft YaHei";
 
 
 ctx.fillText(
 "磐石收益账本",
-W/2,
-titleY
+600,
+170
 );
 
 
 
+
 ctx.font=
-"26px Microsoft YaHei";
-
-
-ctx.fillStyle=
-light;
+"28px Microsoft YaHei";
 
 
 ctx.fillText(
 "财富记录 · 智能累计",
-W/2,
-205
+600,
+230
 );
 
 
 
 
-//======================
-// 统计
-//======================
+//统计
 
 
-let y0=270;
+let key=getKey();
+
+let sum=0;
+
+let days=0;
 
 
-let total=0;
+for(let i in income[key]||{}){
 
-let count=0;
+if(income[key][i]){
 
+sum+=Number(income[key][i]);
 
-
-let key=
-monthKey(
-current.getFullYear(),
-current.getMonth()
-);
-
-
-
-for(let d in records[key]||{}){
-
-if(records[key][d]){
-
-total+=Number(records[key][d]);
-
-count++;
+days++;
 
 }
 
 }
-
 
 
 let avg=
-count?
-Math.round(total/count):
+days?
+Math.round(sum/days):
 0;
 
 
 
-let arr=[
-
-["累计收益",
-"¥"+total.toLocaleString()
-],
-
-[
-"记录天数",
-count
-],
-
-[
-"平均每日",
-"¥"+avg.toLocaleString()
-]
-
-];
-
-
-
-for(let i=0;i<3;i++){
-
-
-let bx=
-100+i*340;
-
-
-
-ctx.fillStyle=
-"rgba(255,255,255,.06)";
-
-
-ctx.roundRect(
-bx,
-y0,
-280,
-120,
-20
-);
-
-
-ctx.fill();
-
-
-
-ctx.strokeStyle=
-"rgba(255,255,255,.15)";
-
-
-ctx.stroke();
-
-
-
-ctx.fillStyle=
-light;
-
-
 ctx.font=
-"22px Microsoft YaHei";
-
-
-ctx.fillText(
-arr[i][0],
-bx+140,
-y0+40
-);
-
-
-
-ctx.font=
-"bold 38px Arial";
-
-
-ctx.fillText(
-arr[i][1],
-bx+140,
-y0+85
-);
-
-
-}
-
-
-
-//======================
-// 月份
-//======================
-
-
-
-let monthY=470;
-
-
-ctx.font=
-"bold 42px Microsoft YaHei";
+"32px Arial";
 
 
 ctx.fillStyle=light;
 
 
 ctx.fillText(
-
-current.getFullYear()
-+"年"
+"累计 ¥"+sum.toLocaleString()
 +
-(current.getMonth()+1)
-+"月收益",
+"     天数 "+days
++
+"     日均 ¥"+avg.toLocaleString(),
+600,
+330
+);
 
-W/2,
 
-monthY
+
+
+//日期
+
+
+let y=now.getFullYear();
+
+let m=now.getMonth();
+
+
+ctx.font=
+"40px Microsoft YaHei";
+
+ctx.fillText(
+
+y+"年"+(m+1)+"月",
+
+600,
+
+430
 
 );
 
 
 
 
-//======================
-// 日历
-//======================
+//日历
 
 
 let gx=90;
 
-let gy=550;
+let gy=520;
 
 
 let cw=140;
 
-let ch=105;
+let ch=100;
 
-
-let gap=12;
-
-
-
-let week=[
-
-"一","二","三","四","五","六","日"
-
-];
-
-
-ctx.font=
-"26px Microsoft YaHei";
-
-
-ctx.fillStyle=
-color;
-
-
-
-for(let i=0;i<7;i++){
-
-ctx.fillText(
-
-week[i],
-
-gx+i*(cw+gap)+cw/2,
-
-gy
-
-);
-
-}
-
-
-
-let year=
-current.getFullYear();
-
-
-let mon=
-current.getMonth();
+let gap=10;
 
 
 let first=
-new Date(
-year,
-mon,
-1
-)
-.getDay();
-
-
-let offset=
-(first+6)%7;
-
+(new Date(y,m,1).getDay()+6)%7;
 
 
 let max=
-new Date(
-year,
-mon+1,
-0
-)
-.getDate();
+new Date(y,m+1,0).getDate();
 
 
 
-let calendarBottom=gy;
+let bottom=gy;
 
 
 
@@ -1813,7 +1359,7 @@ for(let d=1;d<=max;d++){
 
 
 let index=
-offset+d-1;
+first+d-1;
 
 
 let row=
@@ -1825,34 +1371,18 @@ index%7;
 
 
 
-let px=
+let x=
 gx+col*(cw+gap);
 
 
-let py=
-gy+40+row*(ch+gap);
+
+let yy=
+gy+row*(ch+gap);
 
 
 
-calendarBottom=
-py+ch;
-
-
-
-ctx.fillStyle=
-"rgba(255,255,255,.04)";
-
-
-ctx.roundRect(
-px,
-py,
-cw,
-ch,
-15
-);
-
-
-ctx.fill();
+bottom=
+yy+ch;
 
 
 
@@ -1860,201 +1390,146 @@ ctx.strokeStyle=
 "rgba(255,255,255,.15)";
 
 
-ctx.stroke();
+ctx.strokeRect(
+x,
+yy,
+cw,
+ch
+);
 
 
 
-
-ctx.fillStyle=
-light;
+ctx.fillStyle=light;
 
 
 ctx.font=
-"bold 28px Arial";
+"26px Arial";
 
 
 ctx.fillText(
 d,
-px+cw/2,
-py+38
+x+70,
+yy+35
 );
 
 
 
+let v=
+income[key]&&income[key][d];
 
-let val=
-records[key]&&records[key][d];
-
-
-
-if(val){
-
+if(v){
 
 ctx.font=
-"bold 25px Arial";
-
+"28px Arial";
 
 ctx.fillText(
-
-val,
-
-px+cw/2,
-
-py+75
-
+v,
+x+70,
+yy+75
 );
 
 
 }
 
 
-}
-
-
-
-
-//======================
-// 自动水印区域
-//======================
-
-
-
-let watermarkY=
-calendarBottom
-+
-120;
-
-
-
-// 防止超过
-
-
-if(watermarkY>1450){
-
-watermarkY=1450;
 
 }
 
 
 
-ctx.textAlign="center";
+//=====================
+// 自动水印
+//=====================
 
 
 
-let wm=
-"加入磐石开启财富人生";
+let wmY=
+bottom+120;
+
+
+if(wmY>1450){
+
+wmY=1450;
+
+}
 
 
 
 ctx.font=
-"900 62px Microsoft YaHei";
+"bold 60px Microsoft YaHei";
 
 
-
-
-// 黑描边
-
-
-ctx.lineWidth=14;
+ctx.lineWidth=12;
 
 ctx.strokeStyle=
 "rgba(0,0,0,.8)";
 
 
 ctx.strokeText(
-wm,
-W/2,
-watermarkY
+"加入磐石开启财富人生",
+600,
+wmY
 );
 
 
 
-
-// 金色主体
-
-
-ctx.fillStyle=
-color;
+ctx.fillStyle=main;
 
 
-ctx.globalAlpha=.65;
+ctx.globalAlpha=.7;
 
 
 ctx.fillText(
-wm,
-W/2,
-watermarkY
+"加入磐石开启财富人生",
+600,
+wmY
 );
+
 
 
 ctx.globalAlpha=1;
 
 
 
-
-// 品牌
-
-
 ctx.font=
-"24px Arial";
+"22px Arial";
 
 
 ctx.fillStyle=
-"rgba(255,255,255,.35)";
+"rgba(255,255,255,.4)";
 
 
 ctx.fillText(
-
-"P A N S H I  ·  WEALTH",
-
-W/2,
-
-watermarkY+70
-
+"P A N S H I · WEALTH",
+600,
+wmY+70
 );
 
 
 
 
-
-//======================
-// 下载
-//======================
+//下载
 
 
-cv.toBlob(
-
-function(blob){
+canvas.toBlob(function(blob){
 
 
-let url=
+let a=document.createElement("a");
+
+
+a.href=
 URL.createObjectURL(blob);
-
-
-
-let a=
-document.createElement("a");
-
-
-
-a.href=url;
-
 
 
 a.download=
 "磐石收益账本.png";
 
 
-
 a.click();
 
 
-
-URL.revokeObjectURL(url);
-
-
-
 },
+
 
 "image/png"
 
@@ -2066,4 +1541,12 @@ URL.revokeObjectURL(url);
 
 
 
+
+//启动
+
+render();
+
+
 </script>
+</body>
+</html>
